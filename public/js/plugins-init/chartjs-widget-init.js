@@ -508,8 +508,8 @@
     });
 
 
-    //Expenses Graph
-    var ctx = document.getElementById("expenses-graph");
+    //Invoices Graph
+    var ctx = document.getElementById("invoices-graph");
     ctx.height = 100;
     var myChart = new Chart(ctx, {
         type: 'line',
@@ -703,8 +703,8 @@
         }
     });
 
-    //BTC Income 
-    var ctx = document.getElementById("btc-income");
+    //BTC Payment 
+    var ctx = document.getElementById("btc-payment");
     ctx.height = 100;
     var myChart = new Chart(ctx, {
         type: 'line',

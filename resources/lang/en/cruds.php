@@ -68,13 +68,13 @@ return [
             'deleted_at_helper'        => '',
         ],
     ],
-    'expenseManagement' => [
-        'title'          => 'Expense Management',
-        'title_singular' => 'Expense Management',
+    'invoiceManagement' => [
+        'title'          => 'Invoice Management',
+        'title_singular' => 'Invoice Management',
     ],
-    'expenseCategory'   => [
-        'title'          => 'Expense Categories',
-        'title_singular' => 'Expense Category',
+    'invoiceCategory'   => [
+        'title'          => 'Invoice Categories',
+        'title_singular' => 'Invoice Category',
         'fields'         => [
             'id'                => 'ID',
             'id_helper'         => '',
@@ -108,9 +108,9 @@ return [
             'created_by_helper' => '',
         ],
     ],
-    'incomeCategory'    => [
-        'title'          => 'Income Categories',
-        'title_singular' => 'Income Category',
+    'paymentCategory'    => [
+        'title'          => 'Payment Categories',
+        'title_singular' => 'Payment Category',
         'fields'         => [
             'id'                => 'ID',
             'id_helper'         => '',
@@ -126,14 +126,14 @@ return [
             'created_by_helper' => '',
         ],
     ],
-    'expense'           => [
-        'title'          => 'Expenses',
-        'title_singular' => 'Expense',
+    'invoice'           => [
+        'title'          => 'Invoices',
+        'title_singular' => 'Invoice',
         'fields'         => [
             'id'                      => 'ID',
             'id_helper'               => '',
-            'expense_category'        => 'Expense Category',
-            'expense_category_helper' => '',
+            'invoice_category'        => 'Invoice Category',
+            'invoice_category_helper' => '',
             'entry_date'              => 'Entry Date',
             'entry_date_helper'       => '',
             'amount'                  => 'Amount',
@@ -150,14 +150,14 @@ return [
             'created_by_helper'       => '',
         ],
     ],
-    'income'            => [
-        'title'          => 'Income',
-        'title_singular' => 'Income',
+    'payment'            => [
+        'title'          => 'Payment',
+        'title_singular' => 'Payment',
         'fields'         => [
             'id'                     => 'ID',
             'id_helper'              => '',
-            'income_category'        => 'Income Category',
-            'income_category_helper' => '',
+            'payment_category'        => 'Payment Category',
+            'payment_category_helper' => '',
             'entry_date'             => 'Entry Date',
             'entry_date_helper'      => '',
             'amount'                 => 'Amount',
@@ -174,17 +174,17 @@ return [
             'created_by_helper'      => '',
         ],
     ],
-    'expenseReport'     => [
+    'invoiceReport'     => [
         'title'          => 'Monthly report',
         'title_singular' => 'Monthly report',
         'reports'        => [
             'title'             => 'Reports',
             'title_singular'    => 'Report',
-            'incomeReport'      => 'Incomes report',
-            'incomeByCategory'  => 'Income by category',
-            'expenseByCategory' => 'Expense by category',
-            'income'            => 'Income',
-            'expense'           => 'Expense',
+            'paymentReport'      => 'Payments report',
+            'paymentByCategory'  => 'Payment by category',
+            'invoiceByCategory' => 'Invoice by category',
+            'payment'            => 'Payment',
+            'invoice'           => 'Invoice',
             'profit'            => 'Profit',
         ],
     ],

@@ -10,18 +10,18 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Users
     Route::apiResource('users', 'UsersApiController');
 
-    // Expensecategories
-    Route::apiResource('expense-categories', 'ExpenseCategoryApiController');
+    // Invoicecategories
+    Route::apiResource('invoice-categories', 'InvoiceCategoryApiController');
 
-    // Incomecategories
-    Route::apiResource('income-categories', 'IncomeCategoryApiController');
+    // Paymentcategories
+    Route::apiResource('payment-categories', 'PaymentCategoryApiController');
 
-    // Expenses
-    Route::apiResource('expenses', 'ExpenseApiController');
+    // Invoices
+    Route::apiResource('invoices', 'InvoiceApiController');
 
-    // Incomes
-    Route::apiResource('incomes', 'IncomeApiController');
+    // Payments
+    Route::apiResource('payments', 'PaymentApiController');
 
-    // Expensereports
-    Route::apiResource('expense-reports', 'ExpenseReportApiController');
+    // Invoicereports
+    Route::apiResource('invoice-reports', 'InvoiceReportApiController');
 });

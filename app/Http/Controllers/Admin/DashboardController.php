@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\ExpenseCategory;
+use App\InvoiceCategory;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MassDestroyExpenseCategoryRequest;
-use App\Http\Requests\StoreExpenseCategoryRequest;
-use App\Http\Requests\UpdateExpenseCategoryRequest;
+use App\Http\Requests\MassDestroyInvoiceCategoryRequest;
+use App\Http\Requests\StoreInvoiceCategoryRequest;
+use App\Http\Requests\UpdateInvoiceCategoryRequest;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

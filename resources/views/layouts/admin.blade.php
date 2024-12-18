@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     
     <!-- theme meta -->
-    <meta name="theme-name" content="quixlab" />
+    <meta name="theme-name" content="invoice-manager" />
   
-    <title>Expense Manager</title>
+    <title>Invoice Manager</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.jpg') }}">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
@@ -53,13 +53,13 @@
             <div class="brand-logo">
                 <a href="{{ url('/') }}"> <!-- Adjust URL as needed -->
                     <b class="logo-abbr">
-                        <img src="{{ asset('images/logo.png') }}" alt="Logo Abbreviated">
+                        <img src="{{ asset('images/logo.jpg') }}" alt="Logo Abbreviated">
                     </b>
                     <span class="logo-compact">
-                        <img src="{{ asset('images/logo-compact.png') }}" alt="Compact Logo">
+                        <img src="{{ asset('images/logo-compact.jpg') }}" alt="Compact Logo">
                     </span>
                     <span class="brand-title">
-                        <img src="{{ asset('images/logo-text.png') }}" alt="Brand Title">
+                        <img height="43px" width="93px" src="{{ asset('images/logo-text.jpg') }}" alt="Brand Title">
                     </span>
                 </a>
             </div>
@@ -278,10 +278,7 @@
         <!--**********************************
             Content body start
         ***********************************-->
-        <div class="content-body">
-
         @yield('content')
-        </div>
         <!--**********************************
             Content body end
         ***********************************-->

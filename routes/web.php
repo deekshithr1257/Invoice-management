@@ -22,27 +22,27 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::resource('users', 'UsersController');
 
-    // Expensecategories
-    Route::delete('expense-categories/destroy', 'ExpenseCategoryController@massDestroy')->name('expense-categories.massDestroy');
-    Route::resource('expense-categories', 'ExpenseCategoryController');
+    // Invoicecategories
+    Route::delete('invoice-categories/destroy', 'InvoiceCategoryController@massDestroy')->name('invoice-categories.massDestroy');
+    Route::resource('invoice-categories', 'InvoiceCategoryController');
 
     // Vendors
     Route::delete('vendors/destroy', 'VendorController@massDestroy')->name('vendors.massDestroy');
     Route::resource('vendors', 'VendorController');
 
-    // Incomecategories
-    Route::delete('income-categories/destroy', 'IncomeCategoryController@massDestroy')->name('income-categories.massDestroy');
-    Route::resource('income-categories', 'IncomeCategoryController');
+    // Paymentcategories
+    Route::delete('payment-categories/destroy', 'PaymentCategoryController@massDestroy')->name('payment-categories.massDestroy');
+    Route::resource('payment-categories', 'PaymentCategoryController');
 
-    // Expenses
-    Route::delete('expenses/destroy', 'ExpenseController@massDestroy')->name('expenses.massDestroy');
-    Route::resource('expenses', 'ExpenseController');
+    // Invoices
+    Route::delete('invoices/destroy', 'InvoiceController@massDestroy')->name('invoices.massDestroy');
+    Route::resource('invoices', 'InvoiceController');
 
-    // Incomes
-    Route::delete('incomes/destroy', 'IncomeController@massDestroy')->name('incomes.massDestroy');
-    Route::resource('incomes', 'IncomeController');
+    // Payments
+    Route::delete('payments/destroy', 'PaymentController@massDestroy')->name('payments.massDestroy');
+    Route::resource('payments', 'PaymentController');
 
-    // Expensereports
-    Route::delete('expense-reports/destroy', 'ExpenseReportController@massDestroy')->name('expense-reports.massDestroy');
-    Route::resource('expense-reports', 'ExpenseReportController');
+    // Invoicereports
+    Route::delete('invoice-reports/destroy', 'InvoiceReportController@massDestroy')->name('invoice-reports.massDestroy');
+    Route::resource('invoice-reports', 'InvoiceReportController');
 });

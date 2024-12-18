@@ -10,16 +10,15 @@
     <meta name="theme-name" content="invoice-manager" />
   
     <title>Invoice Manager</title>
+    <!-- Date Picker Plugin JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}">
+    <script src="{{ asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.jpg') }}">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
-    <!-- Pignose Calendar -->
-    <link href="{{ asset('plugins/pg-calendar/css/pignose.calendar.min.css') }}" rel="stylesheet">
-    <!-- Chartist -->
-    <link rel="stylesheet" href="{{ asset('plugins/chartist/css/chartist.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css') }}">
     <!-- Custom Stylesheet -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 </head>
@@ -232,16 +231,6 @@
                                             <a href="{{ url('app-profile') }}"><i class="icon-user"></i> <span>Profile</span></a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void()">
-                                                <i class="icon-envelope-open"></i> <span>Inbox</span> <div class="badge gradient-3 badge-pill gradient-1">3</div>
-                                            </a>
-                                        </li>
-                                        <hr class="my-2">
-                                        <li>
-                                            <a href="{{ url('page-lock') }}"><i class="icon-lock"></i> <span>Lock Screen</span></a>
-                                        </li>
-                                        <li><a onclick="event.preventDefault(); document.getElementById('logoutform').submit();"><i class="icon-key"></i> <span>Logout</span></a></li>
-                                        <li>
                                             <a href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                                               <i class="icon-key"></i> 
                                                 <span class="nav-text">{{ trans('global.logout') }}</span>
@@ -313,19 +302,6 @@
     <script src="{{ asset('plugins/chart.js/Chart.bundle.min.js') }}"></script>
     <!-- Circle Progress -->
     <script src="{{ asset('plugins/circle-progress/circle-progress.min.js') }}"></script>
-    <!-- Datamap -->
-    <script src="{{ asset('plugins/d3v3/index.js') }}"></script>
-    <script src="{{ asset('plugins/topojson/topojson.min.js') }}"></script>
-    <script src="{{ asset('plugins/datamaps/datamaps.world.min.js') }}"></script>
-    <!-- Morris.js -->
-    <script src="{{ asset('plugins/raphael/raphael.min.js') }}"></script>
-    <script src="{{ asset('plugins/morris/morris.min.js') }}"></script>
-    <!-- Pignose Calendar -->
-    <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
-    <script src="{{ asset('plugins/pg-calendar/js/pignose.calendar.min.js') }}"></script>
-    <!-- ChartistJS -->
-    <script src="{{ asset('plugins/chartist/js/chartist.min.js') }}"></script>
-    <script src="{{ asset('plugins/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js') }}"></script>
 
     <script src="{{ asset('js/dashboard/dashboard-1.js') }}"></script>
 

@@ -14699,4 +14699,52 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     [data-theme-version="dark"] .footer .copyright p {
       color: #fff; }
 
+      .permissions-cell {
+        /* Increase height */
+        height: 100px; /* Adjust this value as needed */
+        vertical-align: top; /* Align the text to the top of the cell */
+        overflow-y: auto; /* Allow scrolling if content overflows */
+    }
+
+    .label-many {
+        display: inline-block;
+        margin: 5px; /* Space between labels */
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem; /* Add more space between form groups */
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    .select-all, .deselect-all {
+      margin-left: 10px;
+      padding: 5px 10px;
+      cursor: pointer;
+  }
+
+  .select2-container .select2-selection--multiple {
+      border-radius: 4px;
+      height: auto;
+      min-height: 40px;
+  }
+
+  .helper-block {
+      font-size: 0.875rem;
+      margin-top: 5px;
+      color: #6c757d;
+  }
+
+  .invalid-feedback {
+      font-size: 0.875rem;
+      color: #dc3545;
+  }
+
+  .login-input .form-group .form-control {
+    padding-left: 20px !important;
+  }
+
+
 /*# sourceMappingURL=style.css.map */

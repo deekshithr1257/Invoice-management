@@ -27,6 +27,7 @@ class Invoice extends Model
         'updated_at',
         'deleted_at',
         'description',
+        'image',
         'created_by_id',
         'invoice_category_id',
     ];

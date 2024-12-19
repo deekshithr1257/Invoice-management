@@ -34,14 +34,37 @@ class InvoiceController extends Controller
 
     public function store(StoreInvoiceRequest $request)
     {
-        $invoice = Invoice::create($request->all());
+
+         // Validate the file input
+    $validated = $request->validate([
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Adjust the file types and size as needed
+    ]);
+
+    // Handle the image upload if it exists
+    $imagePath = null;
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $imagePath = $image->store('invoices', 'public'); // Store in the 'invoices' directory within the public disk
+    }
+
+    // Create the invoice
+    $invoice = Invoice::create([
+        'invoice_category_id' => $request->invoice_category_id,
+        'entry_date' => $request->entry_date,
+        'amount' => $request->amount,
+        'description' => $request->description,
+        'image' => $imagePath, // Save the image path to the database
+    ]);
+        // $invoice = Invoice::create($request->all());
 
         return redirect()->route('admin.invoices.index');
     }
 
     public function edit(Invoice $invoice)
     {
+
         abort_if(Gate::denies('invoice_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
 
         $invoice_categories = InvoiceCategory::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -51,11 +74,39 @@ class InvoiceController extends Controller
     }
 
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
-    {
-        $invoice->update($request->all());
+{
+    // Validate the file input
+    $validated = $request->validate([
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Adjust the file types and size as needed
+    ]);
 
-        return redirect()->route('admin.invoices.index');
+    // Handle the image upload
+    if ($request->hasFile('image')) {
+        // Delete the old image if it exists
+        if ($invoice->image && file_exists(public_path("storage/{$invoice->image}"))) {
+            unlink(public_path("storage/{$invoice->image}"));
+        }
+
+        // Store the new image
+        $image = $request->file('image');
+        $imagePath = $image->store('invoices', 'public'); // Store in the 'invoices' directory within the public disk
+    } else {
+        // Retain the old image path if no new image is uploaded
+        $imagePath = $invoice->image;
     }
+
+    // Update the invoice
+    $invoice->update([
+        'invoice_category_id' => $request->invoice_category_id,
+        'entry_date' => $request->entry_date,
+        'amount' => $request->amount,
+        'description' => $request->description,
+        'image' => $imagePath, // Update the image path in the database
+    ]);
+
+    return redirect()->route('admin.invoices.index');
+}
+
 
     public function show(Invoice $invoice)
     {

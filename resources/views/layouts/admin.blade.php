@@ -12,7 +12,9 @@
     <title>Invoice Manager</title>
     <!-- Date Picker Plugin JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}">
+ 
     <script src="{{ asset('plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.jpg') }}">
@@ -304,6 +306,13 @@
     <script src="{{ asset('plugins/circle-progress/circle-progress.min.js') }}"></script>
 
     <script src="{{ asset('js/dashboard/dashboard-1.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <!-- Include SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 
 
 </body>

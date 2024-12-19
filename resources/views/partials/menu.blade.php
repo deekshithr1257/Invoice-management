@@ -14,7 +14,7 @@
                         <i class="fa-fw fas fa-users nav-icon"></i>
                         <span class="nav-text">{{ trans('cruds.userManagement.title') }}</span>
                     </a>
-                    <ul aria-expanded="false">
+                    <ul aria-expanded="true">
                         @can('permission_access')
                             <li>
                                 <a href="{{ route("admin.permissions.index") }}" class="nav-link {{ request()->is('admin/permissions') || request()->is('admin/permissions/*') ? 'active' : '' }}">

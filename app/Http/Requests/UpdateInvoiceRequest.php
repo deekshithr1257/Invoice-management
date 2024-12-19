@@ -26,6 +26,9 @@ class UpdateInvoiceRequest extends FormRequest
             'amount'     => [
                 'required',
             ],
+            'image'     => [
+                'nullable',
+            ],
         ];
     }
 }

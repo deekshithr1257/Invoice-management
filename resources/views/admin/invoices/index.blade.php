@@ -89,12 +89,20 @@
                                                     </a>
                                                 @endcan
 
-                                                @can('invoice_delete')
+                                                <!-- @can('invoice_delete')
                                                     <form action="{{ route('admin.invoices.destroy', $invoice->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                         <input type="hidden" name="_method" value="DELETE">
                                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                                     </form>
+                                                @endcan -->
+
+                                                @can('invoice_delete')
+                                                <form action="{{ route('admin.invoices.destroy', $invoice->id) }}" method="POST" style="display: inline-block;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="submit" class="btn btn-xs btn-danger delete-btn" value="{{ trans('global.delete') }}">
+                                                        </form>
                                                 @endcan
 
                                             </td>
@@ -113,14 +121,6 @@
 @endsection
 @section('scripts')
 @parent
-<script src="{{ asset('plugins/common/common.min.js') }}"></script>
-<script src="{{ asset('js/custom.min.js') }}"></script>
-<script src="{{ asset('js/settings.js') }}"></script>
-<script src="{{ asset('js/gleek.js') }}"></script>
-<script src="{{ asset('js/styleSwitcher.js') }}"></script>
-<script src="{{ asset('plugins/tables/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
 <!-- <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
@@ -167,3 +167,34 @@
 
 </script> -->
 @endsection
+
+<script>
+    // Attach the `myDelete` function to all delete buttons once the page is loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.delete-btn').forEach(function(button) {
+            button.addEventListener('click', myDelete);  // Add click event to each delete button
+        });
+    });
+
+    // JavaScript function to handle the deletion process
+    function myDelete(ev) {
+        ev.preventDefault(); // Prevent the default form submission
+        console.log('Delete button clicked');  // This will log when the button is clicked
+        var form = ev.currentTarget.closest('form');
+        
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to delete this Invoice?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log('Form will be submitted'); // This will log if the form is confirmed for submission
+                form.submit();
+            }
+        });
+    }
+</script>

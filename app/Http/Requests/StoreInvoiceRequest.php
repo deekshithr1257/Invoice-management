@@ -26,6 +26,12 @@ class StoreInvoiceRequest extends FormRequest
             'amount'     => [
                 'required',
             ],
+
+            'image'     => [
+                'nullable',
+            ],
+
+            
         ];
     }
 }

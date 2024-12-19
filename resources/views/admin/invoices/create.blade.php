@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 @section('content')
+
+<link href="{{asset('plugins/fileuploads/css/fileupload.css')}}" rel="stylesheet" type="text/css" />
+<link href="{{asset('plugins/fancyuploder/fancy_fileupload.css')}}" rel="stylesheet" />
+
+
 <div class="content-body">
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -34,26 +39,24 @@
                                         </em>
                                     @endif
                                 </div>
+                                
                                 <div class="form-group {{ $errors->has('entry_date') ? 'has-error' : '' }}">
-                                    <label for="entry_date">{{ trans('cruds.invoice.fields.entry_date') }}*</label>
-                                    <input type="text" id="entry_date" name="entry_date" class="form-control date" value="{{ old('entry_date', isset($invoice) ? $invoice->entry_date : '') }}" required>
-                                    <div class="example">
-                                        <h5 class="box-title m-t-30">Autoclose Datedpicker</h5>
-                                        <p class="text-muted m-b-20">just add class <code>.complex-colorpicker</code> to create it.</p>
-                                       
-                                    </div>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy"> <span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span>
-                                    </div>
+                                            <label for="entry_date">{{ trans('cruds.invoice.fields.entry_date') }}*</label>
+                                            <input type="date" class="form-control date" name="entry_date" id="entry_date" 
+                                                value="{{ old('entry_date', isset($invoice) ? $invoice->entry_date : '') }}" 
+                                                required>
+                                        
                                     @if($errors->has('entry_date'))
-                                        <em class="invalid-feedback">
+                                        <div class="invalid-feedback">
                                             {{ $errors->first('entry_date') }}
-                                        </em>
+                                        </div>
                                     @endif
                                     <p class="helper-block">
                                         {{ trans('cruds.invoice.fields.entry_date_helper') }}
                                     </p>
                                 </div>
+
+
                                 <div class="form-group {{ $errors->has('amount') ? 'has-error' : '' }}">
                                     <label for="amount">{{ trans('cruds.invoice.fields.amount') }}*</label>
                                     <input type="number" id="amount" name="amount" class="form-control" value="{{ old('amount', isset($invoice) ? $invoice->amount : '') }}" step="0.01" required>
@@ -78,6 +81,16 @@
                                         {{ trans('cruds.invoice.fields.description_helper') }}
                                     </p>
                                 </div>
+                                <div class="row row-xs align-items-center mg-b-20">
+                            <div class="col-md-4">
+                                <label class="mg-b-0"> Image</label>
+                            </div>
+                            <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                <input type="file" name="image" id="image"
+                                    class="dropify" data-height="200"
+                                    accept=".jpg, .png, image/jpeg, image/png" required>
+                            </div>
+                        </div>
                                 <div>
                                     <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
                                 </div>
@@ -89,4 +102,10 @@
         </div>
     </div>
 </div>
+
+<!-- Internal Fileuploads js-->
+
+
+<script src="{{asset('plugins/fileuploads/js/fileupload.js')}}"></script>
+    <script src="{{asset('plugins/fileuploads/js/file-upload.js')}}"></script>
 @endsection

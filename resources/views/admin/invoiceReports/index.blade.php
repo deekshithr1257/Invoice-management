@@ -1,8 +1,14 @@
 @extends('layouts.admin')
 @section('content')
+
+
+<div class="content-body">
+
+<div class="container-fluid">
 <div class="row">
     <div class="col">
         <h3 class="page-title">{{ trans('cruds.invoiceReport.reports.title') }}</h3>
+        
 
         <form method="get">
             <div class="row">
@@ -34,6 +40,8 @@
         </form>
     </div>
 </div>
+
+
 
 <div class="card">
     <div class="card-header">
@@ -87,11 +95,12 @@
                 </table>
             </div>
         </div>
-
-
-
     </div>
 </div>
+</div>
+
+</div>
+
 @endsection
 
 @section('scripts')
@@ -101,6 +110,6 @@
     $('.date').datepicker({
         autoclose: true,
         dateFormat: "{{ config('panel.date_format_js') }}"
-      })
+    })
 </script>
 @stop

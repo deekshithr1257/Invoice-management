@@ -30,6 +30,9 @@ class StoreInvoiceRequest extends FormRequest
             'image'     => [
                 'nullable',
             ],
+            'camera_image'     => [
+                'nullable',
+            ],
 
             
         ];

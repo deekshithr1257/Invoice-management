@@ -19,6 +19,8 @@ class CreateInvoicesTable extends Migration
 
             $table->string('image')->nullable();
 
+            $table->string('camera_image')->nullable(); // For camera-captured image
+
             $table->timestamps();
 
             $table->softDeletes();

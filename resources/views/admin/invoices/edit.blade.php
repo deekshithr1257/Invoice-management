@@ -3,6 +3,7 @@
 
 <link href="{{asset('plugins/fileuploads/css/fileupload.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{asset('plugins/fancyuploder/fancy_fileupload.css')}}" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 <div class="content-body">
     <div class="row page-titles mx-0">
@@ -43,10 +44,13 @@
                                 </div>
 
                                 <!-- Entry Date -->
+
                                 <div class="form-group {{ $errors->has('entry_date') ? 'has-error' : '' }}">
                                     <label for="entry_date">{{ trans('cruds.invoice.fields.entry_date') }}*</label>
-                                    <input type="date" class="form-control date" name="entry_date" id="entry_date" 
-                                        value="{{ old('entry_date', isset($invoice) ? $invoice->entry_date : '') }}" required>
+                                    <input type="text" class="form-control date-picker" name="entry_date" id="entry_date"  placeholder="Select a date"
+                                        value="{{ old('entry_date', isset($invoice) ? $invoice->entry_date : '') }}" 
+                                        required>
+                                    
                                     @if($errors->has('entry_date'))
                                         <div class="invalid-feedback">
                                             {{ $errors->first('entry_date') }}
@@ -92,10 +96,35 @@
                                     </div>
                                     <div class="col-md-8 mg-t-5 mg-md-t-0">
                                     <input type="file" name="image" id="image" class="dropify"
-                                        data-default-file="{{ asset('storage/' . $invoice->image) }}"
-                                        data-height="200" accept=".jpg, .png, image/jpeg, image/png" required>
+                                        data-default-file="{{ isset($invoice->image) ? asset('storage/' . $invoice->image) : '' }}"
+                                        data-height="200" accept=".jpg, .png, image/jpeg, image/png"
+                                        {{ isset($invoice->image) ? '' : 'required' }}>
+                                </div>
+
+                                <div class="row row-xs align-items-center mg-b-20">
+                                    <div class="col-md-4">
+                                        <label class="mg-b-0"> Take A Photo</label>
+                                    </div>
+                                    <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                        <div class="d-flex align-items-center">
+                                            <!-- Camera Input -->
+                                            <input type="file" name="camera_image" id="camera_image" accept="image/*" capture="camera" 
+                                                style="display: none;" onchange="handleCameraCapture(this)">
+                                            
+                                            <!-- Camera Icon -->
+                                            <button type="button" class="btn btn-light btn-icon" onclick="document.getElementById('camera_image').click()">
+                                                <i class="fa fa-camera"></i>
+                                            </button>
+
+                                            <!-- Existing File Input -->
+                                            <input type="file" name="camera_image" id="camera_image"
+                                              data-default-file="{{ isset($invoice->camera_image) ? asset('storage/' . $invoice->camera_image) : '' }}"
+                                                class="dropify ml-3" data-height="200"
+                                                accept=".jpg, .png, image/jpeg, image/png">
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
 
                                 <!-- Submit Button -->
                                 <div>
@@ -110,8 +139,44 @@
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <!-- Internal Fileuploads js-->
 <script src="{{asset('plugins/fileuploads/js/fileupload.js')}}"></script>
 <script src="{{asset('plugins/fileuploads/js/file-upload.js')}}"></script>
+
+<!-- Flatpickr JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    flatpickr("#entry_date", {
+        dateFormat: "Y-m-d", // Adjust as needed
+        allowInput: true
+    });
+});
+</script>
+
+<script>
+    function handleCameraCapture(input) {
+    if (navigator.userAgent.match(/Android|iPhone|iPad|iPod/i)) {
+        // Mobile device: Display camera functionality
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                // For previewing the captured image (optional)
+                const preview = document.createElement('img');
+                preview.src = e.target.result;
+                preview.style.maxWidth = '100%';
+                preview.style.marginTop = '10px';
+                input.parentElement.appendChild(preview);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    } else {
+        // Desktop device: Open file picker
+        alert('This device does not support direct camera capture. Please select an image file.');
+    }
+}
+</script>
 
 @endsection

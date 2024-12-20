@@ -28,6 +28,7 @@ class Invoice extends Model
         'deleted_at',
         'description',
         'image',
+        'camera_image',
         'created_by_id',
         'invoice_category_id',
     ];

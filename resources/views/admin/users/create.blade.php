@@ -62,9 +62,12 @@
                     </div>
 
                     <div class="form-group {{ $errors->has('roles') ? 'has-error' : '' }}">
-                        <label for="roles">{{ trans('cruds.user.fields.roles') }}*
-                            <span class="btn btn-info btn-xs select-all">{{ trans('global.select_all') }}</span>
-                            <span class="btn btn-info btn-xs deselect-all">{{ trans('global.deselect_all') }}</span>
+                        <label for="roles" class="d-flex justify-content-between align-items-center">
+                            <span>{{ trans('cruds.user.fields.roles') }}*</span>
+                            <div>
+                            <span  type="button" class="btn btn-info btn-xs select-all">{{ trans('global.select_all') }}</span>
+                            <span  type="button" class="btn btn-info btn-xs deselect-all">{{ trans('global.deselect_all') }}</span>
+                            </div>
                         </label>
                         <select name="roles[]" id="roles" class="form-control select2" multiple="multiple" required>
                             @foreach($roles as $id => $roles)
@@ -81,7 +84,6 @@
                         </p>
                     </div>
 
-                    <div>
                         <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
                     </div>
                 </form>
@@ -89,5 +91,36 @@
         </div>
     </div>
 </div>
+
+<!-- Include jQuery first (Make sure this is included before any other JS files that depend on jQuery) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Initialize Select2 -->
+<script>
+    $(document).ready(function() {
+        // Initialize Select2 on the roles dropdown
+        $('#roles').select2({
+            placeholder: "Select roles",
+            allowClear: true,
+            width: '100%' // Make the select take the full width of the container
+        });
+
+        // Select All
+        $('.select-all').click(function() {
+            // Select all options by setting the value of the select element
+            var allValues = [];
+            $('#roles option').each(function() {
+                allValues.push($(this).val());
+            });
+            $('#roles').val(allValues).trigger('change'); // Update Select2
+        });
+
+        // Deselect All
+        $('.deselect-all').click(function() {
+            // Clear the selection
+            $('#roles').val([]).trigger('change'); // Update Select2
+        });
+    });
+</script>
 
 @endsection

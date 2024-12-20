@@ -38,6 +38,7 @@ class InvoiceController extends Controller
          // Validate the file input
     $validated = $request->validate([
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Adjust the file types and size as needed
+        'camera_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation for the camera image
     ]);
 
     // Handle the image upload if it exists
@@ -47,6 +48,13 @@ class InvoiceController extends Controller
         $imagePath = $image->store('invoices', 'public'); // Store in the 'invoices' directory within the public disk
     }
 
+    // Handle the camera image upload
+    $cameraImagePath = null;
+    if ($request->hasFile('camera_image')) {
+        $cameraImage = $request->file('camera_image');
+        $cameraImagePath = $cameraImage->store('invoices/camera_images', 'public');
+    }
+
     // Create the invoice
     $invoice = Invoice::create([
         'invoice_category_id' => $request->invoice_category_id,
@@ -54,6 +62,7 @@ class InvoiceController extends Controller
         'amount' => $request->amount,
         'description' => $request->description,
         'image' => $imagePath, // Save the image path to the database
+        'camera_image' => $cameraImagePath,
     ]);
         // $invoice = Invoice::create($request->all());
 
@@ -74,38 +83,55 @@ class InvoiceController extends Controller
     }
 
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
-{
-    // Validate the file input
-    $validated = $request->validate([
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Adjust the file types and size as needed
-    ]);
+    {
+        // Validate the file inputs
+        $validated = $request->validate([
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation for uploaded images
+            'camera_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation for camera images
+        ]);
 
-    // Handle the image upload
-    if ($request->hasFile('image')) {
-        // Delete the old image if it exists
-        if ($invoice->image && file_exists(public_path("storage/{$invoice->image}"))) {
-            unlink(public_path("storage/{$invoice->image}"));
-        }
-
-        // Store the new image
-        $image = $request->file('image');
-        $imagePath = $image->store('invoices', 'public'); // Store in the 'invoices' directory within the public disk
-    } else {
-        // Retain the old image path if no new image is uploaded
+    
+        // Initialize paths with existing values
         $imagePath = $invoice->image;
+        $cameraImagePath = $invoice->camera_image;
+    
+        // Handle 'image' upload
+        if ($request->hasFile('image')) {
+            // Delete old image if it exists
+            if ($imagePath && file_exists(public_path("storage/{$imagePath}"))) {
+                unlink(public_path("storage/{$imagePath}"));
+            }
+    
+            // Store new image
+            $image = $request->file('image');
+            $imagePath = $image->store('invoices', 'public');
+        }
+    
+        // Handle 'camera_image' upload
+        if ($request->hasFile('camera_image')) {
+            // Delete old camera image if it exists
+            if ($cameraImagePath && file_exists(public_path("storage/{$cameraImagePath}"))) {
+                unlink(public_path("storage/{$cameraImagePath}"));
+            }
+    
+            // Store new camera image
+            $cameraImage = $request->file('camera_image');
+            $cameraImagePath = $cameraImage->store('invoices/camera_images', 'public');
+        }
+    
+        // Update the invoice
+        $invoice->update([
+            'invoice_category_id' => $request->invoice_category_id,
+            'entry_date' => $request->entry_date,
+            'amount' => $request->amount,
+            'description' => $request->description,
+            'image' => $imagePath, // Update the image path in the database
+            'camera_image' => $cameraImagePath, // Update the camera image path
+        ]);
+    
+        return redirect()->route('admin.invoices.index');
     }
-
-    // Update the invoice
-    $invoice->update([
-        'invoice_category_id' => $request->invoice_category_id,
-        'entry_date' => $request->entry_date,
-        'amount' => $request->amount,
-        'description' => $request->description,
-        'image' => $imagePath, // Update the image path in the database
-    ]);
-
-    return redirect()->route('admin.invoices.index');
-}
+    
 
 
     public function show(Invoice $invoice)

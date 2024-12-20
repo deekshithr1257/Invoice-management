@@ -29,6 +29,9 @@ class UpdateInvoiceRequest extends FormRequest
             'image'     => [
                 'nullable',
             ],
+            'camera_image'     => [
+                'nullable',
+            ],
         ];
     }
 }

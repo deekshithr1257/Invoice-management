@@ -1,6 +1,8 @@
 @extends('layouts.admin')
 @section('content')
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 <div class="content-body">
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
@@ -37,7 +39,7 @@
 
                     <div class="form-group {{ $errors->has('entry_date') ? 'has-error' : '' }}">
                         <label for="entry_date">{{ trans('cruds.payment.fields.entry_date') }}*</label>
-                        <input type="date" id="entry_date" name="entry_date" class="form-control date" value="{{ old('entry_date') }}" required>
+                        <input type="text" id="entry_date" name="entry_date" class="form-control date-picker" value="{{ old('entry_date') }}" placeholder="Select a date" required>
                         @if($errors->has('entry_date'))
                             <em class="invalid-feedback">
                                 {{ $errors->first('entry_date') }}
@@ -82,5 +84,15 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    flatpickr("#entry_date", {
+        dateFormat: "Y-m-d", // Adjust as needed
+        allowInput: true
+    });
+});
+</script>
 
 @endsection

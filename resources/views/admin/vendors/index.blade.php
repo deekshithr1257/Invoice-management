@@ -65,7 +65,7 @@
                                         @endcan -->
 
                                                 @can('permission_delete')
-                                                        <form action="{{ route('admin.vendors.destroy', $vendor->id', $permission->id) }}" method="POST" style="display: inline-block;">
+                                                        <form action="{{ route('admin.vendors.destroy', $vendor->id, $permission->id) }}" method="POST" style="display: inline-block;">
                                                             @csrf
                                                             @method('DELETE')
                                                             <input type="submit" class="btn btn-xs btn-danger delete-btn" value="{{ trans('global.delete') }}">

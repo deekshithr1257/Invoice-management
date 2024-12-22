@@ -19,7 +19,7 @@
                             <li>
                                 <a href="{{ route("admin.permissions.index") }}" class="nav-link {{ request()->is('admin/permissions') || request()->is('admin/permissions/*') ? 'active' : '' }}">
                                     <i class="fa-fw fas fa-unlock-alt nav-icon"></i>
-                                    <span class="nav-text">{{ trans('cruds.permission.title') }}</span>
+                                    <span>{{ trans('cruds.permission.title') }}</span>
                                 </a>
                             </li>
                         @endcan
@@ -27,7 +27,7 @@
                             <li>
                                 <a href="{{ route("admin.roles.index") }}" class="nav-link {{ request()->is('admin/roles') || request()->is('admin/roles/*') ? 'active' : '' }}">
                                     <i class="fa-fw fas fa-briefcase nav-icon"></i>
-                                    <span class="nav-text">{{ trans('cruds.role.title') }}</span>
+                                    <span>{{ trans('cruds.role.title') }}</span>
                                 </a>
                             </li>
                         @endcan
@@ -35,7 +35,7 @@
                             <li>
                                 <a href="{{ route("admin.users.index") }}" class="nav-link {{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active' : '' }}">
                                     <i class="fa-fw fas fa-user nav-icon"></i>
-                                    <span class="nav-text">{{ trans('cruds.user.title') }}</span>
+                                    <span>{{ trans('cruds.user.title') }}</span>
                                 </a>
                             </li>
                         @endcan

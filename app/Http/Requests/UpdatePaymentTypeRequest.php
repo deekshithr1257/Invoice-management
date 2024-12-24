@@ -2,16 +2,15 @@
 
 namespace App\Http\Requests;
 
-use App\Vendor;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class StoreVendorRequest extends FormRequest
+class UpdatePaymentTypeRequest extends FormRequest
 {
     public function authorize()
     {
-        abort_if(Gate::denies('vendor_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('payment_type_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }

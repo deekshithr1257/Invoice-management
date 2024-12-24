@@ -16,12 +16,12 @@ trait MultiTenantModelTrait
 
 // If required, remove the surrounding IF condition and admins will act as users
                 if (!$isAdmin) {
-                    $model->created_by_id = auth()->id();
+                    $model->created_by = auth()->id();
                 }
             });
             if (!$isAdmin) {
-                static::addGlobalScope('created_by_id', function (Builder $builder) {
-                    $builder->where('created_by_id', auth()->id())->orWhereNull('created_by_id');
+                static::addGlobalScope('created_by', function (Builder $builder) {
+                    $builder->where('created_by', auth()->id())->orWhereNull('created_by');
                 });
             }
         }

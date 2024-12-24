@@ -14,7 +14,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('invoice-categories', 'InvoiceCategoryApiController');
 
     // Paymentcategories
-    Route::apiResource('payment-categories', 'PaymentCategoryApiController');
+    Route::apiResource('payment-types', 'PaymentTypeApiController');
 
     // Invoices
     Route::apiResource('invoices', 'InvoiceApiController');

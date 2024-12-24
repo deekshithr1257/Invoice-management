@@ -21,21 +21,22 @@ class Invoice extends Model
     ];
 
     protected $fillable = [
+        'supplier_id',
+        'invoice_number',
         'amount',
+        'balance',
         'entry_date',
         'created_at',
         'updated_at',
         'deleted_at',
         'description',
         'image',
-        'camera_image',
-        'created_by_id',
-        'invoice_category_id',
+        'created_by',
     ];
 
-    public function invoice_category()
+    public function supplier()
     {
-        return $this->belongsTo(InvoiceCategory::class, 'invoice_category_id');
+        return $this->belongsTo(Supplier::class, 'supplier_id');
     }
 
     public function getEntryDateAttribute($value)
@@ -50,6 +51,6 @@ class Invoice extends Model
 
     public function created_by()
     {
-        return $this->belongsTo(User::class, 'created_by_id');
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

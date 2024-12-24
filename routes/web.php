@@ -22,17 +22,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::resource('users', 'UsersController');
 
-    // Invoicecategories
-    Route::delete('invoice-categories/destroy', 'InvoiceCategoryController@massDestroy')->name('invoice-categories.massDestroy');
-    Route::resource('invoice-categories', 'InvoiceCategoryController');
-
-    // Vendors
-    Route::delete('vendors/destroy', 'VendorController@massDestroy')->name('vendors.massDestroy');
-    Route::resource('vendors', 'VendorController');
+    // Suppliers
+    Route::delete('suppliers/destroy', 'SupplierController@massDestroy')->name('suppliers.massDestroy');
+    Route::resource('suppliers', 'SupplierController');
 
     // Paymentcategories
-    Route::delete('payment-categories/destroy', 'PaymentCategoryController@massDestroy')->name('payment-categories.massDestroy');
-    Route::resource('payment-categories', 'PaymentCategoryController');
+    Route::delete('payment-types/destroy', 'PaymentTypeController@massDestroy')->name('payment-types.massDestroy');
+    Route::resource('payment-types', 'PaymentTypeController');
 
     // Invoices
     Route::delete('invoices/destroy', 'InvoiceController@massDestroy')->name('invoices.massDestroy');

@@ -56,22 +56,22 @@ class User extends Authenticatable
 
     public function invoiceCategories()
     {
-        return $this->hasMany(InvoiceCategory::class, 'created_by_id', 'id');
+        return $this->hasMany(InvoiceCategory::class, 'created_by', 'id');
     }
 
-    public function paymentCategories()
+    public function paymentTypes()
     {
-        return $this->hasMany(PaymentCategory::class, 'created_by_id', 'id');
+        return $this->hasMany(PaymentType::class, 'created_by', 'id');
     }
 
     public function invoices()
     {
-        return $this->hasMany(Invoice::class, 'created_by_id', 'id');
+        return $this->hasMany(Invoice::class, 'created_by', 'id');
     }
 
     public function payments()
     {
-        return $this->hasMany(Payment::class, 'created_by_id', 'id');
+        return $this->hasMany(Payment::class, 'created_by', 'id');
     }
 
     public function getEmailVerifiedAtAttribute($value)

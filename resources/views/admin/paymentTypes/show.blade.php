@@ -6,8 +6,8 @@
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('admin.invoice-categories.index') }}">{{ trans('cruds.invoiceCategory.title_singular') }}</a></li>
-                <li class="breadcrumb-item active"><a href="javascript:void(0)">{{ trans('global.show') }} {{ trans('cruds.invoiceCategory.title_singular') }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('admin.payment-types.index') }}">{{ trans('cruds.paymentType.title_singular') }}</a></li>
+                <li class="breadcrumb-item active">{{ trans('global.show') }} {{ trans('cruds.paymentType.title_singular') }}</li>
             </ol>
         </div>
     </div>
@@ -15,7 +15,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                {{ trans('global.show') }} {{ trans('cruds.invoiceCategory.title_singular') }}
+                {{ trans('global.show') }} {{ trans('cruds.paymentType.title_singular') }}
             </div>
 
             <div class="card-body">
@@ -24,18 +24,18 @@
                         <tbody>
                             <tr>
                                 <th>
-                                    {{ trans('cruds.invoiceCategory.fields.id') }}
+                                    {{ trans('cruds.paymentType.fields.id') }}
                                 </th>
                                 <td>
-                                    {{ $invoiceCategory->id }}
+                                    {{ $paymentType->id }}
                                 </td>
                             </tr>
                             <tr>
                                 <th>
-                                    {{ trans('cruds.invoiceCategory.fields.name') }}
+                                    {{ trans('cruds.paymentType.fields.name') }}
                                 </th>
                                 <td>
-                                    {{ $invoiceCategory->name }}
+                                    {{ $paymentType->name }}
                                 </td>
                             </tr>
                         </tbody>
@@ -45,13 +45,14 @@
                     </a>
                 </div>
 
+                <!-- Optional Tabbed Content Section -->
                 <nav class="mb-3">
                     <div class="nav nav-tabs">
-                        <!-- Tabs for additional content can be added here if needed -->
+                        <!-- Add tabs here if needed -->
                     </div>
                 </nav>
                 <div class="tab-content">
-                    <!-- Tab content can go here if needed -->
+                    <!-- Add tab content here if needed -->
                 </div>
             </div>
         </div>

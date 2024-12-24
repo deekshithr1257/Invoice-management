@@ -21,19 +21,25 @@ class Payment extends Model
     ];
 
     protected $fillable = [
+        'invoice_id',
+        'payment_type_id',
         'amount',
         'entry_date',
+        'description',
+        'created_by',
         'created_at',
         'updated_at',
-        'deleted_at',
-        'description',
-        'created_by_id',
-        'payment_category_id',
+        'deleted_at'
     ];
 
-    public function payment_category()
+    public function payment_type()
     {
-        return $this->belongsTo(PaymentCategory::class, 'payment_category_id');
+        return $this->belongsTo(PaymentType::class, 'payment_type_id');
+    }
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class, 'invoice_id');
     }
 
     public function getEntryDateAttribute($value)
@@ -48,6 +54,6 @@ class Payment extends Model
 
     public function created_by()
     {
-        return $this->belongsTo(User::class, 'created_by_id');
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

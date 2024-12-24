@@ -22,13 +22,13 @@ class InvoiceReportController extends Controller
         $invoices = Invoice::with('invoice_category')
             ->whereBetween('entry_date', [$from, $to]);
 
-        $payments = Payment::with('payment_category')
+        $payments = Payment::with('payment_type')
             ->whereBetween('entry_date', [$from, $to]);
 
         $invoicesTotal   = $invoices->sum('amount');
         $paymentsTotal    = $payments->sum('amount');
         $groupedInvoices = $invoices->whereNotNull('invoice_category_id')->orderBy('amount', 'desc')->get()->groupBy('invoice_category_id');
-        $groupedPayments  = $payments->whereNotNull('payment_category_id')->orderBy('amount', 'desc')->get()->groupBy('payment_category_id');
+        $groupedPayments  = $payments->whereNotNull('payment_type_id')->orderBy('amount', 'desc')->get()->groupBy('payment_type_id');
         $profit          = $paymentsTotal - $invoicesTotal;
 
         $invoicesSummary = [];
@@ -50,14 +50,14 @@ class InvoiceReportController extends Controller
 
         foreach ($groupedPayments as $inc) {
             foreach ($inc as $line) {
-                if (!isset($paymentsSummary[$line->payment_category->name])) {
-                    $paymentsSummary[$line->payment_category->name] = [
-                        'name'   => $line->payment_category->name,
+                if (!isset($paymentsSummary[$line->payment_type->name])) {
+                    $paymentsSummary[$line->payment_type->name] = [
+                        'name'   => $line->payment_type->name,
                         'amount' => 0,
                     ];
                 }
 
-                $paymentsSummary[$line->payment_category->name]['amount'] += $line->amount;
+                $paymentsSummary[$line->payment_type->name]['amount'] += $line->amount;
             }
         }
 

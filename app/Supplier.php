@@ -6,11 +6,11 @@ use App\Traits\MultiTenantModelTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class InvoiceCategory extends Model
+class Supplier extends Model
 {
     use SoftDeletes, MultiTenantModelTrait;
 
-    public $table = 'invoice_categories';
+    public $table = 'suppliers';
 
     protected $dates = [
         'created_at',
@@ -19,20 +19,24 @@ class InvoiceCategory extends Model
     ];
 
     protected $fillable = [
-        'name',
+        "name",
+        "contact_number", 
+        "email",
+        "logo",
+        "address_line1",
+        "address_line2",
+        "city",
+        "state",
+        "postal_code",
+        "country",
+        "created_by" ,
         'created_at',
         'updated_at',
         'deleted_at',
-        'created_by_id',
     ];
-
-    public function invoices()
-    {
-        return $this->hasMany(Invoice::class, 'invoice_category_id', 'id');
-    }
 
     public function created_by()
     {
-        return $this->belongsTo(User::class, 'created_by_id');
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

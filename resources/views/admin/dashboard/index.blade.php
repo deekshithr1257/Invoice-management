@@ -8,8 +8,8 @@
                     <div class="card-body">
                         <h3 class="card-title text-white">Invoice</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white">$ 10000</h2>
-                            <p class="text-white mb-0">Jan - March 2019</p>
+                            <h2 class="text-white">$ {{ $total }}</h2>
+                            <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
                     </div>
@@ -20,8 +20,8 @@
                     <div class="card-body">
                         <h3 class="card-title text-white">Payment</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white">$ 5000</h2>
-                            <p class="text-white mb-0">Jan - March 2019</p>
+                            <h2 class="text-white">$ {{ $paid }}</h2>
+                            <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
                     </div>
@@ -32,10 +32,10 @@
                     <div class="card-body">
                         <h3 class="card-title text-white">Balance</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white">$ 5000</h2>
-                            <p class="text-white mb-0">Jan - March 2019</p>
+                            <h2 class="text-white">$  {{ $balance }}</h2>
+                            <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
                         </div>
-                        <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+                        <span class="float-right display-5 opacity-5"><i class="fa fa-balance-scale"></i></span>
                     </div>
                 </div>
             </div>
@@ -44,10 +44,10 @@
                     <div class="card-body">
                         <h3 class="card-title text-white">Payment Rate</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white">50%</h2>
-                            <p class="text-white mb-0">Jan - March 2019</p>
+                            <h2 class="text-white"> {{ $paymentRate }}%</h2>
+                            <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
                         </div>
-                        <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
+                        <span class="float-right display-5 opacity-5"><i class="fa fa-chart-pie"></i></span>
                     </div>
                 </div>
             </div>
@@ -61,119 +61,47 @@
                                 <table class="table table-xs mb-0">
                                     <thead>
                                         <tr>
-                                            <th>Customers</th>
-                                            <th>Product</th>
-                                            <th>Country</th>
+                                            <th>Suplliers</th>
+                                            <th>Invoice Number</th>
+                                            <th>Amount</th>
+                                            <th>Balance</th>
                                             <th>Status</th>
-                                            <th>Payment Method</th>
-                                            <th>Activity</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><img src="./images/avatar/1.jpg" class=" rounded-circle mr-3" alt="">Sarah Smith</td>
-                                            <td>iPhone X</td>
-                                            <td>
-                                                <span>United States</span>
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    <div class="progress" style="height: 6px">
-                                                        <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                            <td>
-                                                <span>Last Login</span>
-                                                <span class="m-0 pl-3">10 sec ago</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><img src="./images/avatar/2.jpg" class=" rounded-circle mr-3" alt="">Walter R.</td>
-                                            <td>Pixel 2</td>
-                                            <td><span>Canada</span></td>
-                                            <td>
-                                                <div>
-                                                    <div class="progress" style="height: 6px">
-                                                        <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                            <td>
-                                                <span>Last Login</span>
-                                                <span class="m-0 pl-3">50 sec ago</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><img src="./images/avatar/3.jpg" class=" rounded-circle mr-3" alt="">Andrew D.</td>
-                                            <td>OnePlus</td>
-                                            <td><span>Germany</span></td>
-                                            <td>
-                                                <div>
-                                                    <div class="progress" style="height: 6px">
-                                                        <div class="progress-bar bg-warning" style="width: 50%"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><i class="fa fa-circle-o text-warning  mr-2"></i> Pending</td>
-                                            <td>
-                                                <span>Last Login</span>
-                                                <span class="m-0 pl-3">10 sec ago</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><img src="./images/avatar/6.jpg" class=" rounded-circle mr-3" alt=""> Megan S.</td>
-                                            <td>Galaxy</td>
-                                            <td><span>Japan</span></td>
-                                            <td>
-                                                <div>
-                                                    <div class="progress" style="height: 6px">
-                                                        <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                            <td>
-                                                <span>Last Login</span>
-                                                <span class="m-0 pl-3">10 sec ago</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><img src="./images/avatar/4.jpg" class=" rounded-circle mr-3" alt=""> Doris R.</td>
-                                            <td>Moto Z2</td>
-                                            <td><span>England</span></td>
-                                            <td>
-                                                <div>
-                                                    <div class="progress" style="height: 6px">
-                                                        <div class="progress-bar bg-success" style="width: 50%"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><i class="fa fa-circle-o text-success  mr-2"></i> Paid</td>
-                                            <td>
-                                                <span>Last Login</span>
-                                                <span class="m-0 pl-3">10 sec ago</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><img src="./images/avatar/5.jpg" class=" rounded-circle mr-3" alt="">Elizabeth W.</td>
-                                            <td>Notebook Asus</td>
-                                            <td><span>China</span></td>
-                                            <td>
-                                                <div>
-                                                    <div class="progress" style="height: 6px">
-                                                        <div class="progress-bar bg-warning" style="width: 50%"></div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td><i class="fa fa-circle-o text-warning  mr-2"></i> Pending</td>
-                                            <td>
-                                                <span>Last Login</span>
-                                                <span class="m-0 pl-3">10 sec ago</span>
-                                            </td>
-                                        </tr>
+                                        @foreach($invoices as $invoice)
+                                            <tr>
+                                                <td><span>{{ $invoice->supplier ? $invoice->supplier->name : "" }}</span></td>
+                                                <td><span>{{ $invoice->invoice_number ?? "" }}</span></td>
+                                                <td><span>$ {{ $invoice->amount ?? "" }}</span></td>
+                                                <td><span>$ {{ $invoice->balance ?? "" }}</span></td>
+                                                @php
+                                                    if($invoice->balance == 0){
+                                                        $width = 100;
+                                                        $class = 'bg-success';
+                                                    }elseif( ($invoice->amount - $invoice->balance) > $invoice->balance){
+                                                        $width = number_format((($invoice->amount - $invoice->balance) / $invoice->amount) * 100, 2);
+                                                        $class = 'bg-success';
+                                                    }elseif( ($invoice->amount - $invoice->balance) < $invoice->balance){
+                                                        $width = number_format(($invoice->balance / $invoice->amount) * 100, 2);
+                                                        $class = 'bg-warning';
+                                                    }
+                                                @endphp
+                                                <td>
+                                                    <div>
+                                                        <div class="progress" style="height: 6px">
+                                                            <div class="progress-bar {{ $class }}" style="width: {{ $width }}%"></div>
+                                                        </div>
+                                                    </div>    
+                                                    <!-- <div>
+                                                        <div class="progress" style="height: 6px">
+                                                            <div class="progress-bar bg-warning" style="width: 50%"></div>
+                                                        </div>
+                                                    </div> -->
+                                                    <!-- <i class="fa fa-circle-o text-success  mr-2"></i> Paid -->
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

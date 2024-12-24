@@ -3,53 +3,53 @@
 namespace App\Http\Controllers\Api\V1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StorePaymentCategoryRequest;
-use App\Http\Requests\UpdatePaymentCategoryRequest;
-use App\Http\Resources\Admin\PaymentCategoryResource;
-use App\PaymentCategory;
+use App\Http\Requests\StorePaymentTypeRequest;
+use App\Http\Requests\UpdatePaymentTypeRequest;
+use App\Http\Resources\Admin\PaymentTypeResource;
+use App\PaymentType;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class PaymentCategoryApiController extends Controller
+class PaymentTypeApiController extends Controller
 {
     public function index()
     {
-        abort_if(Gate::denies('payment_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('payment_type_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new PaymentCategoryResource(PaymentCategory::with(['created_by'])->get());
+        return new PaymentTypeResource(PaymentType::with(['created_by'])->get());
     }
 
-    public function store(StorePaymentCategoryRequest $request)
+    public function store(StorePaymentTypeRequest $request)
     {
-        $paymentCategory = PaymentCategory::create($request->all());
+        $paymentType = PaymentType::create($request->all());
 
-        return (new PaymentCategoryResource($paymentCategory))
+        return (new PaymentTypeResource($paymentType))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function show(PaymentCategory $paymentCategory)
+    public function show(PaymentType $paymentType)
     {
-        abort_if(Gate::denies('payment_category_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('payment_type_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new PaymentCategoryResource($paymentCategory->load(['created_by']));
+        return new PaymentTypeResource($paymentType->load(['created_by']));
     }
 
-    public function update(UpdatePaymentCategoryRequest $request, PaymentCategory $paymentCategory)
+    public function update(UpdatePaymentTypeRequest $request, PaymentType $paymentType)
     {
-        $paymentCategory->update($request->all());
+        $paymentType->update($request->all());
 
-        return (new PaymentCategoryResource($paymentCategory))
+        return (new PaymentTypeResource($paymentType))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(PaymentCategory $paymentCategory)
+    public function destroy(PaymentType $paymentType)
     {
-        abort_if(Gate::denies('payment_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('payment_type_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $paymentCategory->delete();
+        $paymentType->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

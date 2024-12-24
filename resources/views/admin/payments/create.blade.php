@@ -23,18 +23,38 @@
             <div class="card-body">
                 <form action="{{ route('admin.payments.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div class="form-group {{ $errors->has('payment_category_id') ? 'has-error' : '' }}">
-                        <label for="payment_category">{{ trans('cruds.payment.fields.payment_category') }}</label>
-                        <select name="payment_category_id" id="payment_category" class="form-control select2">
-                            @foreach($payment_categories as $id => $payment_category)
-                                <option value="{{ $id }}" {{ old('payment_category_id') == $id ? 'selected' : '' }}>{{ $payment_category }}</option>
+                    <input type="hidden" name="created_by" id="created_by" value="{{ auth()->id() }}">
+                    <div class="form-group {{ $errors->has('invoice_id') ? 'has-error' : '' }}">
+                        <label for="invoice_id">{{ trans('cruds.payment.fields.invoice_number') }}</label>
+                        <select name="invoice_id" id="invoice_id" class="form-control select2">
+                            @foreach($invoices as $id => $invoice)
+                                <option value="{{ $id }}" {{ old('invoice_id') == $id ? 'selected' : '' }}>{{ $invoice }}</option>
                             @endforeach
                         </select>
-                        @if($errors->has('payment_category_id'))
+                        @if($errors->has('invoice_id'))
                             <em class="invalid-feedback">
-                                {{ $errors->first('payment_category_id') }}
+                                {{ $errors->first('invoice_id') }}
                             </em>
                         @endif
+                        <p class="helper-block">
+                            {{ trans('cruds.payment.fields.invoice_number_helper') }}
+                        </p>
+                    </div>
+                    <div class="form-group {{ $errors->has('payment_type_id') ? 'has-error' : '' }}">
+                        <label for="payment_type">{{ trans('cruds.payment.fields.payment_type') }}</label>
+                        <select name="payment_type_id" id="payment_type" class="form-control select2">
+                            @foreach($payment_types as $id => $payment_type)
+                                <option value="{{ $id }}" {{ old('payment_type_id') == $id ? 'selected' : '' }}>{{ $payment_type }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('payment_type_id'))
+                            <em class="invalid-feedback">
+                                {{ $errors->first('payment_type_id') }}
+                            </em>
+                        @endif
+                        <p class="helper-block">
+                            {{ trans('cruds.payment.fields.payment_type_helper') }}
+                        </p>
                     </div>
 
                     <div class="form-group {{ $errors->has('entry_date') ? 'has-error' : '' }}">
@@ -65,7 +85,7 @@
 
                     <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
                         <label for="description">{{ trans('cruds.payment.fields.description') }}</label>
-                        <input type="text" id="description" name="description" class="form-control" value="{{ old('description') }}">
+                        <textarea class="form-control h-150px" rows="6" id="comment" id="description" name="description" >{{ old('description', isset($payment) ? $payment->description : '') }}</textarea>
                         @if($errors->has('description'))
                             <em class="invalid-feedback">
                                 {{ $errors->first('description') }}

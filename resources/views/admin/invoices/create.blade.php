@@ -27,16 +27,17 @@
                         <div class="basic-form">
                             <form action="{{ route("admin.invoices.store") }}" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                <div class="form-group {{ $errors->has('invoice_category_id') ? 'has-error' : '' }}">
-                                    <label for="invoice_category">{{ trans('cruds.invoice.fields.invoice_category') }}</label>
-                                    <select name="invoice_category_id" id="invoice_category" class="form-control select2">
-                                        @foreach($invoice_categories as $id => $invoice_category)
-                                            <option value="{{ $id }}" {{ (isset($invoice) && $invoice->invoice_category ? $invoice->invoice_category->id : old('invoice_category_id')) == $id ? 'selected' : '' }}>{{ $invoice_category }}</option>
+                                <input type="hidden" name="created_by" id="created_by" value="{{ auth()->id() }}">
+                                <div class="form-group {{ $errors->has('supplier_id') ? 'has-error' : '' }}">
+                                    <label for="suppliers">{{ trans('cruds.invoice.fields.supplier') }}</label>
+                                    <select name="supplier_id" id="supplier_id" class="form-control select2">
+                                        @foreach($suppliers as $id => $suppliers)
+                                            <option value="{{ $id }}" {{ (isset($invoice) && $invoice->suppliers ? $invoice->suppliers->id : old('supplier_id')) == $id ? 'selected' : '' }}>{{ $suppliers }}</option>
                                         @endforeach
                                     </select>
-                                    @if($errors->has('invoice_category_id'))
+                                    @if($errors->has('supplier_id'))
                                         <em class="invalid-feedback">
-                                            {{ $errors->first('invoice_category_id') }}
+                                            {{ $errors->first('supplier_id') }}
                                         </em>
                                     @endif
                                 </div>
@@ -56,9 +57,18 @@
                                         {{ trans('cruds.invoice.fields.entry_date_helper') }}
                                     </p>
                                 </div>
-
-
-
+                                <div class="form-group {{ $errors->has('invoice_number') ? 'has-error' : '' }}">
+                                    <label for="invoice_number">{{ trans('cruds.invoice.fields.invoice_number') }}*</label>
+                                    <input type="text" id="invoice_number" name="invoice_number" class="form-control" value="{{ old('invoice_number', isset($invoice) ? $invoice->invoice_number : '') }}" required>
+                                    @if($errors->has('invoice_number'))
+                                        <em class="invalid-feedback">
+                                            {{ $errors->first('invoice_number') }}
+                                        </em>
+                                    @endif
+                                    <p class="helper-block">
+                                        {{ trans('cruds.invoice.fields.invoice_number_helper') }}
+                                    </p>
+                                </div>
                                 <div class="form-group {{ $errors->has('amount') ? 'has-error' : '' }}">
                                     <label for="amount">{{ trans('cruds.invoice.fields.amount') }}*</label>
                                     <input type="number" id="amount" name="amount" class="form-control" value="{{ old('amount', isset($invoice) ? $invoice->amount : '') }}" step="0.01" required>

@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyPaymentRequest;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
+use App\Invoice;
 use App\Payment;
-use App\PaymentCategory;
-use Gate;
+use App\PaymentType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class PaymentController extends Controller
@@ -27,15 +28,18 @@ class PaymentController extends Controller
     {
         abort_if(Gate::denies('payment_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $payment_categories = PaymentCategory::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $payment_types = PaymentType::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $invoices = Invoice::all()->pluck('invoice_number', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.payments.create', compact('payment_categories'));
+        return view('admin.payments.create', compact('payment_types', 'invoices'));
     }
 
     public function store(StorePaymentRequest $request)
     {
         $payment = Payment::create($request->all());
-
+        $invoice = Invoice::findOrFail($payment->invoice_id);
+        $invoice->balance = $invoice->balance - $payment->amount;
+        $invoice->save();
         return redirect()->route('admin.payments.index');
     }
 
@@ -43,11 +47,11 @@ class PaymentController extends Controller
     {
         abort_if(Gate::denies('payment_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $payment_categories = PaymentCategory::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $payment_types = PaymentType::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $payment->load('payment_category', 'created_by');
+        $payment->load('payment_type', 'created_by');
 
-        return view('admin.payments.edit', compact('payment_categories', 'payment'));
+        return view('admin.payments.edit', compact('payment_types', 'payment'));
     }
 
     public function update(UpdatePaymentRequest $request, Payment $payment)
@@ -61,7 +65,7 @@ class PaymentController extends Controller
     {
         abort_if(Gate::denies('payment_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $payment->load('payment_category', 'created_by');
+        $payment->load('payment_type', 'created_by');
 
         return view('admin.payments.show', compact('payment'));
     }

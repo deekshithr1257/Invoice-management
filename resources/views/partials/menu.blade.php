@@ -51,34 +51,34 @@
                     </a>
                 </li>
             @endcan
-            @can('payment_category_access')
+            @can('payment_type_access')
                 <li>
-                    <a href="{{ route("admin.payment-categories.index") }}" class="nav-link {{ request()->is('admin/payment-categories') || request()->is('admin/payment-categories/*') ? 'active' : '' }}">
+                    <a href="{{ route("admin.payment-types.index") }}" class="nav-link {{ request()->is('admin/payment-types') || request()->is('admin/payment-types/*') ? 'active' : '' }}">
                         <i class="fa-fw fas fa-list nav-icon"></i>
-                        <span class="nav-text">{{ trans('cruds.paymentCategory.title') }}</span>
+                        <span class="nav-text">{{ trans('cruds.paymentType.title') }}</span>
                     </a>
                 </li>
             @endcan
             @can('invoice_access')
                 <li>
                     <a href="{{ route("admin.invoices.index") }}" class="nav-link {{ request()->is('admin/invoices') || request()->is('admin/invoices/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-arrow-circle-right nav-icon"></i>
+                        <i class="fa fa-file-invoice nav-icon"></i>
                         <span class="nav-text">{{ trans('cruds.invoice.title') }}</span>
                     </a>
                 </li>
             @endcan
-            @can('vendor_access')
+            @can('supplier_access')
                 <li>
-                    <a href="{{ route("admin.vendors.index") }}" class="nav-link {{ request()->is('admin/vendors') || request()->is('admin/vendors/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-arrow-circle-right nav-icon"></i>
-                        <span class="nav-text">{{ trans('cruds.vendor.title') }}</span>
+                    <a href="{{ route("admin.suppliers.index") }}" class="nav-link {{ request()->is('admin/suppliers') || request()->is('admin/suppliers/*') ? 'active' : '' }}">
+                        <i class="fa fa-truck nav-icon"></i>
+                        <span class="nav-text">{{ trans('cruds.supplier.title') }}</span>
                     </a>
                 </li>
             @endcan
             @can('payment_access')
                 <li>
                     <a href="{{ route("admin.payments.index") }}" class="nav-link {{ request()->is('admin/payments') || request()->is('admin/payments/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-arrow-circle-right nav-icon"></i>
+                        <i class="fa fa-money nav-icon"></i>
                         <span class="nav-text">{{ trans('cruds.payment.title') }}</span>
                     </a>
                 </li>

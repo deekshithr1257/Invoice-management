@@ -39,16 +39,13 @@
                                             {{ trans('cruds.invoice.fields.id') }}
                                         </th>
                                         <th>
-                                            {{ trans('cruds.invoice.fields.invoice_category') }}
+                                            {{ trans('cruds.invoice.fields.invoice_number') }}
                                         </th>
                                         <th>
                                             {{ trans('cruds.invoice.fields.entry_date') }}
                                         </th>
                                         <th>
                                             {{ trans('cruds.invoice.fields.amount') }}
-                                        </th>
-                                        <th>
-                                            {{ trans('cruds.invoice.fields.description') }}
                                         </th>
                                         <th>
                                             &nbsp;
@@ -65,16 +62,13 @@
                                                 {{ $invoice->id ?? '' }}
                                             </td>
                                             <td>
-                                                {{ $invoice->invoice_category->name ?? '' }}
+                                                {{ $invoice->invoice_number ?? '' }}
                                             </td>
                                             <td>
                                                 {{ $invoice->entry_date ?? '' }}
                                             </td>
                                             <td>
                                                 {{ $invoice->amount ?? '' }}
-                                            </td>
-                                            <td>
-                                                {{ $invoice->description ?? '' }}
                                             </td>
                                             <td>
                                                 @can('invoice_show')

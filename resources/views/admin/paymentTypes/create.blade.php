@@ -6,8 +6,8 @@
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('admin.payment-categories.index') }}">{{ trans('cruds.paymentCategory.title_singular') }}</a></li>
-                <li class="breadcrumb-item active">{{ trans('global.create') }} {{ trans('cruds.paymentCategory.title_singular') }}</li>
+                <li class="breadcrumb-item"><a href="{{ route('admin.payment-types.index') }}">{{ trans('cruds.paymentType.title_singular') }}</a></li>
+                <li class="breadcrumb-item active">{{ trans('global.create') }} {{ trans('cruds.paymentType.title_singular') }}</li>
             </ol>
         </div>
     </div>
@@ -15,22 +15,23 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                {{ trans('global.create') }} {{ trans('cruds.paymentCategory.title_singular') }}
+                {{ trans('global.create') }} {{ trans('cruds.paymentType.title_singular') }}
             </div>
 
             <div class="card-body">
-                <form action="{{ route("admin.payment-categories.store") }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route("admin.payment-types.store") }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="created_by" id="created_by" value="{{ auth()->id() }}">
                     <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-                        <label for="name">{{ trans('cruds.paymentCategory.fields.name') }}*</label>
-                        <input type="text" id="name" name="name" class="form-control" value="{{ old('name', isset($paymentCategory) ? $paymentCategory->name : '') }}" required>
+                        <label for="name">{{ trans('cruds.paymentType.fields.name') }}*</label>
+                        <input type="text" id="name" name="name" class="form-control" value="{{ old('name', isset($paymentType) ? $paymentType->name : '') }}" required>
                         @if($errors->has('name'))
                             <em class="invalid-feedback">
                                 {{ $errors->first('name') }}
                             </em>
                         @endif
                         <p class="helper-block">
-                            {{ trans('cruds.paymentCategory.fields.name_helper') }}
+                            {{ trans('cruds.paymentType.fields.name_helper') }}
                         </p>
                     </div>
                     <div>

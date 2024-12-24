@@ -8,7 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyInvoiceRequest;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
-use Gate;
+use App\Supplier;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,43 +28,46 @@ class InvoiceController extends Controller
     {
         abort_if(Gate::denies('invoice_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $invoice_categories = InvoiceCategory::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $suppliers = Supplier::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('admin.invoices.create', compact('invoice_categories'));
+        return view('admin.invoices.create', compact('suppliers'));
     }
 
     public function store(StoreInvoiceRequest $request)
     {
 
          // Validate the file input
-    $validated = $request->validate([
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Adjust the file types and size as needed
-        'camera_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation for the camera image
-    ]);
+        $validated = $request->validate([
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Adjust the file types and size as needed
+            'camera_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation for the camera image
+        ]);
 
-    // Handle the image upload if it exists
-    $imagePath = null;
-    if ($request->hasFile('image')) {
-        $image = $request->file('image');
-        $imagePath = $image->store('invoices', 'public'); // Store in the 'invoices' directory within the public disk
-    }
+        // Handle the image upload if it exists
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = $image->store('invoices', 'public'); // Store in the 'invoices' directory within the public disk
+        }
 
-    // Handle the camera image upload
-    $cameraImagePath = null;
-    if ($request->hasFile('camera_image')) {
-        $cameraImage = $request->file('camera_image');
-        $cameraImagePath = $cameraImage->store('invoices/camera_images', 'public');
-    }
+        // Handle the camera image upload
+        $cameraImagePath = null;
+        if ($request->hasFile('camera_image')) {
+            $cameraImage = $request->file('camera_image');
+            $cameraImagePath = $cameraImage->store('invoices/camera_images', 'public');
+        }
 
-    // Create the invoice
-    $invoice = Invoice::create([
-        'invoice_category_id' => $request->invoice_category_id,
-        'entry_date' => $request->entry_date,
-        'amount' => $request->amount,
-        'description' => $request->description,
-        'image' => $imagePath, // Save the image path to the database
-        'camera_image' => $cameraImagePath,
-    ]);
+        // Create the invoice
+        $invoice = Invoice::create([
+            'supplier_id' => $request->supplier_id,
+            'invoice_number' => $request->invoice_number,
+            'entry_date' => $request->entry_date,
+            'amount' => $request->amount,
+            'balance' => $request->amount,
+            'description' => $request->description,
+            'image' => $imagePath, // Save the image path to the database
+            'camera_image' => $cameraImagePath,
+            'created_by' => $request->created_by,
+        ]);
         // $invoice = Invoice::create($request->all());
 
         return redirect()->route('admin.invoices.index');
@@ -75,11 +79,11 @@ class InvoiceController extends Controller
         abort_if(Gate::denies('invoice_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
 
-        $invoice_categories = InvoiceCategory::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $suppliers = Supplier::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $invoice->load('invoice_category', 'created_by');
+        $invoice->load('supplier', 'created_by');
 
-        return view('admin.invoices.edit', compact('invoice_categories', 'invoice'));
+        return view('admin.invoices.edit', compact('suppliers', 'invoice'));
     }
 
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
@@ -121,12 +125,14 @@ class InvoiceController extends Controller
     
         // Update the invoice
         $invoice->update([
-            'invoice_category_id' => $request->invoice_category_id,
+            'supplier_id' => $request->supplier_id,
+            'invoice_number' => $request->invoice_number,
             'entry_date' => $request->entry_date,
             'amount' => $request->amount,
             'description' => $request->description,
-            'image' => $imagePath, // Update the image path in the database
-            'camera_image' => $cameraImagePath, // Update the camera image path
+            'image' => $imagePath,
+            'camera_image' => $cameraImagePath,
+            'created_by' => $request->created_by,
         ]);
     
         return redirect()->route('admin.invoices.index');
@@ -138,7 +144,7 @@ class InvoiceController extends Controller
     {
         abort_if(Gate::denies('invoice_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $invoice->load('invoice_category', 'created_by');
+        $invoice->load('created_by');
 
         return view('admin.invoices.show', compact('invoice'));
     }

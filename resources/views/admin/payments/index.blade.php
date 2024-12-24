@@ -35,10 +35,10 @@
                             <tr>
                                 <th width="10"></th>
                                 <th>{{ trans('cruds.payment.fields.id') }}</th>
-                                <th>{{ trans('cruds.payment.fields.payment_category') }}</th>
+                                <th>{{ trans('cruds.payment.fields.invoice_number') }}</th>
+                                <th>{{ trans('cruds.payment.fields.payment_type') }}</th>
                                 <th>{{ trans('cruds.payment.fields.entry_date') }}</th>
                                 <th>{{ trans('cruds.payment.fields.amount') }}</th>
-                                <th>{{ trans('cruds.payment.fields.description') }}</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
@@ -47,10 +47,10 @@
                                 <tr data-entry-id="{{ $payment->id }}">
                                     <td></td>
                                     <td>{{ $payment->id ?? '' }}</td>
-                                    <td>{{ $payment->payment_category->name ?? '' }}</td>
+                                    <td>{{ $payment->invoice ? $payment->invoice->invoice_number : '' }}</td>
+                                    <td>{{ $payment->payment_type->name ?? '' }}</td>
                                     <td>{{ $payment->entry_date ?? '' }}</td>
                                     <td>{{ $payment->amount ?? '' }}</td>
-                                    <td>{{ $payment->description ?? '' }}</td>
                                     <td>
                                         @can('payment_show')
                                             <a class="btn btn-xs btn-primary" href="{{ route('admin.payments.show', $payment->id) }}">

@@ -34,10 +34,10 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.invoice.fields.invoice_category') }}
+                                            {{ trans('cruds.invoice.fields.invoice_number') }}
                                         </th>
                                         <td>
-                                            {{ $invoice->invoice_category->name ?? '' }}
+                                            {{ $invoice->invoice_number?? '' }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -54,6 +54,14 @@
                                         </th>
                                         <td>
                                             ${{ number_format($invoice->amount, 2) }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            {{ trans('cruds.invoice.fields.balance') }}
+                                        </th>
+                                        <td>
+                                            ${{ number_format($invoice->balance, 2) }}
                                         </td>
                                     </tr>
                                     <tr>

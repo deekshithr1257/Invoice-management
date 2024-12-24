@@ -6,17 +6,16 @@
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="javascript:void(0)">{{ trans('cruds.paymentCategory.title_singular') }}</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">{{ trans('cruds.supplier.title_singular') }}</a></li>
             </ol>
         </div>
     </div>
-
     <div class="container-fluid">
-        @can('payment_category_create')
+        @can('supplier_create')
             <div style="margin-bottom: 10px;" class="row">
                 <div class="col-lg-12">
-                    <a class="btn btn-success" href="{{ route("admin.payment-categories.create") }}">
-                        {{ trans('global.add') }} {{ trans('cruds.paymentCategory.title_singular') }}
+                    <a class="btn btn-success" href="{{ route("admin.suppliers.create") }}">
+                        {{ trans('global.add') }} {{ trans('cruds.supplier.title_singular') }}
                     </a>
                 </div>
             </div>
@@ -24,71 +23,57 @@
 
         <div class="card">
             <div class="card-header">
-                {{ trans('cruds.paymentCategory.title_singular') }} {{ trans('global.list') }}
+                {{ trans('cruds.supplier.title_singular') }} {{ trans('global.list') }}
             </div>
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover datatable datatable-PaymentCategory">
+                    <table class="table table-bordered table-striped table-hover datatable datatable-Supplier">
                         <thead>
                             <tr>
-                                <th width="10">
-
-                                </th>
-                                <th>
-                                    {{ trans('cruds.paymentCategory.fields.id') }}
-                                </th>
-                                <th>
-                                    {{ trans('cruds.paymentCategory.fields.name') }}
-                                </th>
-                                <th>
-                                    &nbsp;
-                                </th>
+                                <th width="10"></th>
+                                <th>{{ trans('cruds.supplier.fields.id') }}</th>
+                                <th>{{ trans('cruds.supplier.fields.name') }}</th>
+                                <th>&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($paymentCategories as $key => $paymentCategory)
-                                <tr data-entry-id="{{ $paymentCategory->id }}">
+                            @foreach($suppliers as $key => $supplier)
+                                <tr data-entry-id="{{ $supplier->id }}">
+                                    <td></td>
+                                    <td>{{ $supplier->id ?? '' }}</td>
+                                    <td>{{ $supplier->name ?? '' }}</td>
                                     <td>
-
-                                    </td>
-                                    <td>
-                                        {{ $paymentCategory->id ?? '' }}
-                                    </td>
-                                    <td>
-                                        {{ $paymentCategory->name ?? '' }}
-                                    </td>
-                                    <td>
-                                        @can('payment_category_show')
-                                            <a class="btn btn-xs btn-primary" href="{{ route('admin.payment-categories.show', $paymentCategory->id) }}">
+                                        @can('supplier_show')
+                                            <a class="btn btn-xs btn-primary" href="{{ route('admin.suppliers.show', $supplier->id) }}">
                                                 {{ trans('global.view') }}
                                             </a>
                                         @endcan
 
-                                        @can('payment_category_edit')
-                                            <a class="btn btn-xs btn-info" href="{{ route('admin.payment-categories.edit', $paymentCategory->id) }}">
+                                        @can('supplier_edit')
+                                            <a class="btn btn-xs btn-info" href="{{ route('admin.suppliers.edit', $supplier->id) }}">
                                                 {{ trans('global.edit') }}
                                             </a>
                                         @endcan
 
-                                        <!-- @can('payment_category_delete')
-                                            <form action="{{ route('admin.payment-categories.destroy', $paymentCategory->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                        <!-- @can('supplier_delete')
+                                            <form action="{{ route('admin.suppliers.destroy', $supplier->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                 <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                             </form>
                                         @endcan -->
 
-                                            @can('payment_category_delete')
-                                                <form action="{{ route('admin.payment-categories.destroy', $paymentCategory->id) }}" method="POST" style="display: inline-block;">
+                                                @can('permission_delete')
+                                                        <form action="{{ route('admin.suppliers.destroy', $supplier->id) }}" method="POST" style="display: inline-block;">
                                                             @csrf
                                                             @method('DELETE')
                                                             <input type="submit" class="btn btn-xs btn-danger delete-btn" value="{{ trans('global.delete') }}">
                                                         </form>
                                                 @endcan
 
-                                    </td>
 
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -100,16 +85,17 @@
 </div>
 
 @endsection
+
 @section('scripts')
 @parent
 <!-- <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('payment_category_delete')
+@can('supplier_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.payment-categories.massDestroy') }}",
+    url: "{{ route('admin.suppliers.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
@@ -139,7 +125,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  $('.datatable-PaymentCategory:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  $('.datatable-Supplier:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();
@@ -165,7 +151,7 @@
         
         Swal.fire({
             title: 'Are you sure?',
-            text: "Do you want to delete this Payment Categories?",
+            text: "Do you want to delete this Suppliers?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Yes, delete it!',

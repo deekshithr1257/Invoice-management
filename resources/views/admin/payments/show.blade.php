@@ -32,10 +32,27 @@
                             </tr>
                             <tr>
                                 <th>
-                                    {{ trans('cruds.payment.fields.payment_category') }}
+                                    {{ trans('cruds.payment.fields.invoice_details') }}
                                 </th>
                                 <td>
-                                    {{ $payment->payment_category->name ?? '' }}
+                                    <table>
+                                        <tr>
+                                            <td>{{ trans('cruds.payment.fields.invoice_number') }} </td>
+                                            <td>{{ $payment->invoice->invoice_number ?? '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ trans('cruds.payment.fields.invoice_total_amount') }}</td>
+                                            <td>{{ $payment->invoice->amount ?? '' }}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.payment.fields.payment_type') }}
+                                </th>
+                                <td>
+                                    {{ $payment->payment_type->name ?? '' }}
                                 </td>
                             </tr>
                             <tr>

@@ -6,8 +6,8 @@
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('admin.vendors.index') }}">{{ trans('cruds.vendor.title_singular') }}</a></li>
-                <li class="breadcrumb-item active">{{ trans('global.show') }} {{ trans('cruds.vendor.title_singular') }}</li>
+                <li class="breadcrumb-item"><a href="{{ route('admin.suppliers.index') }}">{{ trans('cruds.supplier.title_singular') }}</a></li>
+                <li class="breadcrumb-item active">{{ trans('global.show') }} {{ trans('cruds.supplier.title_singular') }}</li>
             </ol>
         </div>
     </div>
@@ -15,7 +15,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                {{ trans('global.show') }} {{ trans('cruds.vendor.title_singular') }}
+                {{ trans('global.show') }} {{ trans('cruds.supplier.title_singular') }}
             </div>
 
             <div class="card-body">
@@ -24,18 +24,18 @@
                         <tbody>
                             <tr>
                                 <th>
-                                    {{ trans('cruds.vendor.fields.id') }}
+                                    {{ trans('cruds.supplier.fields.id') }}
                                 </th>
                                 <td>
-                                    {{ $vendor->id }}
+                                    {{ $supplier->id }}
                                 </td>
                             </tr>
                             <tr>
                                 <th>
-                                    {{ trans('cruds.vendor.fields.name') }}
+                                    {{ trans('cruds.supplier.fields.name') }}
                                 </th>
                                 <td>
-                                    {{ $vendor->name }}
+                                    {{ $supplier->name }}
                                 </td>
                             </tr>
                         </tbody>

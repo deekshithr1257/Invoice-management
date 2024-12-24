@@ -25,16 +25,16 @@
                     @csrf
                     @method('PUT')
                     
-                    <div class="form-group {{ $errors->has('payment_category_id') ? 'has-error' : '' }}">
-                        <label for="payment_category">{{ trans('cruds.payment.fields.payment_category') }}</label>
-                        <select name="payment_category_id" id="payment_category" class="form-control select2">
-                            @foreach($payment_categories as $id => $payment_category)
-                                <option value="{{ $id }}" {{ (isset($payment) && $payment->payment_category ? $payment->payment_category->id : old('payment_category_id')) == $id ? 'selected' : '' }}>{{ $payment_category }}</option>
+                    <div class="form-group {{ $errors->has('payment_type_id') ? 'has-error' : '' }}">
+                        <label for="payment_type">{{ trans('cruds.payment.fields.payment_type') }}</label>
+                        <select name="payment_type_id" id="payment_type" class="form-control select2">
+                            @foreach($payment_types as $id => $payment_type)
+                                <option value="{{ $id }}" {{ (isset($payment) && $payment->payment_type ? $payment->payment_type->id : old('payment_type_id')) == $id ? 'selected' : '' }}>{{ $payment_type }}</option>
                             @endforeach
                         </select>
-                        @if($errors->has('payment_category_id'))
+                        @if($errors->has('payment_type_id'))
                             <em class="invalid-feedback">
-                                {{ $errors->first('payment_category_id') }}
+                                {{ $errors->first('payment_type_id') }}
                             </em>
                         @endif
                     </div>

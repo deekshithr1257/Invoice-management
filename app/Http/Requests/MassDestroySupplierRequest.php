@@ -2,16 +2,16 @@
 
 namespace App\Http\Requests;
 
-use App\PaymentCategory;
+use App\Supplier;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassDestroyPaymentCategoryRequest extends FormRequest
+class MassDestroySupplierRequest extends FormRequest
 {
     public function authorize()
     {
-        abort_if(Gate::denies('payment_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('supplier_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }
@@ -20,7 +20,7 @@ class MassDestroyPaymentCategoryRequest extends FormRequest
     {
         return [
             'ids'   => 'required|array',
-            'ids.*' => 'exists:payment_categories,id',
+            'ids.*' => 'exists:supplier,id',
         ];
     }
 }

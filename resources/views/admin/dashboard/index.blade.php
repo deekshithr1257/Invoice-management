@@ -8,7 +8,7 @@
                     <div class="card-body">
                         <h3 class="card-title text-white">Invoice</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white">$ {{ $total }}</h2>
+                            <h2 class="text-white"><i class="fa fa-pound-sign"></i>{{ $total }}</h2>
                             <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
@@ -20,7 +20,7 @@
                     <div class="card-body">
                         <h3 class="card-title text-white">Payment</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white">$ {{ $paid }}</h2>
+                            <h2 class="text-white"><i class="fa fa-pound-sign"></i>{{ $paid }}</h2>
                             <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
@@ -32,7 +32,7 @@
                     <div class="card-body">
                         <h3 class="card-title text-white">Balance</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white">$  {{ $balance }}</h2>
+                            <h2 class="text-white"><i class="fa fa-pound-sign"></i>{{ $balance }}</h2>
                             <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fa fa-balance-scale"></i></span>
@@ -73,8 +73,8 @@
                                             <tr>
                                                 <td><span>{{ $invoice->supplier ? $invoice->supplier->name : "" }}</span></td>
                                                 <td><span>{{ $invoice->invoice_number ?? "" }}</span></td>
-                                                <td><span>$ {{ $invoice->amount ?? "" }}</span></td>
-                                                <td><span>$ {{ $invoice->balance ?? "" }}</span></td>
+                                                <td><span><i class="fa fa-pound-sign"></i>{{ $invoice->amount ?? "" }}</span></td>
+                                                <td><span><i class="fa fa-pound-sign"></i>{{ $invoice->balance ?? "" }}</span></td>
                                                 @php
                                                     if($invoice->balance == 0){
                                                         $width = 100;

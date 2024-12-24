@@ -19,7 +19,7 @@ class InvoiceReportController extends Controller
         $to      = clone $from;
         $to->day = $to->daysInMonth;
 
-        $invoices = Invoice::with('invoice_category')
+        $invoices = Invoice::with('supplier')
             ->whereBetween('entry_date', [$from, $to]);
 
         $payments = Payment::with('payment_type')
@@ -27,7 +27,7 @@ class InvoiceReportController extends Controller
 
         $invoicesTotal   = $invoices->sum('amount');
         $paymentsTotal    = $payments->sum('amount');
-        $groupedInvoices = $invoices->whereNotNull('invoice_category_id')->orderBy('amount', 'desc')->get()->groupBy('invoice_category_id');
+        $groupedInvoices = $invoices->whereNotNull('supplier_id')->orderBy('amount', 'desc')->get()->groupBy('supplier_id');
         $groupedPayments  = $payments->whereNotNull('payment_type_id')->orderBy('amount', 'desc')->get()->groupBy('payment_type_id');
         $profit          = $paymentsTotal - $invoicesTotal;
 
@@ -35,14 +35,14 @@ class InvoiceReportController extends Controller
 
         foreach ($groupedInvoices as $exp) {
             foreach ($exp as $line) {
-                if (!isset($invoicesSummary[$line->invoice_category->name])) {
-                    $invoicesSummary[$line->invoice_category->name] = [
-                        'name'   => $line->invoice_category->name,
+                if (!isset($invoicesSummary[$line->supplier->name])) {
+                    $invoicesSummary[$line->supplier->name] = [
+                        'name'   => $line->supplier->name,
                         'amount' => 0,
                     ];
                 }
 
-                $invoicesSummary[$line->invoice_category->name]['amount'] += $line->amount;
+                $invoicesSummary[$line->supplier->name]['amount'] += $line->amount;
             }
         }
 

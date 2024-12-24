@@ -181,8 +181,8 @@ return [
         ],
     ],
     'invoiceReport'     => [
-        'title'          => 'Monthly report',
-        'title_singular' => 'Monthly report',
+        'title'          => 'Report',
+        'title_singular' => 'Report',
         'reports'        => [
             'title'             => 'Reports',
             'title_singular'    => 'Report',

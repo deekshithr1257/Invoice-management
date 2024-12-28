@@ -22,6 +22,7 @@ class Invoice extends Model
 
     protected $fillable = [
         'supplier_id',
+        'store_id',
         'invoice_number',
         'amount',
         'balance',
@@ -37,6 +38,11 @@ class Invoice extends Model
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id');
+    }
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class, 'store_id');
     }
 
     public function getEntryDateAttribute($value)

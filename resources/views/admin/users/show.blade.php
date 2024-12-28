@@ -48,10 +48,12 @@
                             </tr>
                             <tr>
                                 <th>
-                                    {{ trans('cruds.user.fields.email_verified_at') }}
+                                    {{ trans('cruds.user.fields.stores') }}
                                 </th>
                                 <td>
-                                    {{ $user->email_verified_at }}
+                                    @foreach($user->stores as $store)
+                                        <span class="label label-info label-many">{{ $store->name }}</span>
+                                    @endforeach
                                 </td>
                             </tr>
                             <tr>

@@ -11,6 +11,7 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('supplier_id')->unsigned()->nullable(false);
+            $table->integer('store_id')->unsigned()->nullable(false);
             $table->string('invoice_number')->nullable(false);
             $table->date('entry_date')->nullable();
             $table->decimal('amount', 15, 2)->nullable();
@@ -23,6 +24,7 @@ class CreateInvoicesTable extends Migration
         
             // Add foreign keys if necessary
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
+            $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });
     }

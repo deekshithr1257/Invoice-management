@@ -2,6 +2,11 @@
 @section('content')
 <div class="content-body">
     <div class="container-fluid mt-3">
+        @if(session('alert'))
+            <div class="alert alert-warning">
+                {{ session('alert') }}
+            </div>
+        @endif
         <div class="row">
             <div class="col-lg-3 col-sm-6">
                 <div class="card gradient-1">
@@ -11,7 +16,7 @@
                             <h2 class="text-white"><i class="fa fa-pound-sign"></i>{{ $total }}</h2>
                             <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
                         </div>
-                        <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
+                        <span class="float-right display-5 opacity-5"><i class="fas fa-file-invoice"></i></span>
                     </div>
                 </div>
             </div>

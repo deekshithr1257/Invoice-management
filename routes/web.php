@@ -26,7 +26,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('suppliers/destroy', 'SupplierController@massDestroy')->name('suppliers.massDestroy');
     Route::resource('suppliers', 'SupplierController');
 
-    // Paymentcategories
+    // Suppliers
+    Route::delete('stores/destroy', 'StoreController@massDestroy')->name('stores.massDestroy');
+    Route::resource('stores', 'StoreController');
+ 
+     // Paymentcategories
     Route::delete('payment-types/destroy', 'PaymentTypeController@massDestroy')->name('payment-types.massDestroy');
     Route::resource('payment-types', 'PaymentTypeController');
 
@@ -41,4 +45,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Invoicereports
     Route::delete('invoice-reports/destroy', 'InvoiceReportController@massDestroy')->name('invoice-reports.massDestroy');
     Route::resource('invoice-reports', 'InvoiceReportController');
+
+    Route::post('set-store', 'StoreController@setStore')->name('set.store');
 });

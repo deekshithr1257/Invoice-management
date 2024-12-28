@@ -18,21 +18,42 @@ class DashboardController extends Controller
     public function index()
     {
         abort_if(Gate::denies('dashboard_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        
+        if(session('selected_store_id')){
+            $storeId = session('selected_store_id');
+        }else{
+            session()->flash('alert', 'Please select a store before proceeding.');
+        }
         $user = auth()->user();
 
         // Admin can view all data
         if ($user->role === 'admin') {
-            $total = Invoice::sum('amount');
-            $balance = Invoice::sum('balance');
-            $paid = Payment::sum('amount');
-            $invoices = Invoice::all();
+            $total = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
+                                $query->where('store_id', $storeId);
+                            })->sum('amount');
+            $balance = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
+                                $query->where('store_id', $storeId);
+                            })->sum('balance');
+            $paid = Payment::when(session('selected_store_id'), function ($query, $storeId) {
+                                $query->where('store_id', $storeId);
+                            })->sum('amount');
+            $invoices = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
+                                $query->where('store_id', $storeId);
+                            })->all();
         } else {
             // Store manager can view only their data
-            $total = Invoice::where('created_by', $user->id)->sum('amount');
-            $balance = Invoice::where('created_by', $user->id)->sum('balance');
-            $paid = Payment::where('created_by', $user->id)->sum('amount');
-            $invoices = Invoice::where('created_by', $user->id)->get();
+            $total = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
+                                $query->where('store_id', $storeId);
+                            })->where('created_by', $user->id)->sum('amount');
+            $balance = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
+                                $query->where('store_id', $storeId);
+                            })->where('created_by', $user->id)->sum('balance');
+            $paid = Payment::when(session('selected_store_id'), function ($query, $storeId) {
+                                $query->where('store_id', $storeId);
+                            })->where('created_by', $user->id)->sum('amount');
+            $invoices = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
+                                $query->where('store_id', $storeId);
+                            })->where('created_by', $user->id)->get();
         }
 
         // Calculate payment rate

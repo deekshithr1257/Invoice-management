@@ -42,15 +42,6 @@
                     </ul>
                 </li>
             @endcan
-
-            @can('invoice_category_access')
-                <li>
-                    <a href="{{ route("admin.invoice-categories.index") }}" class="nav-link {{ request()->is('admin/invoice-categories') || request()->is('admin/invoice-categories/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-list nav-icon"></i>
-                        <span class="nav-text">{{ trans('cruds.invoiceCategory.title') }}<span class="nav-text">
-                    </a>
-                </li>
-            @endcan
             @can('payment_type_access')
                 <li>
                     <a href="{{ route("admin.payment-types.index") }}" class="nav-link {{ request()->is('admin/payment-types') || request()->is('admin/payment-types/*') ? 'active' : '' }}">
@@ -62,7 +53,7 @@
             @can('invoice_access')
                 <li>
                     <a href="{{ route("admin.invoices.index") }}" class="nav-link {{ request()->is('admin/invoices') || request()->is('admin/invoices/*') ? 'active' : '' }}">
-                        <i class="fa fa-file-invoice nav-icon"></i>
+                        <i class="fas fa-file-invoice nav-icon"></i>
                         <span class="nav-text">{{ trans('cruds.invoice.title') }}</span>
                     </a>
                 </li>
@@ -72,6 +63,14 @@
                     <a href="{{ route("admin.suppliers.index") }}" class="nav-link {{ request()->is('admin/suppliers') || request()->is('admin/suppliers/*') ? 'active' : '' }}">
                         <i class="fa fa-truck nav-icon"></i>
                         <span class="nav-text">{{ trans('cruds.supplier.title') }}</span>
+                    </a>
+                </li>
+            @endcan
+            @can('store_access')
+                <li>
+                    <a href="{{ route("admin.stores.index") }}" class="nav-link {{ request()->is('admin/stores') || request()->is('admin/stores/*') ? 'active' : '' }}">
+                        <i class="fas fa-store nav-icon"></i>
+                        <span class="nav-text">{{ trans('cruds.store.title') }}</span>
                     </a>
                 </li>
             @endcan

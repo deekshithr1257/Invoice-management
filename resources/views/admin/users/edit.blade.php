@@ -85,6 +85,29 @@
                         </p>
                     </div>
 
+                    <div class="form-group {{ $errors->has('stores') ? 'has-error' : '' }}">
+                        <label for="stores" class="d-flex justify-content-between align-items-center">
+                            <span>{{ trans('cruds.user.fields.stores') }}*</span>
+                            <div>
+                            <span  type="button" class="btn btn-info btn-xs select-all-stores">{{ trans('global.select_all') }}</span>
+                            <span  type="button" class="btn btn-info btn-xs deselect-all-stores">{{ trans('global.deselect_all') }}</span>
+                            </div>
+                        </label>
+                        <select name="stores[]" id="stores" class="form-control select2" multiple="multiple" required>
+                            @foreach($stores as $store)
+                                <option value="{{ $store->id }}" {{ (in_array($store->id, old('stores', [])) || isset($user) && $user->stores->contains($store->id)) ? 'selected' : '' }}>{{ $store->name }}</option>
+                            @endforeach
+                        </select>
+                        @if($errors->has('stores'))
+                            <em class="invalid-feedback">
+                                {{ $errors->first('stores') }}
+                            </em>
+                        @endif
+                        <p class="helper-block">
+                            {{ trans('cruds.user.fields.stores_helper') }}
+                        </p>
+                    </div>
+
                     <div>
                         <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
                     </div>
@@ -121,6 +144,29 @@
         $('.deselect-all').click(function() {
             // Clear the selection
             $('#roles').val([]).trigger('change'); // Update Select2
+        });
+
+        // Initialize Select2 on the stores dropdown
+        $('#stores').select2({
+            placeholder: "Select stores",
+            allowClear: true,
+            width: '100%' // Make the select take the full width of the container
+        });
+
+        // Select All
+        $('.select-all-stores').click(function() {
+            // Select all options by setting the value of the select element
+            var allStores = [];
+            $('#stores option').each(function() {
+                allStores.push($(this).val());
+            });
+            $('#stores').val(allStores).trigger('change'); // Update Select2
+        });
+
+        // Deselect All
+        $('.deselect-all-stores').click(function() {
+            // Clear the selection
+            $('#stores').val([]).trigger('change'); // Update Select2
         });
     });
 </script>

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Store;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer('*', function ($view) {
+            $stores = Store::where('status', true)->get(); // Only active stores
+            $view->with('stores', $stores);
+        });
     }
 }

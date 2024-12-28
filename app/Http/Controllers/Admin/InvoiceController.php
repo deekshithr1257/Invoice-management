@@ -19,7 +19,9 @@ class InvoiceController extends Controller
     {
         abort_if(Gate::denies('invoice_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $invoices = Invoice::all();
+        $invoices = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
+                                    $query->where('store_id', $storeId);
+                                })->get();
 
         return view('admin.invoices.index', compact('invoices'));
     }
@@ -36,6 +38,12 @@ class InvoiceController extends Controller
     public function store(StoreInvoiceRequest $request)
     {
 
+        if(session('selected_store_id')){
+            $storeId = session('selected_store_id');
+        }else{
+            session()->flash('alert', 'Please select a store before proceeding.');
+            return redirect()->back();
+        }
          // Validate the file input
         $validated = $request->validate([
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Adjust the file types and size as needed
@@ -59,6 +67,7 @@ class InvoiceController extends Controller
         // Create the invoice
         $invoice = Invoice::create([
             'supplier_id' => $request->supplier_id,
+            'store_id' => $storeId,
             'invoice_number' => $request->invoice_number,
             'entry_date' => $request->entry_date,
             'amount' => $request->amount,
@@ -126,6 +135,7 @@ class InvoiceController extends Controller
         // Update the invoice
         $invoice->update([
             'supplier_id' => $request->supplier_id,
+            'store_id' => $request->store_id,
             'invoice_number' => $request->invoice_number,
             'entry_date' => $request->entry_date,
             'amount' => $request->amount,

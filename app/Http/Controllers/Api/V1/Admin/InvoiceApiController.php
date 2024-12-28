@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use App\Http\Resources\Admin\InvoiceResource;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

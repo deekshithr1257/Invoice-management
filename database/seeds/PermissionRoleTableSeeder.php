@@ -13,6 +13,10 @@ class PermissionRoleTableSeeder extends Seeder
         $store_manager_permissions = $admin_permissions->filter(function ($permission) {
             return substr($permission->title, 0, 5) != 'user_' 
                 && substr($permission->title, 0, 5) != 'role_' 
+                && $permission->title != 'store_create'
+                && $permission->title != 'store_edit'
+                && $permission->title != 'store_delete'
+                && $permission->title != 'store_access'
                 && substr($permission->title, 0, 11) != 'permission_' 
                 && !str_ends_with($permission->title, '_delete');
         });

@@ -7,7 +7,7 @@ use App\Http\Requests\StorePaymentTypeRequest;
 use App\Http\Requests\UpdatePaymentTypeRequest;
 use App\Http\Resources\Admin\PaymentTypeResource;
 use App\PaymentType;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

@@ -2,16 +2,16 @@
 
 namespace App\Http\Requests;
 
-use App\Supplier;
-use Illuminate\Support\Facades\Gate;
+use App\Store;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
-class UpdateSupplierRequest extends FormRequest
+class UpdateStoreRequest extends FormRequest
 {
     public function authorize()
     {
-        abort_if(Gate::denies('supplier_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('store_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }

@@ -42,6 +42,12 @@
                                             {{ trans('cruds.invoice.fields.invoice_number') }}
                                         </th>
                                         <th>
+                                            {{ trans('cruds.invoice.fields.store') }}
+                                        </th>
+                                        <th>
+                                            {{ trans('cruds.invoice.fields.supplier') }}
+                                        </th>
+                                        <th>
                                             {{ trans('cruds.invoice.fields.entry_date') }}
                                         </th>
                                         <th>
@@ -63,6 +69,12 @@
                                             </td>
                                             <td>
                                                 {{ $invoice->invoice_number ?? '' }}
+                                            </td>
+                                            <td>
+                                                {{ $invoice->store ? $invoice->store->name : '' }}
+                                            </td>
+                                            <td>
+                                                {{ $invoice->supplier ?  $invoice->supplier->name : '' }}
                                             </td>
                                             <td>
                                                 {{ $invoice->entry_date ?? '' }}

@@ -19,7 +19,9 @@ class PaymentController extends Controller
     {
         abort_if(Gate::denies('payment_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $payments = Payment::all();
+        $payments = Payment::when(session('selected_store_id'), function ($query, $storeId) {
+                                $query->where('store_id', $storeId);
+                            })->get();
 
         return view('admin.payments.index', compact('payments'));
     }
@@ -29,7 +31,9 @@ class PaymentController extends Controller
         abort_if(Gate::denies('payment_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $payment_types = PaymentType::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-        $invoices = Invoice::all()->pluck('invoice_number', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $invoices = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
+                                $query->where('store_id', $storeId);
+                            })->get()->pluck('invoice_number', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         return view('admin.payments.create', compact('payment_types', 'invoices'));
     }

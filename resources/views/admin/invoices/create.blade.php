@@ -2,7 +2,7 @@
 @section('content')
 
 <link href="{{asset('plugins/fileuploads/css/fileupload.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{asset('plugins/fancyuploder/fancy_fileupload.css')}}" rel="stylesheet" />
+<!-- <link href="{{asset('plugins/fancyuploder/fancy_fileupload.css')}}" rel="stylesheet" /> -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 

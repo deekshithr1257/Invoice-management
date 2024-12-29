@@ -63,7 +63,6 @@ class InvoiceController extends Controller
             $cameraImage = $request->file('camera_image');
             $cameraImagePath = $cameraImage->store('invoices/camera_images', 'public');
         }
-
         // Create the invoice
         $invoice = Invoice::create([
             'supplier_id' => $request->supplier_id,
@@ -78,6 +77,7 @@ class InvoiceController extends Controller
             'created_by' => $request->created_by,
         ]);
         // $invoice = Invoice::create($request->all());
+      
 
         return redirect()->route('admin.invoices.index');
     }
@@ -97,6 +97,7 @@ class InvoiceController extends Controller
 
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
+        $storeId = session('selected_store_id');
         // Validate the file inputs
         $validated = $request->validate([
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation for uploaded images
@@ -135,14 +136,14 @@ class InvoiceController extends Controller
         // Update the invoice
         $invoice->update([
             'supplier_id' => $request->supplier_id,
-            'store_id' => $request->store_id,
+            'store_id' => $storeId,
             'invoice_number' => $request->invoice_number,
             'entry_date' => $request->entry_date,
             'amount' => $request->amount,
             'description' => $request->description,
             'image' => $imagePath,
             'camera_image' => $cameraImagePath,
-            'created_by' => $request->created_by,
+            // 'created_by' => $request->created_by,
         ]);
     
         return redirect()->route('admin.invoices.index');

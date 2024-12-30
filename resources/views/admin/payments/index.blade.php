@@ -34,25 +34,26 @@
                         <thead>
                             <tr>
                                 <th width="10"></th>
-                                <th>{{ trans('cruds.payment.fields.id') }}</th>
+                                <!-- <th>{{ trans('cruds.payment.fields.id') }}</th> -->
                                 <th>{{ trans('cruds.payment.fields.invoice_number') }}</th>
                                 <th>{{ trans('cruds.payment.fields.payment_type') }}</th>
-                                <th>{{ trans('cruds.payment.fields.entry_date') }}</th>
+                                <!-- <th>{{ trans('cruds.payment.fields.entry_date') }}</th> -->
                                 <th>{{ trans('cruds.payment.fields.amount') }}</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($payments as $payment)
-                                <tr data-entry-id="{{ $payment->id }}">
+                                <tr data-entry-id="{{ $payment->id }}" nclick="window.location='{{ route('admin.payments.show', $payment->id) }}';" 
+                                style="cursor: pointer;">
                                     <td></td>
-                                    <td>{{ $payment->id ?? '' }}</td>
+                                    <!-- <td>{{ $payment->id ?? '' }}</td> -->
                                     <td>{{ $payment->invoice ? $payment->invoice->invoice_number : '' }}</td>
                                     <td>{{ $payment->payment_type->name ?? '' }}</td>
-                                    <td>{{ $payment->entry_date ?? '' }}</td>
+                                    <!-- <td>{{ $payment->entry_date ?? '' }}</td> -->
                                     <td>{{ $payment->amount ?? '' }}</td>
-                                    <td>
-                                        @can('payment_show')
+                                    <!-- <td> -->
+                                        <!-- @can('payment_show')
                                             <a class="btn btn-xs btn-primary" href="{{ route('admin.payments.show', $payment->id) }}">
                                                 {{ trans('global.view') }}
                                             </a>
@@ -62,7 +63,7 @@
                                             <a class="btn btn-xs btn-info" href="{{ route('admin.payments.edit', $payment->id) }}">
                                                 {{ trans('global.edit') }}
                                             </a>
-                                        @endcan
+                                        @endcan -->
 
                                         <!-- @can('payment_delete')
                                         <button class="btn btn-xs btn-danger delete-payment" data-id="{{ $payment->id }}">
@@ -70,15 +71,15 @@
                                         </button>
                                          @endcan -->
 
-                                         @can('payment_delete')
+                                         <!-- @can('payment_delete')
                                                 <form action="{{ route('admin.payments.destroy', $payment->id) }}" method="POST" style="display: inline-block;">
                                                             @csrf
                                                             @method('DELETE')
                                                             <input type="submit" class="btn btn-xs btn-danger delete-btn" value="{{ trans('global.delete') }}">
                                                         </form>
-                                                @endcan
+                                                @endcan -->
 
-                                    </td>
+                                    <!-- </td> -->
                                 </tr>
                             @endforeach
                         </tbody>

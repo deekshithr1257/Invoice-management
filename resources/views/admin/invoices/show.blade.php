@@ -71,10 +71,40 @@
                                         <td>
                                             {{ $invoice->description }}
                                         </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                    <th>
+                                           Action
+                                        </th>
+                                    <td>
+
+                                                @can('invoice_edit')
+                                                    <a class="btn btn-xs btn-info mt-1 mt-md-0" href="{{ route('admin.invoices.edit', $invoice->id) }}">
+                                                        {{ trans('global.edit') }}
+                                                    </a>
+                                                @endcan
+
+
+                                                @can('invoice_delete')
+                                                <form action="{{ route('admin.invoices.destroy', $invoice->id) }}" method="POST" style="display: inline-block;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="submit" class="btn btn-xs btn-danger mt-1 mt-md-0 delete-btn" value="{{ trans('global.delete') }}">
+                                                        </form>
+                                                @endcan
+
+                                                
+                                                    <a class="btn btn-xs btn-success mt-2 mt-md-0" >
+                                                        Payment
+                                                    </a>
+
+
+                                            </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <a style="margin-top:20px;" class="btn btn-default" href="{{ url()->previous() }}">
+                            <a href="{{ url()->previous() }}" class="btn btn-secondary" style="margin-top: 20px;">
                                 {{ trans('global.back_to_list') }}
                             </a>
                         </div>
@@ -85,3 +115,34 @@
     </div>
 </div>
 @endsection
+
+<script>
+    // Attach the `myDelete` function to all delete buttons once the page is loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.delete-btn').forEach(function(button) {
+            button.addEventListener('click', myDelete);  // Add click event to each delete button
+        });
+    });
+
+    // JavaScript function to handle the deletion process
+    function myDelete(ev) {
+        ev.preventDefault(); // Prevent the default form submission
+        console.log('Delete button clicked');  // This will log when the button is clicked
+        var form = ev.currentTarget.closest('form');
+        
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to delete this Invoice?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log('Form will be submitted'); // This will log if the form is confirmed for submission
+                form.submit();
+            }
+        });
+    }
+</script>

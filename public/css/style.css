@@ -14746,5 +14746,103 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
     padding-left: 20px !important;
   }
 
+  /*My Changes */
+
+/* Base Styles */
+.header-select {
+  font-size: 14px; /* Adjust font size */
+  padding: 8px 12px; /* Add padding for better clickability */
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #f8f9fa; /* Light gray background */
+  color: #333; /* Text color */
+  transition: all 0.3s ease; /* Smooth hover effect */
+  outline: none; /* Remove default outline */
+  width: 250px; /* Set a fixed width for desktop */
+  max-width: 100%; /* Ensure it doesn’t overflow the parent */
+}
+
+
+/* Focus State */
+.header-select:focus {
+  border-color: #007bff; /* Focus border color */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a shadow for focus */
+}
+
+/* Option Styling */
+.header-select option {
+  color: #333; /* Text color for options */
+  background-color: #fff; /* Background color for options */
+  padding: 10px; /* Add padding to options */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .header-select {
+      font-size: 12px; /* Smaller font size for mobile */
+      padding: 6px 10px; /* Reduced padding */
+      width: 100%; /* Make it full width on smaller screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .header-select {
+      font-size: 12px; /* Smaller font size for smaller screens */
+      padding: 4px 8px; /* Even smaller padding */
+      width: 145px; /* Full width for mobile */
+  }
+}
+
+.brand-logo {
+  display: flex;
+  justify-content: center;  /* Center the logo */
+  align-items: center;  /* Align vertically */
+  height: 100%;
+  width: 100%;
+}
+
+/* Logo image to fully fill the parent container */
+.logo-img {
+  width: 100%;  /* Fill the container width */
+  height: 100%; /* Fill the container height */
+  object-fit: contain;  /* Ensure aspect ratio is maintained while filling the container */
+  object-position: center;  /* Keep the logo centered */
+}
+
+/* Optional: Make the logo maintain aspect ratio while filling */
+.logo-abbr img,
+.logo-compact img,
+.brand-title img {
+  width: 100%; /* Make sure image stretches to fill width */
+  height: 100%; /* Ensure image stretches to fill height */
+}
+
+@media (max-width: 576px) {
+  .nav-header .brand-logo a {
+    padding: unset;
+  }
+
+  .nav-header .logo-compact {
+    display: unset;
+  }
+
+   .nav-header .logo-abbr {
+    display: none !important;
+  }
+}
+ .nav-header {
+  background-color: #f3f3f9 !important;
+}
+
+.action-button {
+  margin: 0 10px 10px 0; /* Horizontal and vertical spacing */
+}
+
+@media (min-width: 768px) {
+  .action-button {
+      margin: 0 10px; /* Horizontal spacing only for desktop */
+  }
+}
+
 
 /*# sourceMappingURL=style.css.map */

@@ -23,106 +23,46 @@
     <!-- row -->
 
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title"> {{ trans('cruds.invoice.title_singular') }} {{ trans('global.list') }}</h4>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered zero-configuration">
-                                <thead>
-                                    <tr>
-                                        <th width="10">
-
-                                        </th>
-                                        <th>
-                                            {{ trans('cruds.invoice.fields.id') }}
-                                        </th>
-                                        <th>
-                                            {{ trans('cruds.invoice.fields.invoice_number') }}
-                                        </th>
-                                        <th>
-                                            {{ trans('cruds.invoice.fields.store') }}
-                                        </th>
-                                        <th>
-                                            {{ trans('cruds.invoice.fields.supplier') }}
-                                        </th>
-                                        <th>
-                                            {{ trans('cruds.invoice.fields.entry_date') }}
-                                        </th>
-                                        <th>
-                                            {{ trans('cruds.invoice.fields.amount') }}
-                                        </th>
-                                        <th>
-                                            &nbsp;
-                                        </th>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title"> {{ trans('cruds.invoice.title_singular') }} {{ trans('global.list') }}</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered zero-configuration">
+                            <thead>
+                                <tr>
+                                    <th width="10"></th>
+                                    <th>{{ trans('cruds.invoice.fields.invoice_number') }}</th>
+                                    <!-- <th>{{ trans('cruds.invoice.fields.store') }}</th> -->
+                                    <th>{{ trans('cruds.invoice.fields.supplier') }}</th>
+                                    <th>{{ trans('cruds.invoice.fields.amount') }}</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($invoices as $key => $invoice)
+                                    <tr 
+                                        data-entry-id="{{ $invoice->id }}" 
+                                        onclick="window.location='{{ route('admin.invoices.show', $invoice->id) }}';" 
+                                        style="cursor: pointer;"
+                                    >
+                                        <td></td>
+                                        <td>{{ $invoice->invoice_number ?? '' }}</td>
+                                        <!-- <td>{{ $invoice->store ? $invoice->store->name : '' }}</td> -->
+                                        <td>{{ $invoice->supplier ? $invoice->supplier->name : '' }}</td>
+                                        <td>{{ $invoice->amount ?? '' }}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($invoices as $key => $invoice)
-                                        <tr data-entry-id="{{ $invoice->id }}">
-                                            <td>
-
-                                            </td>
-                                            <td>
-                                                {{ $invoice->id ?? '' }}
-                                            </td>
-                                            <td>
-                                                {{ $invoice->invoice_number ?? '' }}
-                                            </td>
-                                            <td>
-                                                {{ $invoice->store ? $invoice->store->name : '' }}
-                                            </td>
-                                            <td>
-                                                {{ $invoice->supplier ?  $invoice->supplier->name : '' }}
-                                            </td>
-                                            <td>
-                                                {{ $invoice->entry_date ?? '' }}
-                                            </td>
-                                            <td>
-                                                {{ $invoice->amount ?? '' }}
-                                            </td>
-                                            <td>
-                                                @can('invoice_show')
-                                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.invoices.show', $invoice->id) }}">
-                                                        {{ trans('global.view') }}
-                                                    </a>
-                                                @endcan
-
-                                                @can('invoice_edit')
-                                                    <a class="btn btn-xs btn-info" href="{{ route('admin.invoices.edit', $invoice->id) }}">
-                                                        {{ trans('global.edit') }}
-                                                    </a>
-                                                @endcan
-
-                                                <!-- @can('invoice_delete')
-                                                    <form action="{{ route('admin.invoices.destroy', $invoice->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                                        <input type="hidden" name="_method" value="DELETE">
-                                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                                    </form>
-                                                @endcan -->
-
-                                                @can('invoice_delete')
-                                                <form action="{{ route('admin.invoices.destroy', $invoice->id) }}" method="POST" style="display: inline-block;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <input type="submit" class="btn btn-xs btn-danger delete-btn" value="{{ trans('global.delete') }}">
-                                                        </form>
-                                                @endcan
-
-                                            </td>
-
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
 </div>
 @endsection
 @section('scripts')

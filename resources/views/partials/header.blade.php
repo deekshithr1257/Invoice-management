@@ -8,7 +8,7 @@
                 <img src="{{ asset('images/logo-compact.jpg') }}" alt="Compact Logo">
             </span>
             <span class="brand-title">
-                <img height="43px" width="93px" src="{{ asset('images/logo-text.jpg') }}" alt="Brand Title">
+                <img src="{{ asset('images/logo-text.jpg') }}" alt="Brand Title">
             </span>
         </a>
     </div>
@@ -150,17 +150,22 @@
                     </div>
                 </li> -->
                 <li class="icons dropdown d-md-flex">
-                    <form method="POST" action="{{ route('admin.set.store') }}" class="form-inline">
-                        @csrf
-                        <select name="store_id" class="header-select" onchange="this.form.submit()">
-                            <!-- <option value="">All Stores</option> -->
-                            @foreach($stores as $store)
-                                <option value="{{ $store->id }}" {{ session('selected_store_id') == $store->id ? 'selected' : '' }}>
-                                    {{ $store->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </form>
+                            <form method="POST" action="{{ route('admin.set.store') }}" class="form-inline">
+                                @csrf
+                                @if($stores->isEmpty())
+                                    <select name="store_id" class="header-select" disabled>
+                                        <option value="" selected>Please create your</option>
+                                    </select>
+                                @else
+                                    <select name="store_id" class="header-select" onchange="this.form.submit()">
+                                        @foreach($stores as $store)
+                                            <option value="{{ $store->id }}" {{ session('selected_store_id') == $store->id ? 'selected' : '' }}>
+                                                {{ $store->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                @endif
+                            </form>
                     <!-- <a href="javascript:void(0)" class="log-user" data-toggle="dropdown">
                         <i class="fas fa-store f-s-14" aria-hidden="true"></i><span>All</span>
                     </a>
@@ -175,19 +180,6 @@
                             
                         </div>
                     </div> -->
-                </li> 
-                <li class="icons dropdown d-md-flex">
-                    <a href="javascript:void(0)" class="log-user" data-toggle="dropdown">
-                        <i class="fas fa-language f-s-14" aria-hidden="true"></i><span>English</span> 
-                    </a>
-                    <div class="drop-down dropdown-language animated fadeIn dropdown-menu">
-                        <div class="dropdown-content-body">
-                            <ul>
-                                <li><a href="javascript:void()">English</a></li>
-                                <li><a href="javascript:void()">Dutch</a></li>
-                            </ul>
-                        </div>
-                    </div>
                 </li> 
                 <li class="icons dropdown">
                     <div class="user-img c-pointer position-relative" data-toggle="dropdown">

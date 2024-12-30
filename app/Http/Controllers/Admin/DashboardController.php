@@ -27,7 +27,7 @@ class DashboardController extends Controller
         $user = auth()->user();
 
         // Admin can view all data
-        if ($user->role === 'admin') {
+        if ($user->roles->contains(1)) {
             $total = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
                                 $query->where('store_id', $storeId);
                             })->sum('amount');
@@ -39,7 +39,7 @@ class DashboardController extends Controller
                             })->sum('amount');
             $invoices = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
                                 $query->where('store_id', $storeId);
-                            })->all();
+                            })->get();
         } else {
             // Store manager can view only their data
             $total = Invoice::when(session('selected_store_id'), function ($query, $storeId) {

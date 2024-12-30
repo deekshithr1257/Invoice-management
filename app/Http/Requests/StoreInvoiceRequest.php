@@ -19,6 +19,13 @@ class StoreInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
+            'supplier_id'     => [
+                'required',
+            ],
+            'invoice_number'     => [
+                'required',
+                'unique:invoices,invoice_number'
+            ],
             'entry_date' => [
                 'required',
                 'date_format:' . config('panel.date_format'),
@@ -26,15 +33,15 @@ class StoreInvoiceRequest extends FormRequest
             'amount'     => [
                 'required',
             ],
-
+            'created_by'     => [
+                'required',
+            ],
             'image'     => [
                 'nullable',
             ],
             'camera_image'     => [
                 'nullable',
             ],
-
-            
         ];
     }
 }

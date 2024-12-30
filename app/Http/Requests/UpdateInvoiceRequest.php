@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Invoice;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 class UpdateInvoiceRequest extends FormRequest
@@ -18,12 +19,23 @@ class UpdateInvoiceRequest extends FormRequest
 
     public function rules()
     {
+        $invoiceId = $this->route('invoice');
         return [
+            'supplier_id'     => [
+                'required',
+            ],
+            'invoice_number'     => [
+                'required',
+                Rule::unique('invoices', 'invoice_number')->ignore($invoiceId),
+            ],
             'entry_date' => [
                 'required',
                 'date_format:' . config('panel.date_format'),
             ],
             'amount'     => [
+                'required',
+            ],
+            'created_by'     => [
                 'required',
             ],
             'image'     => [

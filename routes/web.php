@@ -37,6 +37,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Invoices
     Route::delete('invoices/destroy', 'InvoiceController@massDestroy')->name('invoices.massDestroy');
     Route::resource('invoices', 'InvoiceController');
+    Route::get('download-invoice/{imageName}', 'InvoiceController@downloadInvoice')->name('invoices.download');
 
     // Payments
     Route::delete('payments/destroy', 'PaymentController@massDestroy')->name('payments.massDestroy');

@@ -175,4 +175,19 @@ class InvoiceController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+
+    public function downloadInvoice($imageName)
+    {
+        // Define the path to the image file. This assumes images are stored in public/storage
+        $filePath = public_path('storage/invoices/' . $imageName);
+        
+        // Check if the file exists
+        if (file_exists($filePath)) {
+            // Return the file as a download response
+            return response()->download($filePath);
+        }
+
+        // If the file does not exist, return an error response
+        return response()->json(['error' => 'File not found'], 404);
+    }
 }

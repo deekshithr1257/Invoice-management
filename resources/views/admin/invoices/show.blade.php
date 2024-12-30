@@ -50,6 +50,31 @@
                                     </tr>
                                     <tr>
                                         <th>
+                                            {{ trans('cruds.invoice.fields.supplier') }}
+                                        </th>
+                                        <td>
+                                            {{ $invoice->supplier->name }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            {{ trans('cruds.invoice.fields.store') }}
+                                        </th>
+                                        <td>
+                                            {{ $invoice->store->name }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            {{ trans('cruds.invoice.fields.description') }}
+                                        </th>
+                                        <td>
+                                            {{ $invoice->description }}
+                                        </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <th>
                                             {{ trans('cruds.invoice.fields.amount') }}
                                         </th>
                                         <td>
@@ -72,6 +97,25 @@
                                             {{ $invoice->description }}
                                         </td>
                                         
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            {{ trans('cruds.invoice.fields.invoice') }}
+                                        </th>
+                                        <td>
+                                            <div class="text-center">
+                                                <!-- Download Link with Icon -->
+                                                <a href="{{ route('admin.invoices.download', basename($invoice->image)) }}" 
+                                                class="d-inline-flex align-items-center mb-3 text-decoration-none text-primary">
+                                                    <i class="fas fa-download me-2" style="font-size: 18px;"></i>
+                                                    Download
+                                                </a>
+                                                <!-- Invoice Image -->
+                                                <div class="d-flex justify-content-center align-items-center mt-2">
+                                                    <img src="{{ asset('storage/'.$invoice->image) }}" alt="invoice" class="img-fluid responsive-image">
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
                                     <th>
@@ -98,8 +142,6 @@
                                                     <a class="btn btn-xs btn-success mt-2 mt-md-0" >
                                                         Payment
                                                     </a>
-
-
                                             </td>
                                     </tr>
                                 </tbody>
@@ -116,6 +158,15 @@
 </div>
 @endsection
 
+<style>
+    /* Restrict image size on larger screens */
+    @media (min-width: 992px) {
+        .responsive-image {
+            max-width: 400px; /* Adjust the maximum width as needed */
+            max-height: 400px; /* Optional: Set a maximum height */
+        }
+    }
+</style>
 <script>
     // Attach the `myDelete` function to all delete buttons once the page is loaded
     document.addEventListener('DOMContentLoaded', function () {

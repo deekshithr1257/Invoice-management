@@ -57,38 +57,31 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col" style="margin-right:10% !important;">
-                <form method="get">
-                    <div class="row">
-                        <div class="col-3 form-group">
-                            <label class="control-label" for="y">{{ trans('global.year') }}</label>
-                            <select name="y" id="y" class="form-control">
-                                @foreach(array_combine(range(date("Y"), 1900), range(date("Y"), 1900)) as $year)
-                                    <option value="{{ $year }}" @if($year===old('y', Request::get('y', date('Y')))) selected @endif>
-                                        {{ $year }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-3 form-group">
-                            <label class="control-label" for="m">{{ trans('global.month') }}</label>
-                            <select name="m" for="m" class="form-control">
-                                @foreach(cal_info(0)['months'] as $month)
-                                    <option value="{{ $month }}" @if($month===old('m', Request::get('m', date('m')))) selected @endif>
-                                        {{ $month }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-4">
-                            <label class="control-label">&nbsp;</label><br>
-                            <button class="btn btn-primary" type="submit">{{ trans('global.filterDate') }}</button>
-                        </div>
+                <div class="row">
+                    <div class="col d-flex justify-content-end pe-5">
+                        <form method="get">
+                            <div class="row">
+                    <!-- Month Dropdown -->
+                                <div class="col-md-6 form-group">
+                                    <label class="control-label" for="m">{{ trans('global.month') }}</label>
+                                    <select name="m" id="m" class="form-control">
+                                        @foreach(cal_info(0)['months'] as $month)
+                                            <option value="{{ $month }}" @if($month === old('m', Request::get('m', date('m')))) selected @endif>
+                                                {{ $month }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="col-md-2 filter-button-container">
+                                    <label class="control-label">&nbsp;</label><br>
+                                    <button class="btn btn-primary" type="submit">{{ trans('global.filterDate') }}</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </form>
-            </div>
-        </div>
+                </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">

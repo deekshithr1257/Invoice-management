@@ -22,6 +22,27 @@ class StoreSupplierRequest extends FormRequest
             'name' => [
                 'required',
             ],
+            "contact_number" => [
+                'required','unique:suppliers,contact_number'
+            ], 
+            "email" => [
+                'required','unique:suppliers,email'
+            ],
+            "address_line1" => [
+                'required',
+            ],
+            "city" => [
+                'required',
+            ],
+            "state" => [
+                'required',
+            ],
+            "postal_code" => [
+                'required',
+            ],
+            "country" => [
+                'required',
+            ],
         ];
     }
 }

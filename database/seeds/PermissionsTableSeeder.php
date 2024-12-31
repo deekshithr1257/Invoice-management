@@ -296,6 +296,12 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-12-24 19:21:30',
                 'updated_at' => '2024-12-24 19:21:30',
             ],
+            [
+                'id'         => '54',
+                'title'      => 'invoice_payment',
+                'created_at' => '2024-12-24 19:21:30',
+                'updated_at' => '2024-12-24 19:21:30',
+            ],
         ];
 
         Permission::insert($permissions);

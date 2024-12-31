@@ -176,6 +176,7 @@ return [
             'invoice_number_helper'       => '',
             'amount'                  => 'Amount',
             'amount_helper'           => '',
+            'invoice'                 => 'Invoice',
             'balance'                 => 'Balance',
             'description'             => 'Description',
             'description_helper'      => '',

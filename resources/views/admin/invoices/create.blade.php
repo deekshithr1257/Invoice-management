@@ -25,6 +25,11 @@
                     <div class="card-body">
                         <h4 class="card-title">{{ trans('global.create') }} {{ trans('cruds.invoice.title_singular') }}</h4>
                         <div class="basic-form">
+                            @if(session('alert'))
+                                <div class="alert alert-warning">
+                                    {{ session('alert') }}
+                                </div>
+                            @endif
                             <form action="{{ route("admin.invoices.store") }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="created_by" id="created_by" value="{{ auth()->id() }}">
@@ -95,7 +100,7 @@
                                 </div>
                                 <div class="row row-xs align-items-center mg-b-20">
                             <div class="col-md-4">
-                                <label class="mg-b-0"> Image</label>
+                                <label class="mg-b-0"> {{ trans('cruds.invoice.fields.invoice') }}</label>
                             </div>
                             <div class="col-md-8 mg-t-5 mg-md-t-0">
                                 <input type="file" name="image" id="image"

@@ -59,13 +59,10 @@
                         <table class="table table-striped table-bordered zero-configuration">
                             <thead>
                                 <tr>
-                                    <th width="10"></th>
                                     <th>{{ trans('cruds.invoice.fields.invoice_number') }}</th>
-                                    <!-- <th>{{ trans('cruds.invoice.fields.store') }}</th> -->
-                                    <th>{{ trans('cruds.invoice.fields.entry_date') }}</th>
                                     <th>{{ trans('cruds.invoice.fields.supplier') }}</th>
+                                    <th>{{ trans('cruds.invoice.fields.entry_date') }}</th>
                                     <th>{{ trans('cruds.invoice.fields.amount') }}</th>
-                                    <th>&nbsp;</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,11 +72,9 @@
                                         onclick="window.location='{{ route('admin.invoices.show', $invoice->id) }}';" 
                                         style="cursor: pointer;"
                                     >
-                                        <td></td>
                                         <td>{{ $invoice->invoice_number ?? '' }}</td>
-                                        <!-- <td>{{ $invoice->store ? $invoice->store->name : '' }}</td> -->
-                                        <td>{{ $invoice->entry_date ?? '' }}</td>
                                         <td>{{ $invoice->supplier ? $invoice->supplier->name : '' }}</td>
+                                        <td>{{ $invoice->entry_date ?? '' }}</td>
                                         <td>{{ $invoice->amount ?? '' }}</td>
                                     </tr>
                                 @endforeach

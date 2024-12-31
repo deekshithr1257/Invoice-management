@@ -22,6 +22,27 @@ class StoreStoreRequest extends FormRequest
             'name' => [
                 'required',
             ],
+            "contact_number" => [
+                'required','unique:stores,contact_number'
+            ], 
+            "email" => [
+                'required','unique:stores,email'
+            ],
+            "address_line1" => [
+                'required',
+            ],
+            "city" => [
+                'required',
+            ],
+            "state" => [
+                'required',
+            ],
+            "postal_code" => [
+                'required',
+            ],
+            "country" => [
+                'required',
+            ],
         ];
     }
 }

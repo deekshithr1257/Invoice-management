@@ -21,7 +21,6 @@ class Store extends Model
         "name",
         "contact_number", 
         "email",
-        "logo",
         "address_line1",
         "address_line2",
         "city",
@@ -37,7 +36,6 @@ class Store extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'store_user')
-                    ->withTimestamps();
+        return $this->belongsToMany(User::class, 'store_user');
     }
 }

@@ -33,7 +33,6 @@
                             <form action="{{ route("admin.invoices.store") }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="created_by" id="created_by" value="{{ auth()->id() }}">
-                                <input type="hidden" name="store_id" id="created_by" value="{{ auth()->id() }}">
                                 <div class="form-group {{ $errors->has('supplier_id') ? 'has-error' : '' }}">
                                     <label for="suppliers">{{ trans('cruds.invoice.fields.supplier') }}</label>
                                     <select name="supplier_id" id="supplier_id" class="form-control select2">

@@ -78,7 +78,7 @@
                                             {{ trans('cruds.invoice.fields.amount') }}
                                         </th>
                                         <td>
-                                            ${{ number_format($invoice->amount, 2) }}
+                                            <i class="fa fa-pound-sign"></i>{{ number_format($invoice->amount, 2) }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -86,7 +86,7 @@
                                             {{ trans('cruds.invoice.fields.balance') }}
                                         </th>
                                         <td>
-                                            ${{ number_format($invoice->balance, 2) }}
+                                            <i class="fa fa-pound-sign"></i>{{ number_format($invoice->balance, 2) }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -118,31 +118,26 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                    <th>
-                                           Action
-                                        </th>
-                                    <td>
-
-                                                @can('invoice_edit')
-                                                    <a class="btn btn-xs btn-info mt-1 mt-md-0" href="{{ route('admin.invoices.edit', $invoice->id) }}">
-                                                        {{ trans('global.edit') }}
-                                                    </a>
-                                                @endcan
-
-
-                                                @can('invoice_delete')
+                                        <th>Action</th>
+                                        <td>
+                                            @can('invoice_edit')
+                                                <a class="btn btn-xs btn-info mt-1 mt-md-0" href="{{ route('admin.invoices.edit', $invoice->id) }}">
+                                                    {{ trans('global.edit') }}
+                                                </a>
+                                            @endcan
+                                            @can('invoice_payment')
+                                                <a class="btn btn-xs btn-success mt-2 mt-md-0" href="{{ route('admin.invoices.payment.get', $invoice->id) }}">
+                                                    Payment
+                                                </a>
+                                            @endcan
+                                            @can('invoice_delete')
                                                 <form action="{{ route('admin.invoices.destroy', $invoice->id) }}" method="POST" style="display: inline-block;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <input type="submit" class="btn btn-xs btn-danger mt-1 mt-md-0 delete-btn" value="{{ trans('global.delete') }}">
-                                                        </form>
-                                                @endcan
-
-                                                
-                                                    <a class="btn btn-xs btn-success mt-2 mt-md-0" >
-                                                        Payment
-                                                    </a>
-                                            </td>
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <input type="submit" class="btn btn-xs btn-danger mt-1 mt-md-0 delete-btn" value="{{ trans('global.delete') }}">
+                                                </form>
+                                            @endcan
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

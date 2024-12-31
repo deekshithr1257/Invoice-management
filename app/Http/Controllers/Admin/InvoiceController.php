@@ -7,7 +7,10 @@ use App\InvoiceCategory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyInvoiceRequest;
 use App\Http\Requests\StoreInvoiceRequest;
+use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
+use App\Payment;
+use App\PaymentType;
 use App\Supplier;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
@@ -189,5 +192,22 @@ class InvoiceController extends Controller
 
         // If the file does not exist, return an error response
         return response()->json(['error' => 'File not found'], 404);
+    }
+
+    public function getPayment($invoiceId)
+    {
+        abort_if(Gate::denies('invoice_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $invoice = Invoice::findOrFail($invoiceId);
+        $payment_types = PaymentType::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        return view('admin.invoices.payment', compact('invoice','payment_types'));
+    }
+
+    public function payment(StorePaymentRequest $request){
+        $payment = Payment::create($request->all());
+        $invoice = Invoice::findOrFail($payment->invoice_id);
+        $invoice->balance = $invoice->balance - $payment->amount;
+        $invoice->save();
+        return redirect()->route('admin.invoices.show',$invoice->id);
     }
 }

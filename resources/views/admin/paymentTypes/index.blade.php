@@ -3,6 +3,15 @@
 
 <div class="content-body">
     <div class="row page-titles mx-0">
+    @can('payment_type_create')
+            <div style="margin-bottom: 10px;" class="row">
+                <div class="col-lg-12">
+                    <a class="btn btn-success" href="{{ route("admin.payment-types.create") }}">
+                        {{ trans('global.add') }} {{ trans('cruds.paymentType.title_singular') }}
+                    </a>
+                </div>
+            </div>
+        @endcan
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
@@ -12,20 +21,12 @@
     </div>
 
     <div class="container-fluid">
-        @can('payment_type_create')
-            <div style="margin-bottom: 10px;" class="row">
-                <div class="col-lg-12">
-                    <a class="btn btn-success" href="{{ route("admin.payment-types.create") }}">
-                        {{ trans('global.add') }} {{ trans('cruds.paymentType.title_singular') }}
-                    </a>
-                </div>
-            </div>
-        @endcan
+        
 
         <div class="card">
-            <div class="card-header">
+            <h4 class="card-header">
                 {{ trans('cruds.paymentType.title_singular') }} {{ trans('global.list') }}
-            </div>
+            </h4>
 
             <div class="card-body">
                 <div class="table-responsive">
@@ -35,9 +36,9 @@
                                 <th width="10">
 
                                 </th>
-                                <th>
+                                <!-- <th>
                                     {{ trans('cruds.paymentType.fields.id') }}
-                                </th>
+                                </th> -->
                                 <th>
                                     {{ trans('cruds.paymentType.fields.name') }}
                                 </th>
@@ -52,9 +53,9 @@
                                     <td>
 
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         {{ $paymentType->id ?? '' }}
-                                    </td>
+                                    </td> -->
                                     <td>
                                         {{ $paymentType->name ?? '' }}
                                     </td>

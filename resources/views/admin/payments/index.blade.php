@@ -3,17 +3,7 @@
 
 <div class="content-body">
     <div class="row page-titles mx-0">
-        <div class="col p-md-0">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('admin.payments.index') }}">{{ trans('cruds.payment.title_singular') }}</a></li>
-                <li class="breadcrumb-item active">{{ trans('global.list') }} {{ trans('cruds.payment.title_singular') }}</li>
-            </ol>
-        </div>
-    </div>
-
-    <div class="container-fluid">
-        @can('payment_create')
+    @can('payment_create')
         <div style="margin-bottom: 10px;" class="row">
             <div class="col-lg-12">
                 <a class="btn btn-success" href="{{ route('admin.payments.create') }}">
@@ -22,11 +12,46 @@
             </div>
         </div>
         @endcan
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('admin.payments.index') }}">{{ trans('cruds.payment.title_singular') }}</a></li>
+                <li class="breadcrumb-item active">{{ trans('global.list') }} {{ trans('cruds.payment.title_singular') }}</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col d-flex justify-content-end pe-5">
+            <form method="get">
+                <div class="row">
+                    <!-- Month Dropdown -->
+                    <div class="col-md-6 form-group">
+                        <label class="control-label" for="m">{{ trans('global.month') }}</label>
+                        <select name="m" id="m" class="form-control">
+                            @foreach(cal_info(0)['months'] as $month)
+                                <option value="{{ $month }}" @if($month === old('m', Request::get('m', date('m')))) selected @endif>
+                                    {{ $month }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="col-md-2 filter-button-container">
+                        <label class="control-label">&nbsp;</label><br>
+                        <button class="btn btn-primary" type="submit">{{ trans('global.filterDate') }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
         <div class="card">
-            <div class="card-header">
+            <h4 class="card-header">
                 {{ trans('cruds.payment.title_singular') }} {{ trans('global.list') }}
-            </div>
+            </h4>
 
             <div class="card-body">
                 <div class="table-responsive">
@@ -37,9 +62,8 @@
                                 <!-- <th>{{ trans('cruds.payment.fields.id') }}</th> -->
                                 <th>{{ trans('cruds.payment.fields.invoice_number') }}</th>
                                 <th>{{ trans('cruds.payment.fields.payment_type') }}</th>
-                                <!-- <th>{{ trans('cruds.payment.fields.entry_date') }}</th> -->
+                                <th>{{ trans('cruds.payment.fields.entry_date') }}</th>
                                 <th>{{ trans('cruds.payment.fields.amount') }}</th>
-                                <th>&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,7 +74,7 @@
                                     <!-- <td>{{ $payment->id ?? '' }}</td> -->
                                     <td>{{ $payment->invoice ? $payment->invoice->invoice_number : '' }}</td>
                                     <td>{{ $payment->payment_type->name ?? '' }}</td>
-                                    <!-- <td>{{ $payment->entry_date ?? '' }}</td> -->
+                                    <td>{{ $payment->entry_date ?? '' }}</td>
                                     <td>{{ $payment->amount ?? '' }}</td>
                                     <!-- <td> -->
                                         <!-- @can('payment_show')
@@ -84,6 +108,10 @@
                             @endforeach
                         </tbody>
                     </table>
+                       <!-- Pagination Links -->
+                       <div class="pagination-wrapper">
+                                {{ $payments->links('pagination::bootstrap-4') }} <!-- Bootstrap pagination style -->
+                            </div>
                 </div>
             </div>
         </div>

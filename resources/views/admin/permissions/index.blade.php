@@ -32,9 +32,9 @@
                                 <thead>
                                     <tr>
                                         <th width="10"></th>
-                                        <th>
+                                        <!-- <th>
                                             {{ trans('cruds.permission.fields.id') }}
-                                        </th>
+                                        </th> -->
                                         <th>
                                             {{ trans('cruds.permission.fields.title') }}
                                         </th>
@@ -47,9 +47,9 @@
                                     @foreach($permissions as $key => $permission)
                                         <tr data-entry-id="{{ $permission->id }}">
                                             <td></td>
-                                            <td>
+                                            <!-- <td>
                                                 {{ $permission->id ?? '' }}
-                                            </td>
+                                            </td> -->
                                             <td>
                                                 {{ $permission->title ?? '' }}
                                             </td>
@@ -87,6 +87,10 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <!-- Pagination Links -->
+                        <div class="pagination-wrapper">
+                                {{ $permissions->links('pagination::bootstrap-4') }} <!-- Bootstrap pagination style -->
+                            </div>
                         </div>
                     </div>
                 </div>

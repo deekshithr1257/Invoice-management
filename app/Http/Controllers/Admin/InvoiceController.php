@@ -21,7 +21,7 @@ class InvoiceController extends Controller
 
         $invoices = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
                                     $query->where('store_id', $storeId);
-                                })->get();
+                                })->paginate(10);
 
         return view('admin.invoices.index', compact('invoices'));
     }
@@ -166,7 +166,7 @@ class InvoiceController extends Controller
 
         $invoice->delete();
 
-        return back();
+        return redirect()->route('admin.invoices.index')->with('success', 'Invoice deleted successfully.');
     }
 
     public function massDestroy(MassDestroyInvoiceRequest $request)

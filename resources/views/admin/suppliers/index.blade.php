@@ -3,15 +3,7 @@
 
 <div class="content-body">
     <div class="row page-titles mx-0">
-        <div class="col p-md-0">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="javascript:void(0)">{{ trans('cruds.supplier.title_singular') }}</a></li>
-            </ol>
-        </div>
-    </div>
-    <div class="container-fluid">
-        @can('supplier_create')
+    @can('supplier_create')
             <div style="margin-bottom: 10px;" class="row">
                 <div class="col-lg-12">
                     <a class="btn btn-success" href="{{ route("admin.suppliers.create") }}">
@@ -20,11 +12,20 @@
                 </div>
             </div>
         @endcan
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">{{ trans('cruds.supplier.title_singular') }}</a></li>
+            </ol>
+        </div>
+    </div>
+    <div class="container-fluid">
+        
 
         <div class="card">
-            <div class="card-header">
+            <h4 class="card-header">
                 {{ trans('cruds.supplier.title_singular') }} {{ trans('global.list') }}
-            </div>
+            </h4>
 
             <div class="card-body">
                 <div class="table-responsive">
@@ -32,8 +33,10 @@
                         <thead>
                             <tr>
                                 <th width="10"></th>
-                                <th>{{ trans('cruds.supplier.fields.id') }}</th>
+                                <!-- <th>{{ trans('cruds.supplier.fields.id') }}</th> -->
                                 <th>{{ trans('cruds.supplier.fields.name') }}</th>
+                                <th>{{ trans('cruds.supplier.fields.email') }}</th>
+                                <th>{{ trans('cruds.supplier.fields.contact_number') }}</th>
                                 <th>&nbsp;</th>
                             </tr>
                         </thead>
@@ -41,8 +44,10 @@
                             @foreach($suppliers as $key => $supplier)
                                 <tr data-entry-id="{{ $supplier->id }}">
                                     <td></td>
-                                    <td>{{ $supplier->id ?? '' }}</td>
+                                    <!-- <td>{{ $supplier->id ?? '' }}</td> -->
                                     <td>{{ $supplier->name ?? '' }}</td>
+                                    <td>{{ $supplier->email ?? '' }}</td>
+                                    <td>{{ $supplier->contact_number ?? '' }}</td>
                                     <td>
                                         @can('supplier_show')
                                             <a class="btn btn-xs btn-primary" href="{{ route('admin.suppliers.show', $supplier->id) }}">
@@ -78,6 +83,9 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="pagination-wrapper">
+                                {{ $suppliers->links('pagination::bootstrap-4') }} <!-- Bootstrap pagination style -->
+                            </div>
                 </div>
             </div>
         </div>

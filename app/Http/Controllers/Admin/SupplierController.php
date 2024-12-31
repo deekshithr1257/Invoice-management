@@ -17,7 +17,7 @@ class SupplierController extends Controller
     {
         abort_if(Gate::denies('supplier_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $suppliers = Supplier::all();
+        $suppliers = Supplier::paginate(10);
 
         return view('admin.suppliers.index', compact('suppliers'));
     }

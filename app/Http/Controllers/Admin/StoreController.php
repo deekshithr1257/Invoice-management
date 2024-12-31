@@ -16,9 +16,10 @@ class StoreController extends Controller
     public function index()
     {
         abort_if(Gate::denies('store_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $stores = Store::all();
-
+    
+        // Use paginate() on the query builder, not on the collection
+        $stores = Store::paginate(10);
+    
         return view('admin.stores.index', compact('stores'));
     }
 

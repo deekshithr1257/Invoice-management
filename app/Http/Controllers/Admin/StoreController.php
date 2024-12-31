@@ -82,6 +82,6 @@ class StoreController extends Controller
         $storeId = $request->input('store_id');
         session(['selected_store_id' => $storeId]);
 
-        return redirect()->back();
+        return redirect()->route('admin.dashboard.index');
     }
 }

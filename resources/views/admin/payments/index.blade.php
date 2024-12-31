@@ -68,7 +68,7 @@
                         </thead>
                         <tbody>
                             @foreach($payments as $payment)
-                                <tr data-entry-id="{{ $payment->id }}" nclick="window.location='{{ route('admin.payments.show', $payment->id) }}';" 
+                                <tr data-entry-id="{{ $payment->id }}" onclick="window.location='{{ route('admin.payments.show', $payment->id) }}';" 
                                 style="cursor: pointer;">
                                     <td></td>
                                     <!-- <td>{{ $payment->id ?? '' }}</td> -->

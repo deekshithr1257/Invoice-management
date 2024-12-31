@@ -3,6 +3,15 @@
 
 <div class="content-body">
     <div class="row page-titles mx-0">
+    @can('user_create')
+            <div style="margin-bottom: 10px;" class="row">
+                <div class="col-lg-12">
+                    <a class="btn btn-success" href="{{ route("admin.users.create") }}">
+                        {{ trans('global.add') }} {{ trans('cruds.user.title_singular') }}
+                    </a>
+                </div>
+            </div>
+        @endcan
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
@@ -12,22 +21,14 @@
     </div>
 
     <div class="container-fluid">
-        @can('user_create')
-            <div style="margin-bottom: 10px;" class="row">
-                <div class="col-lg-12">
-                    <a class="btn btn-success" href="{{ route("admin.users.create") }}">
-                        {{ trans('global.add') }} {{ trans('cruds.user.title_singular') }}
-                    </a>
-                </div>
-            </div>
-        @endcan
+       
 
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-header">
+                    <h4 class="card-header">
                         {{ trans('cruds.user.title_singular') }} {{ trans('global.list') }}
-                    </div>
+                    </h4>
 
                     <div class="card-body">
                         <div class="table-responsive">
@@ -35,7 +36,7 @@
                                 <thead>
                                     <tr>
                                         <th width="10"></th>
-                                        <th>{{ trans('cruds.user.fields.id') }}</th>
+                                        <!-- <th>{{ trans('cruds.user.fields.id') }}</th> -->
                                         <th>{{ trans('cruds.user.fields.name') }}</th>
                                         <th>{{ trans('cruds.user.fields.email') }}</th>
                                         <th>{{ trans('cruds.user.fields.stores') }}</th>
@@ -47,7 +48,7 @@
                                     @foreach($users as $key => $user)
                                         <tr data-entry-id="{{ $user->id }}">
                                             <td></td>
-                                            <td>{{ $user->id ?? '' }}</td>
+                                            <!-- <td>{{ $user->id ?? '' }}</td> -->
                                             <td>{{ $user->name ?? '' }}</td>
                                             <td>{{ $user->email ?? '' }}</td>
                                             <td>
@@ -93,6 +94,10 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="pagination-wrapper">
+                                {{ $users->links('pagination::bootstrap-4') }} <!-- Bootstrap pagination style -->
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>

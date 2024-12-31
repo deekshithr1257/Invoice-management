@@ -21,7 +21,7 @@ class PaymentController extends Controller
 
         $payments = Payment::when(session('selected_store_id'), function ($query, $storeId) {
                                 $query->where('store_id', $storeId);
-                            })->get();
+                            })->paginate(10);
 
         return view('admin.payments.index', compact('payments'));
     }
@@ -80,7 +80,7 @@ class PaymentController extends Controller
 
         $payment->delete();
 
-        return back();
+        return redirect()->route('admin.payments.index')->with('success', 'Payment deleted successfully.');
     }
 
     public function massDestroy(MassDestroyPaymentRequest $request)

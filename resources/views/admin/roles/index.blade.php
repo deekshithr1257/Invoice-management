@@ -3,6 +3,13 @@
 
 <div class="content-body">
     <div class="row page-titles mx-0">
+        @can('role_create')
+                    <div style="margin-bottom: 10px;">
+                        <a class="btn btn-success" href="{{ route('admin.roles.create') }}">
+                            {{ trans('global.add') }} {{ trans('cruds.role.title_singular') }}
+                        </a>
+                    </div>
+                @endcan
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
@@ -15,18 +22,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                @can('role_create')
-                    <div style="margin-bottom: 10px;">
-                        <a class="btn btn-success" href="{{ route('admin.roles.create') }}">
-                            {{ trans('global.add') }} {{ trans('cruds.role.title_singular') }}
-                        </a>
-                    </div>
-                @endcan
+                
 
                 <div class="card">
-                    <div class="card-header">
+                    <h4 class="card-header">
                         {{ trans('cruds.role.title_singular') }} {{ trans('global.list') }}
-                    </div>
+                </h4>
 
                     <div class="card-body">
                         <div class="table-responsive">
@@ -34,7 +35,7 @@
                                 <thead>
                                     <tr>
                                         <th width="10"></th>
-                                        <th >{{ trans('cruds.role.fields.id') }}</th>
+                                        <!-- <th >{{ trans('cruds.role.fields.id') }}</th> -->
                                         <th>{{ trans('cruds.role.fields.title') }}</th>
                                         <th class="col-7">{{ trans('cruds.role.fields.permissions') }}</th>
                                         <th>&nbsp;</th>
@@ -44,7 +45,7 @@
                                     @foreach($roles as $key => $role)
                                         <tr data-entry-id="{{ $role->id }}">
                                             <td></td>
-                                            <td>{{ $role->id ?? '' }}</td>
+                                            <!-- <td>{{ $role->id ?? '' }}</td> -->
                                             <td>{{ $role->title ?? '' }}</td>
                                             <td>
                                                 @foreach($role->permissions as $key => $item)
@@ -85,6 +86,10 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="pagination-wrapper">
+                                {{ $roles->links('pagination::bootstrap-4') }} <!-- Bootstrap pagination style -->
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>

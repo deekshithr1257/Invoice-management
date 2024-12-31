@@ -22,7 +22,34 @@
     </div>
     <!-- row -->
 
+    <!-- Filter Section (Month Filter) -->
+     
     <div class="container-fluid">
+    <div class="row">
+        <div class="col d-flex justify-content-end pe-5">
+            <form method="get">
+                <div class="row">
+                    <!-- Month Dropdown -->
+                    <div class="col-md-6 form-group">
+                        <label class="control-label" for="m">{{ trans('global.month') }}</label>
+                        <select name="m" id="m" class="form-control">
+                            @foreach(cal_info(0)['months'] as $month)
+                                <option value="{{ $month }}" @if($month === old('m', Request::get('m', date('m')))) selected @endif>
+                                    {{ $month }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="col-md-2 filter-button-container">
+                        <label class="control-label">&nbsp;</label><br>
+                        <button class="btn btn-primary" type="submit">{{ trans('global.filterDate') }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -53,6 +80,10 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <!-- Pagination Links -->
+                        <div class="pagination-wrapper">
+                                {{ $invoices->links('pagination::bootstrap-4') }} <!-- Bootstrap pagination style -->
+                            </div>
                     </div>
                 </div>
             </div>
@@ -64,80 +95,6 @@
 @endsection
 @section('scripts')
 @parent
-<!-- <script>
-    $(function () {
-  let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('invoice_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
-  let deleteButton = {
-    text: deleteButtonTrans,
-    url: "{{ route('admin.invoices.massDestroy') }}",
-    className: 'btn-danger',
-    action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
-      });
-
-      if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
-        return
-      }
-
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
-    }
-  }
-  dtButtons.push(deleteButton)
-@endcan
-
-  $.extend(true, $.fn.dataTable.defaults, {
-    order: [[ 1, 'desc' ]],
-    pageLength: 100,
-  });
-  $('.datatable-Invoice:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-        $($.fn.dataTable.tables(true)).DataTable()
-            .columns.adjust();
-    });
-})
-
-</script> -->
 @endsection
 
-<script>
-    // Attach the `myDelete` function to all delete buttons once the page is loaded
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.delete-btn').forEach(function(button) {
-            button.addEventListener('click', myDelete);  // Add click event to each delete button
-        });
-    });
 
-    // JavaScript function to handle the deletion process
-    function myDelete(ev) {
-        ev.preventDefault(); // Prevent the default form submission
-        console.log('Delete button clicked');  // This will log when the button is clicked
-        var form = ev.currentTarget.closest('form');
-        
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "Do you want to delete this Invoice?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                console.log('Form will be submitted'); // This will log if the form is confirmed for submission
-                form.submit();
-            }
-        });
-    }
-</script>

@@ -80,37 +80,31 @@
                                 </td>
                             </tr>
                             <tr>
-                                    <th>
-                                           Action
-                                        </th>
-                                         <td>
+                                <th>Action</th>
+                                <td>
 
-                                        @can('payment_edit')
-                                            <a class="btn btn-xs btn-info mt-1 mt-md-0" href="{{ route('admin.payments.edit', $payment->id) }}">
-                                                {{ trans('global.edit') }}
-                                            </a>
-                                        @endcan
+                                    @can('payment_edit')
+                                        <a class="btn btn-xs btn-info mt-1 mt-md-0" href="{{ route('admin.payments.edit', $payment->id) }}">
+                                            {{ trans('global.edit') }}
+                                        </a>
+                                    @endcan
 
-                                        <!-- @can('payment_delete')
-                                        <button class="btn btn-xs btn-danger delete-payment" data-id="{{ $payment->id }}">
-                                            {{ trans('global.delete') }}
-                                        </button>
-                                         @endcan -->
+                                    <!-- @can('payment_delete')
+                                    <button class="btn btn-xs btn-danger delete-payment" data-id="{{ $payment->id }}">
+                                        {{ trans('global.delete') }}
+                                    </button>
+                                        @endcan -->
 
-                                         @can('payment_delete')
-                                                <form action="{{ route('admin.payments.destroy', $payment->id) }}" method="POST" style="display: inline-block;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <input type="submit" class="btn btn-xs btn-danger mt-1 mt-md-0 delete-btn" value="{{ trans('global.delete') }}">
-                                                        </form>
-                                                @endcan
+                                    @can('payment_delete')
+                                        <form action="{{ route('admin.payments.destroy', $payment->id) }}" method="POST" style="display: inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="submit" class="btn btn-xs btn-danger mt-1 mt-md-0 delete-btn" value="{{ trans('global.delete') }}">
+                                        </form>
+                                    @endcan
 
-                                                <a class="btn btn-xs btn-success mt-2 mt-md-0" >
-                                                        Payment
-                                                    </a>
-
-                                    </td>
-                                    </tr>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <a style="margin-top:20px;" class="btn btn-secondary" href="{{ url()->previous() }}">

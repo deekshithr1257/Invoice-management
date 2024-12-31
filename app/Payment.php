@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Payment extends Model
 {
-    use SoftDeletes, MultiTenantModelTrait;
+    use SoftDeletes;
 
     public $table = 'payments';
 

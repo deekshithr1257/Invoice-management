@@ -58,8 +58,6 @@
                     <table class="table table-bordered table-striped table-hover datatable datatable-Payment">
                         <thead>
                             <tr>
-                                <th width="10"></th>
-                                <!-- <th>{{ trans('cruds.payment.fields.id') }}</th> -->
                                 <th>{{ trans('cruds.payment.fields.invoice_number') }}</th>
                                 <th>{{ trans('cruds.payment.fields.payment_type') }}</th>
                                 <th>{{ trans('cruds.payment.fields.entry_date') }}</th>
@@ -70,48 +68,18 @@
                             @foreach($payments as $payment)
                                 <tr data-entry-id="{{ $payment->id }}" onclick="window.location='{{ route('admin.payments.show', $payment->id) }}';" 
                                 style="cursor: pointer;">
-                                    <td></td>
-                                    <!-- <td>{{ $payment->id ?? '' }}</td> -->
                                     <td>{{ $payment->invoice ? $payment->invoice->invoice_number : '' }}</td>
                                     <td>{{ $payment->payment_type->name ?? '' }}</td>
                                     <td>{{ $payment->entry_date ?? '' }}</td>
                                     <td>{{ $payment->amount ?? '' }}</td>
-                                    <!-- <td> -->
-                                        <!-- @can('payment_show')
-                                            <a class="btn btn-xs btn-primary" href="{{ route('admin.payments.show', $payment->id) }}">
-                                                {{ trans('global.view') }}
-                                            </a>
-                                        @endcan
-
-                                        @can('payment_edit')
-                                            <a class="btn btn-xs btn-info" href="{{ route('admin.payments.edit', $payment->id) }}">
-                                                {{ trans('global.edit') }}
-                                            </a>
-                                        @endcan -->
-
-                                        <!-- @can('payment_delete')
-                                        <button class="btn btn-xs btn-danger delete-payment" data-id="{{ $payment->id }}">
-                                            {{ trans('global.delete') }}
-                                        </button>
-                                         @endcan -->
-
-                                         <!-- @can('payment_delete')
-                                                <form action="{{ route('admin.payments.destroy', $payment->id) }}" method="POST" style="display: inline-block;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <input type="submit" class="btn btn-xs btn-danger delete-btn" value="{{ trans('global.delete') }}">
-                                                        </form>
-                                                @endcan -->
-
-                                    <!-- </td> -->
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                       <!-- Pagination Links -->
-                       <div class="pagination-wrapper">
-                                {{ $payments->links('pagination::bootstrap-4') }} <!-- Bootstrap pagination style -->
-                            </div>
+                        <!-- Pagination Links -->
+                        <div class="pagination-wrapper">
+                            {{ $payments->links('pagination::bootstrap-4') }} <!-- Bootstrap pagination style -->
+                        </div>
                 </div>
             </div>
         </div>

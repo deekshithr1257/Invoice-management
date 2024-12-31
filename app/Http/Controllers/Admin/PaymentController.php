@@ -34,8 +34,8 @@ class PaymentController extends Controller
         $invoices = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
                                 $query->where('store_id', $storeId);
                             })->get()->pluck('invoice_number', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.payments.create', compact('payment_types', 'invoices'));
+        $store_id = session('selected_store_id');
+        return view('admin.payments.create', compact('payment_types', 'invoices', 'store_id'));
     }
 
     public function store(StorePaymentRequest $request)

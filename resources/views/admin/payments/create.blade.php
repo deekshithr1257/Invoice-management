@@ -24,6 +24,7 @@
                 <form action="{{ route('admin.payments.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="created_by" id="created_by" value="{{ auth()->id() }}">
+                    <input type="hidden" name="store_id" id="store_id" value="{{ $store_id }}">
                     <div class="form-group {{ $errors->has('invoice_id') ? 'has-error' : '' }}">
                         <label for="invoice_id">{{ trans('cruds.payment.fields.invoice_number') }}</label>
                         <select name="invoice_id" id="invoice_id" class="form-control select2">

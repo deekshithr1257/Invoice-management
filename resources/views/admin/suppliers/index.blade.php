@@ -32,8 +32,6 @@
                     <table class="table table-bordered table-striped table-hover datatable datatable-Supplier">
                         <thead>
                             <tr>
-                                <th width="10"></th>
-                                <!-- <th>{{ trans('cruds.supplier.fields.id') }}</th> -->
                                 <th>{{ trans('cruds.supplier.fields.name') }}</th>
                                 <th>{{ trans('cruds.supplier.fields.email') }}</th>
                                 <th>{{ trans('cruds.supplier.fields.contact_number') }}</th>
@@ -43,8 +41,6 @@
                         <tbody>
                             @foreach($suppliers as $key => $supplier)
                                 <tr data-entry-id="{{ $supplier->id }}">
-                                    <td></td>
-                                    <!-- <td>{{ $supplier->id ?? '' }}</td> -->
                                     <td>{{ $supplier->name ?? '' }}</td>
                                     <td>{{ $supplier->email ?? '' }}</td>
                                     <td>{{ $supplier->contact_number ?? '' }}</td>

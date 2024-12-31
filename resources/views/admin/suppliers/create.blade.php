@@ -106,18 +106,6 @@
                             {{ trans('cruds.supplier.fields.state_helper') }}
                         </p>
                     </div>
-                    <div class="form-group {{ $errors->has('postal_code') ? 'has-error' : '' }}">
-                        <label for="postal_code">{{ trans('cruds.supplier.fields.postal_code') }}*</label>
-                        <input type="text" id="postal_code" name="postal_code" class="form-control" value="{{ old('postal_code', isset($supplier) ? $supplier->postal_code : '') }}" required>
-                        @if($errors->has('postal_code'))
-                            <em class="invalid-feedback">
-                                {{ $errors->first('postal_code') }}
-                            </em>
-                        @endif
-                        <p class="helper-block">
-                            {{ trans('cruds.supplier.fields.postal_code_helper') }}
-                        </p>
-                    </div>
                     <div class="form-group {{ $errors->has('country') ? 'has-error' : '' }}">
                         <label for="country">{{ trans('cruds.supplier.fields.country') }}*</label>
                         <input type="text" id="country" name="country" class="form-control" value="{{ old('country', isset($supplier) ? $supplier->country : '') }}" required>
@@ -128,6 +116,18 @@
                         @endif
                         <p class="helper-block">
                             {{ trans('cruds.supplier.fields.country_helper') }}
+                        </p>
+                    </div>
+                    <div class="form-group {{ $errors->has('postal_code') ? 'has-error' : '' }}">
+                        <label for="postal_code">{{ trans('cruds.supplier.fields.postal_code') }}*</label>
+                        <input type="text" id="postal_code" name="postal_code" class="form-control" value="{{ old('postal_code', isset($supplier) ? $supplier->postal_code : '') }}" required>
+                        @if($errors->has('postal_code'))
+                            <em class="invalid-feedback">
+                                {{ $errors->first('postal_code') }}
+                            </em>
+                        @endif
+                        <p class="helper-block">
+                            {{ trans('cruds.supplier.fields.postal_code_helper') }}
                         </p>
                     </div>
                     <div>

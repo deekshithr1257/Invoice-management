@@ -18,15 +18,20 @@ use Symfony\Component\HttpFoundation\Response;
 
 class InvoiceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('invoice_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        $supplier_id = 0;
+        if($request->supplier_id){
+            $supplier_id = $request->supplier_id;
+        }
         $invoices = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
-                                    $query->where('store_id', $storeId);
-                                })->paginate(10);
-
-        return view('admin.invoices.index', compact('invoices'));
+                                return $query->where('store_id', $storeId);
+                            })->when($supplier_id != 0, function ($query) use ($supplier_id) {
+                                return $query->where('supplier_id', $supplier_id);
+                            })->paginate(10);
+        $suppliers = Supplier::all();
+        return view('admin.invoices.index', compact('invoices','suppliers', 'supplier_id'));
     }
 
     public function create()

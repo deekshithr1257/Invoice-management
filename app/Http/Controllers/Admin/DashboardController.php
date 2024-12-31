@@ -9,13 +9,14 @@ use App\Http\Requests\StoreInvoiceCategoryRequest;
 use App\Http\Requests\UpdateInvoiceCategoryRequest;
 use App\Invoice;
 use App\Payment;
+use App\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('dashboard_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
@@ -24,38 +25,25 @@ class DashboardController extends Controller
         }else{
             session()->flash('alert', 'Please select a store before proceeding.');
         }
-        $user = auth()->user();
-
-        // Admin can view all data
-        if ($user->roles->contains(1)) {
-            $total = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
-                                $query->where('store_id', $storeId);
-                            })->sum('amount');
-            $balance = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
-                                $query->where('store_id', $storeId);
-                            })->sum('balance');
-            $paid = Payment::when(session('selected_store_id'), function ($query, $storeId) {
-                                $query->where('store_id', $storeId);
-                            })->sum('amount');
-            $invoices = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
-                                $query->where('store_id', $storeId);
-                            })->get();
-        } else {
-            // Store manager can view only their data
-            $total = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
-                                $query->where('store_id', $storeId);
-                            })->where('created_by', $user->id)->sum('amount');
-            $balance = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
-                                $query->where('store_id', $storeId);
-                            })->where('created_by', $user->id)->sum('balance');
-            $paid = Payment::when(session('selected_store_id'), function ($query, $storeId) {
-                                $query->where('store_id', $storeId);
-                            })->where('created_by', $user->id)->sum('amount');
-            $invoices = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
-                                $query->where('store_id', $storeId);
-                            })->where('created_by', $user->id)->get();
+        $supplierId = 0;
+        if($request->supplier_id){
+            $supplierId = $request->supplier_id;
         }
-
+        $total = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
+                    $query->where('store_id', $storeId);
+                })->sum('amount');
+        $balance = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
+                    $query->where('store_id', $storeId);
+                })->sum('balance');
+        $paid = Payment::when(session('selected_store_id'), function ($query, $storeId) {
+                    $query->where('store_id', $storeId);
+                })->sum('amount');
+        $invoices = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
+                    return $query->where('store_id', $storeId);
+                })->when($supplierId != 0, function ($query) use ($supplierId) {
+                    return $query->where('supplier_id', $supplierId);
+                })->paginate(10);
+        $suppliers = Supplier::all();
         // Calculate payment rate
         $paymentRate = ($total > 0) ? number_format(($paid / $total) * 100, 2) : 0.00;
 
@@ -64,7 +52,9 @@ class DashboardController extends Controller
             'balance' => $balance,
             'paid' => $paid,
             'paymentRate' => $paymentRate,
-            'invoices' => $invoices
+            'invoices' => $invoices,
+            'suppliers' => $suppliers,
+            'supplier_id' => $supplierId
         ]);
     }
 }

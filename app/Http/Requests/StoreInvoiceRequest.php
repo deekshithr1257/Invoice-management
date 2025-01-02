@@ -33,6 +33,15 @@ class StoreInvoiceRequest extends FormRequest
             'amount'     => [
                 'required',
             ],
+            'original_amount' => [
+                'required',
+            ],
+            'discount_type' => [
+                'required',
+            ],
+            'discount' => [
+                'required',
+            ],
             'created_by'     => [
                 'required',
             ],

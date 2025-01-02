@@ -35,7 +35,13 @@ class UpdateInvoiceRequest extends FormRequest
             'amount'     => [
                 'required',
             ],
-            'created_by'     => [
+            'original_amount' => [
+                'required',
+            ],
+            'discount_type' => [
+                'required',
+            ],
+            'discount' => [
                 'required',
             ],
             'image'     => [

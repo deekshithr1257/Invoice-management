@@ -73,9 +73,41 @@
                                     </p>
                                 </div>
                                 <!-- Amount -->
-                                <div class="form-group {{ $errors->has('amount') ? 'has-error' : '' }}">
+                                <div class="form-group {{ $errors->has('original_amount') ? 'has-error' : '' }}">
+                                    <label for="original_amount">{{ trans('cruds.invoice.fields.original_amount') }}*</label>
+                                    <input type="text" id="original_amount" name="original_amount" class="form-control" value="{{ old('original_amount', isset($invoice) ? $invoice->original_amount : '') }}" placeholder="0.00" step="0.01" required  onkeyup="calDiscount();">
+                                    @if($errors->has('original_amount'))
+                                        <em class="invalid-feedback">
+                                            {{ $errors->first('original_amount') }}
+                                        </em>
+                                    @endif
+                                    <p class="helper-block">
+                                        {{ trans('cruds.invoice.fields.original_amount_helper') }}
+                                    </p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="discount_type">{{ trans('cruds.invoice.fields.discount_type') }}</label>
+                                    <select name="discount_type" id="discount_type" class="form-control select2" onchange="showDiscountInput()">
+                                        <option value="none" {{ (isset($invoice) && $invoice->discount_type == 'none') ? 'selected' : '' }}>None</option>
+                                        <option value="percentage" {{ (isset($invoice) && $invoice->discount_type == 'percentage') ? 'selected' : '' }}>Percentage</option>
+                                        <option value="fixed" {{ (isset($invoice) && $invoice->discount_type == 'fixed') ? 'selected' : '' }}>Fixed</option>
+                                    </select>
+                                </div>
+                                <div class="form-group {{ $errors->has('discount') ? 'has-error' : '' }}" id='discount_div' style="display:none;">
+                                    <label for="discount">{{ trans('cruds.invoice.fields.discount') }}*</label>
+                                    <input type="text" id="discount" name="discount" class="form-control" value="{{ old('discount', isset($invoice) ? $invoice->discount : '') }}" onkeyup="calDiscount();">
+                                    @if($errors->has('discount'))
+                                        <em class="invalid-feedback">
+                                            {{ $errors->first('discount') }}
+                                        </em>
+                                    @endif
+                                    <p class="helper-block">
+                                        {{ trans('cruds.invoice.fields.discount_helper') }}
+                                    </p>
+                                </div>
+                                <div class="form-group {{ $errors->has('amount') ? 'has-error' : '' }}" id="amount_div" style="display:none;">
                                     <label for="amount">{{ trans('cruds.invoice.fields.amount') }}*</label>
-                                    <input type="number" id="amount" name="amount" class="form-control" value="{{ old('amount', isset($invoice) ? $invoice->amount : '') }}" step="0.01" required>
+                                    <input type="text" id="amount" name="amount" class="form-control" value="{{ old('amount', isset($invoice) ? $invoice->amount : '') }}" placeholder="0.00" step="0.01" required>
                                     @if($errors->has('amount'))
                                         <em class="invalid-feedback">
                                             {{ $errors->first('amount') }}
@@ -140,6 +172,9 @@
                                 <!-- Submit Button -->
                                 <div>
                                     <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
+                                    <a href="{{ url()->previous() }}" class="btn btn-secondary" style="margin-top: 20px;">
+                                        {{ trans('global.cancel') }}
+                                    </a>
                                 </div>
                             </form>
                         </div>
@@ -188,6 +223,57 @@
         alert('This device does not support direct camera capture. Please select an image file.');
     }
 }
+
+function showDiscountInput(){
+    var discountType = $('#discount_type').val();
+    if(discountType != 'none'){
+        $("#discount_div").show();
+        $("#amount_div").show();
+        calDiscount();
+    }else{
+        $("#discount_div").hide();
+        $("#amount_div").hide();
+        $("#discount").val(0);
+        $("#amount").val($("#original_amount").val());
+    }
+}
+function calDiscount(){
+    var discountType = $('#discount_type').val();
+    var discount = $('#discount').val();
+    var originalAmount = $("#original_amount").val();
+    if(discountType == 'percentage'){
+        $("#amount").val(originalAmount-(originalAmount*(discount/100)));
+    }else if(discountType == 'fixed'){
+        $("#amount").val(originalAmount-discount);
+    }
+
+}
+$(document).ready(function () {
+    var discountType = $('#discount_type').val();
+    if(discountType != 'none'){
+        $("#discount_div").show();
+        $("#amount_div").show();
+    }else{
+        $("#discount_div").hide();
+        $("#amount_div").hide();
+    }
+    $('#amount').on('blur', function () {
+        var value = parseFloat($(this).val());
+        if (!isNaN(value)) {
+            $(this).val(value.toFixed(2)); // Format with two decimal places
+        } else {
+            $(this).val(''); // Clear input if invalid
+        }
+    });
+    $('#amount').on('blur', function () {
+        var value = parseFloat($(this).val());
+        if (!isNaN(value)) {
+            $(this).val(value.toFixed(2)); // Format with two decimal places
+        } else {
+            $(this).val(''); // Clear input if invalid
+        }
+    });
+});
 </script>
 
 @endsection

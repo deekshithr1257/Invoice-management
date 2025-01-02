@@ -90,6 +90,7 @@ return [
     'calendar_sources'                     => 'Calendar sources',
     'campaign'                             => 'Campaign',
     'campaigns'                            => 'Campaigns',
+    'cancel'                               => 'Cancel',
     'categories'                           => 'Categories',
     'category'                             => 'Category',
     'category_name'                        => 'Category name',

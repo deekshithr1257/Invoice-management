@@ -75,6 +75,30 @@
                                     </tr>
                                     <tr>
                                         <th>
+                                            {{ trans('cruds.invoice.fields.original_amount') }}
+                                        </th>
+                                        <td>
+                                            <i class="fa fa-pound-sign"></i>{{ number_format($invoice->original_amount, 2) }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            {{ trans('cruds.invoice.fields.discount_type') }}
+                                        </th>
+                                        <td>
+                                            {{ $invoice->discount_type }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            {{ trans('cruds.invoice.fields.discount') }}
+                                        </th>
+                                        <td>
+                                            {{ number_format($invoice->discount, 2) }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
                                             {{ trans('cruds.invoice.fields.amount') }}
                                         </th>
                                         <td>

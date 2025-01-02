@@ -78,6 +78,9 @@ class InvoiceController extends Controller
             'invoice_number' => $request->invoice_number,
             'entry_date' => $request->entry_date,
             'amount' => $request->amount,
+            'discount' => $request->discount,
+            'discount_type' => $request->discount_type,
+            'original_amount' => $request->original_amount,
             'balance' => $request->amount,
             'description' => $request->description,
             'image' => $imagePath, // Save the image path to the database
@@ -148,10 +151,12 @@ class InvoiceController extends Controller
             'invoice_number' => $request->invoice_number,
             'entry_date' => $request->entry_date,
             'amount' => $request->amount,
+            'discount' => $request->discount,
+            'discount_type' => $request->discount_type,
+            'original_amount' => $request->original_amount,
             'description' => $request->description,
             'image' => $imagePath,
-            'camera_image' => $cameraImagePath,
-            // 'created_by' => $request->created_by,
+            'camera_image' => $cameraImagePath
         ]);
     
         return redirect()->route('admin.invoices.index');

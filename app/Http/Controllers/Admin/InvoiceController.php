@@ -25,6 +25,7 @@ class InvoiceController extends Controller
         if($request->supplier_id){
             $supplier_id = $request->supplier_id;
         }
+        $storeId = session('selected_store_id');
         $invoices = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
                                 return $query->where('store_id', $storeId);
                             })->when($supplier_id != 0, function ($query) use ($supplier_id) {

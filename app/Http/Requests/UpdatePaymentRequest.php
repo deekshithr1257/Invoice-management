@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Invoice;
 use App\Payment;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
@@ -18,13 +19,24 @@ class UpdatePaymentRequest extends FormRequest
 
     public function rules()
     {
+        $oldPaymentAmount = $this->route('payment')->amount;
         return [
+            'payment_type_id' => [
+                'required','exists:payment_types,id',
+            ],
             'entry_date' => [
                 'required',
                 'date_format:' . config('panel.date_format'),
             ],
-            'amount'     => [
+            'amount' => [
                 'required',
+                'numeric',
+                function ($attribute, $value, $fail) use($oldPaymentAmount){
+                    $invoice = Invoice::find($this->invoice_id);
+                    if ($invoice && $value > ($invoice->balance+$oldPaymentAmount)) {
+                        $fail("The {$attribute} must not exceed the balance of the invoice.");
+                    }
+                },
             ],
         ];
     }

@@ -24,26 +24,15 @@
     <div class="container-fluid">
     <div class="row">
         <div class="col d-flex justify-content-end pe-5">
-            <form method="get">
-                <div class="row">
-                    <!-- Month Dropdown -->
-                    <div class="col-md-6 form-group">
-                        <label class="control-label" for="m">{{ trans('global.month') }}</label>
-                        <select name="m" id="m" class="form-control">
-                            @foreach(cal_info(0)['months'] as $month)
-                                <option value="{{ $month }}" @if($month === old('m', Request::get('m', date('m')))) selected @endif>
-                                    {{ $month }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="col-md-2 filter-button-container">
-                        <label class="control-label">&nbsp;</label><br>
-                        <button class="btn btn-primary" type="submit">{{ trans('global.filterDate') }}</button>
-                    </div>
-                </div>
+            <form method="GET" action="{{ route('admin.payments.index') }}" class="form-inline">
+                <select name="invoice_id" id="invoice_id" class="header-select" onchange="this.form.submit()">
+                    <option value="0" {{ $invoice_id == 0 ? 'selected':""}}>All</option>
+                    @foreach($invoices as $invoice)
+                        <option value="{{ $invoice->id }}" {{ $invoice_id == $invoice->id ? 'selected':""}}>
+                            {{ $invoice->invoice_number }}
+                        </option>
+                    @endforeach
+                </select>
             </form>
         </div>
     </div>

@@ -24,7 +24,7 @@
                 <form action="{{ route('admin.payments.update', [$payment->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
-                    
+                    <input type="hidden" id="invoice_id" name="invoice_id" value="{{ $payment->invoice_id }}">
                     <div class="form-group {{ $errors->has('payment_type_id') ? 'has-error' : '' }}">
                         <label for="payment_type">{{ trans('cruds.payment.fields.payment_type') }}</label>
                         <select name="payment_type_id" id="payment_type" class="form-control select2">

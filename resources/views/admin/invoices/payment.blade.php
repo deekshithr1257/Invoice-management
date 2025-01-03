@@ -94,11 +94,31 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    flatpickr("#entry_date", {
-        dateFormat: "Y-m-d", // Adjust as needed
-        allowInput: true
+        flatpickr("#entry_date", {
+            dateFormat: "Y-m-d", // Adjust as needed
+            allowInput: true
+        });
     });
-});
+    $(document).ready(function () {
+
+        invoiceId = $("#invoice_id").val();
+        const url = "{{ route('admin.invoices.balance', ['id' => ':id']) }}".replace(':id', invoiceId);
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.balance !== undefined) {
+                    $('#amount').val(response.balance);
+                } else {
+                    alert('Unable to fetch the balance.');
+                }
+            },
+            error: function(xhr) {
+                alert(`Error: ${xhr.responseJSON?.error || 'Something went wrong.'}`);
+            }
+        });
+    });
 </script>
 
 @endsection

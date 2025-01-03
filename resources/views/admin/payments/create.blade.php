@@ -27,7 +27,7 @@
                     <input type="hidden" name="store_id" id="store_id" value="{{ $store_id }}">
                     <div class="form-group {{ $errors->has('invoice_id') ? 'has-error' : '' }}">
                         <label for="invoice_id">{{ trans('cruds.payment.fields.invoice_number') }}</label>
-                        <select name="invoice_id" id="invoice_id" class="form-control select2">
+                        <select name="invoice_id" id="invoice_id" class="form-control select2" onchange="getBalance(this.value);">
                             @foreach($invoices as $id => $invoice)
                                 <option value="{{ $id }}" {{ old('invoice_id') == $id ? 'selected' : '' }}>{{ $invoice }}</option>
                             @endforeach
@@ -109,11 +109,34 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    flatpickr("#entry_date", {
-        dateFormat: "Y-m-d", // Adjust as needed
-        allowInput: true
+        flatpickr("#entry_date", {
+            dateFormat: "Y-m-d", // Adjust as needed
+            allowInput: true
+        });
     });
-});
+
+    function getBalance(invoiceId){
+        if (!invoiceId) {
+            alert('Please provide a valid invoice ID.');
+            return;
+        }
+        const url = "{{ route('admin.invoices.balance', ['id' => ':id']) }}".replace(':id', invoiceId);
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.balance !== undefined) {
+                    $('#amount').val(response.balance);
+                } else {
+                    alert('Unable to fetch the balance.');
+                }
+            },
+            error: function(xhr) {
+                alert(`Error: ${xhr.responseJSON?.error || 'Something went wrong.'}`);
+            }
+        });
+    }
 </script>
 
 @endsection

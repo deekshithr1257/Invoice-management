@@ -221,4 +221,15 @@ class InvoiceController extends Controller
         $invoice->save();
         return redirect()->route('admin.invoices.show',$invoice->id);
     }
+
+    public function getBalance($id)
+    {
+        $invoice = Invoice::find($id);
+
+        if (!$invoice) {
+            return response()->json(['error' => 'Invoice not found'], 404);
+        }
+
+        return response()->json(['balance' => $invoice->balance]);
+    }
 }

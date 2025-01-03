@@ -1735,7 +1735,8 @@ textarea.form-control {
       flex: 0 0 auto;
       flex-flow: row wrap;
       align-items: center;
-      margin-bottom: 0; }
+      /* margin-bottom: 0;  */
+    }
     .form-inline .form-control {
       display: inline-block;
       width: auto;
@@ -14789,7 +14790,7 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   .header-select {
       font-size: 12px; /* Smaller font size for smaller screens */
       padding: 4px 8px; /* Even smaller padding */
-      width: 145px; /* Full width for mobile */
+      width: 145px;
   }
 }
 
@@ -14874,6 +14875,11 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 .form-group select {
   min-width: 150px;
 } */
+
+
+
+
+
 
 
 /*# sourceMappingURL=style.css.map */

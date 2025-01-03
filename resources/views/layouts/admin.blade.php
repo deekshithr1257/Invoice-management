@@ -20,6 +20,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.jpg') }}">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 
     <!-- Custom Stylesheet -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">

@@ -131,42 +131,42 @@
                                     </p>
                                 </div>
                                 <div class="row row-xs align-items-center mg-b-20">
-                            <div class="col-md-4">
-                                <label class="mg-b-0"> {{ trans('cruds.invoice.fields.invoice') }}</label>
-                            </div>
-                            <div class="col-md-8 mg-t-5 mg-md-t-0">
-                                <input type="file" name="image" id="image"
-                                    class="dropify" data-height="200"
-                                    accept=".jpg, .png, image/jpeg, image/png" required>
-                            </div>
+                                    <div class="col-md-4">
+                                        <label class="mg-b-0"> {{ trans('cruds.invoice.fields.invoice') }}</label>
+                                    </div>
+                                    <div class="col-md-8 mg-t-5 mg-md-t-0">
+                                        <div class="custom-file text-center dz-clickable">
+                                            <input type="file" name="imageFile[]" class="custom-file-input" id="galleryImagesButton" multiple="multiple" accept=".jpg, .png, image/jpeg, image/png">
+                                        </div>
+                                        <div id="imagePreviews" class="user-image mb-3 text-center mt-3">
+                                            <!-- Image previews will appear here -->
+                                        </div>
+                                    </div>
+                                </div>
 
-                                <div class="row row-xs align-items-center mg-b-20">
+                                <!-- <div class="row row-xs align-items-center mg-b-20">
                                     <div class="col-md-8">
                                         <label class="mg-b-0"> Take a Photo</label>
                                     </div>
                                     <div class="col-md-4 mg-t-5 mg-md-t-0">
                                         <div class="d-flex align-items-center">
-                                            <!-- Camera Input -->
+                                           
                                             <input type="file" name="camera_image" id="camera_image" accept="image/*" capture="camera" 
                                                 style="display: none;" onchange="handleCameraCapture(this)">
                                             
-                                            <!-- Camera Icon -->
+                                           
                                             <button type="button" class="btn btn-light btn-icon" onclick="document.getElementById('camera_image').click()">
                                                 <i class="fa fa-camera"></i>
                                             </button>
 
-                                            <!-- Existing File Input -->
-                                            <!-- <input type="file" name="camera_image" id="camera_image"
-                                                class="dropify ml-3" data-height="200"
-                                                accept=".jpg, .png, image/jpeg, image/png"> -->
                                         </div>
                                     </div>
-                                </div>
-                                </div>
+                                </div> -->
+                                
                                 <br>
                                 <div>
-                                    <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
-                                    <a href="{{ url()->previous() }}" class="btn btn-secondary" style="margin-top: 20px;">
+                                    <input class="btn btn-danger me-3" type="submit" value="{{ trans('global.save') }}">
+                                    <a href="{{ url()->previous() }}" class="btn btn-secondary">
                                         {{ trans('global.cancel') }}
                                     </a>
                                 </div>
@@ -180,12 +180,58 @@
 </div>
 
 <!-- Internal Fileuploads js-->
+ <style>
+#imagePreviews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between images */
+    justify-content: center; /* Optional: Centers the images horizontally */
+}
+    .imgPreview img {
+    padding: 8px;
+    max-width: 100px;
+}
+
+.delete {
+    padding: 40px 0px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+#galleryImagesButton {
+    display: table-header-group;
+    width: 100%;
+    padding: 146px 0 0px 0;
+    height: 2px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    align-items: center;
+    box-sizing: border-box;
+    background: url('{{ asset('images/cloud-upload.png') }}') 235px 13px no-repeat;
+    border-radius: 20px;
+    border: 2px dashed var(--vz-border-color);
+    border-radius: 6px;
+    cursor: pointer;
+}
+.custom-file-input {
+    opacity: unset;
+}
+#closebtn {
+    position: relative;
+    top: -27px;
+}
+@media (max-width: 768px) {
+    #galleryImagesButton {
+        background: url('{{ asset('images/cloud-upload.png') }}') 10px 13px no-repeat; /* Adjusted position for smaller screens */
+        padding: 100px 0 0 0; /* Reduced padding for mobile */
+    }
+}
+ </style>
 
 <!-- Include jQuery first (Make sure this is included before any other JS files that depend on jQuery) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script src="{{asset('plugins/fileuploads/js/fileupload.js')}}"></script>
-    <script src="{{asset('plugins/fileuploads/js/file-upload.js')}}"></script>
+<!-- <script src="{{asset('plugins/fileuploads/js/fileupload.js')}}"></script>
+    <script src="{{asset('plugins/fileuploads/js/file-upload.js')}}"></script> -->
 <!-- Flatpickr JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
@@ -197,26 +243,79 @@
 });
 </script>
 <script>
-function handleCameraCapture(input) {
-    if (navigator.userAgent.match(/Android|iPhone|iPad|iPod/i)) {
-        // Mobile device: Display camera functionality
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
+$(document).ready(function () {
+    $('#galleryImagesButton').on('change', function (e) {
+        var files = e.target.files;
+        var imagePreviews = $('#imagePreviews');
+        
+        // Loop through selected files
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+
             reader.onload = function (e) {
-                // For previewing the captured image (optional)
-                const preview = document.createElement('img');
-                preview.src = e.target.result;
-                preview.style.maxWidth = '100%';
-                preview.style.marginTop = '10px';
-                input.parentElement.appendChild(preview);
+                var imageUrl = e.target.result;
+
+                // Create image preview with delete button
+                var previewHtml = `
+                    <div class="imgPreview" data-index="${i}">
+                        <a class="delete" data-value="${i}">
+                            <img class="images" src="${imageUrl}" alt="Preview">
+                            <i class="ri-close-circle-fill" aria-hidden="true" id="closebtn"></i>
+                        </a>
+                    </div>
+                `;
+                imagePreviews.append(previewHtml);
             };
-            reader.readAsDataURL(input.files[0]);
+
+            reader.readAsDataURL(file);
         }
-    } else {
-        // Desktop device: Open file picker
-        alert('This device does not support direct camera capture. Please select an image file.');
-    }
-}
+
+        // Attach event to delete button after the file list is updated
+        $(document).on('click', '.delete', function () {
+            var index = $(this).data('value');
+            var filesArray = Array.from($('#galleryImagesButton')[0].files);
+
+            // Remove file from the files array
+            filesArray.splice(index, 1);
+            
+            // Create a new DataTransfer object and add the remaining files
+            var dataTransfer = new DataTransfer();
+            filesArray.forEach(function (file) {
+                dataTransfer.items.add(file);
+            });
+
+            // Update the file input with the new files array
+            $('#galleryImagesButton')[0].files = dataTransfer.files;
+
+            // Remove the image preview from the DOM
+            $(this).closest('.imgPreview').remove();
+        });
+    });
+});
+
+
+
+// function handleCameraCapture(input) {
+//     if (navigator.userAgent.match(/Android|iPhone|iPad|iPod/i)) {
+//         // Mobile device: Display camera functionality
+//         if (input.files && input.files[0]) {
+//             const reader = new FileReader();
+//             reader.onload = function (e) {
+//                 // For previewing the captured image (optional)
+//                 const preview = document.createElement('img');
+//                 preview.src = e.target.result;
+//                 preview.style.maxWidth = '100%';
+//                 preview.style.marginTop = '10px';
+//                 input.parentElement.appendChild(preview);
+//             };
+//             reader.readAsDataURL(input.files[0]);
+//         }
+//     } else {
+//         // Desktop device: Open file picker
+//         alert('This device does not support direct camera capture. Please select an image file.');
+//     }
+// }
 function showDiscountInput(){
     var discountType = $('#discount_type').val();
     if(discountType != 'none'){

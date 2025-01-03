@@ -144,35 +144,35 @@
                                         {{ isset($invoice->image) ? '' : 'required' }}>
                                 </div>
 
-                                <div class="row row-xs align-items-center mg-b-20">
+                                <!-- <div class="row row-xs align-items-center mg-b-20">
                                     <div class="col-md-4">
                                         <label class="mg-b-0"> Take A Photo</label>
                                     </div>
                                     <div class="col-md-8 mg-t-5 mg-md-t-0">
                                         <div class="d-flex align-items-center">
-                                            <!-- Camera Input -->
+                                          
                                             <input type="file" name="camera_image" id="camera_image" accept="image/*" capture="camera" 
                                                 style="display: none;" onchange="handleCameraCapture(this)">
                                             
-                                            <!-- Camera Icon -->
+                                            
                                             <button type="button" class="btn btn-light btn-icon" onclick="document.getElementById('camera_image').click()">
                                                 <i class="fa fa-camera"></i>
                                             </button>
 
-                                            <!-- Existing File Input -->
+                                           
                                             <input type="file" name="camera_image" id="camera_image"
                                               data-default-file="{{ isset($invoice->camera_image) ? asset('storage/' . $invoice->camera_image) : '' }}"
                                                 class="dropify ml-3" data-height="200"
                                                 accept=".jpg, .png, image/jpeg, image/png">
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
 
                                 <!-- Submit Button -->
                                 <div>
-                                    <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
-                                    <a href="{{ url()->previous() }}" class="btn btn-secondary" style="margin-top: 20px;">
+                                    <input class="btn btn-danger me-3" type="submit" value="{{ trans('global.save') }}">
+                                    <a href="{{ url()->previous() }}" class="btn btn-secondary">
                                         {{ trans('global.cancel') }}
                                     </a>
                                 </div>
@@ -203,26 +203,26 @@
 </script>
 
 <script>
-    function handleCameraCapture(input) {
-    if (navigator.userAgent.match(/Android|iPhone|iPad|iPod/i)) {
-        // Mobile device: Display camera functionality
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                // For previewing the captured image (optional)
-                const preview = document.createElement('img');
-                preview.src = e.target.result;
-                preview.style.maxWidth = '100%';
-                preview.style.marginTop = '10px';
-                input.parentElement.appendChild(preview);
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    } else {
-        // Desktop device: Open file picker
-        alert('This device does not support direct camera capture. Please select an image file.');
-    }
-}
+//     function handleCameraCapture(input) {
+//     if (navigator.userAgent.match(/Android|iPhone|iPad|iPod/i)) {
+//         // Mobile device: Display camera functionality
+//         if (input.files && input.files[0]) {
+//             const reader = new FileReader();
+//             reader.onload = function (e) {
+//                 // For previewing the captured image (optional)
+//                 const preview = document.createElement('img');
+//                 preview.src = e.target.result;
+//                 preview.style.maxWidth = '100%';
+//                 preview.style.marginTop = '10px';
+//                 input.parentElement.appendChild(preview);
+//             };
+//             reader.readAsDataURL(input.files[0]);
+//         }
+//     } else {
+//         // Desktop device: Open file picker
+//         alert('This device does not support direct camera capture. Please select an image file.');
+//     }
+// }
 
 function showDiscountInput(){
     var discountType = $('#discount_type').val();

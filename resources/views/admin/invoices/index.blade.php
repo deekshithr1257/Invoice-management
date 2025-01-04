@@ -5,36 +5,29 @@
 <div class="content-body">
 <div class="row page-titles mx-0">
     @can('invoice_create')
-    <div style="margin-bottom: 10px;" class="row">
-        <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.invoices.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.invoice.title_singular') }}
-            </a>
-        </div>
+    <div class="col-lg-6 col-md-6 d-flex align-items-center mb-2 mb-lg-0">
+        <a class="btn btn-success add-button" href="{{ route('admin.invoices.create') }}">
+            {{ trans('global.add') }} {{ trans('cruds.invoice.title_singular') }}
+        </a>
     </div>
     @endcan
-    <div class="col-lg-6 d-flex align-items-center p-md-0">
+    <div class="col-lg-6 col-md-6 d-flex align-items-center justify-content-end">
         <!-- Filter Form -->
-        <form method="GET" action="{{ route('admin.invoices.index') }}" class="form-inline">
-            <div class="form-group mb-0">
-                    <select name="supplier_id" id="supplier_id" class="header-select form-control" data-selected="{{ $supplier_id }}">
-                        <option value="0" {{ $supplier_id == 0 ? 'selected' : '' }}>All</option>
-                        @foreach($suppliers as $supplier)
-                            <option value="{{ $supplier->id }}" {{ $supplier_id == $supplier->id ? 'selected' : '' }}>
-                                {{ $supplier->name }}
-                            </option>
-                        @endforeach
-                    </select>
+        <form method="GET" action="{{ route('admin.invoices.index') }}" class="form-inline w-100">
+            <div class="form-group mb-0 w-100">
+                <select name="supplier_id" id="supplier_id" class="header-select form-control">
+                    <option value="0" {{ $supplier_id == 0 ? 'selected' : '' }}>All</option>
+                    @foreach($suppliers as $supplier)
+                        <option value="{{ $supplier->id }}" {{ $supplier_id == $supplier->id ? 'selected' : '' }}>
+                            {{ $supplier->name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </form>
     </div>
-    <div class="col-lg-3 p-md-0">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="javascript:void(0)">Home</a></li>
-        </ol>
-    </div>
 </div>
+
 
     <!-- row -->
 
@@ -154,6 +147,44 @@
   .select2-results__option {
     border-radius: 8px;
     }
+
+/* General styles */
+.add-button {
+    white-space: nowrap; /* Prevent text wrapping */
+    max-width: 200px; /* Limit button width */
+}
+
+/* Adjust padding for the Add button */
+@media (min-width: 830px) {
+    .row.page-titles {
+        width: 404px; /* Set a fixed width for desktop */
+    }
+}
+
+.header-select {
+    width: 100%; /* Ensure the select fills its container */
+}
+
+@media (max-width: 830px) {
+    .row.page-titles {
+        display: flex;
+        flex-wrap: nowrap; /* Prevent elements from stacking */
+    }
+
+    .col-lg-6,
+    .col-md-6 {
+        flex: 1; /* Share available space equally */
+        max-width: 50%; /* Ensure equal width */
+    }
+
+    .add-button {
+        max-width: none; /* Allow button to take full width */
+    }
+
+    .header-select {
+        max-width: none; /* Allow select box to scale appropriately */
+    }
+}
 </style>
 
 

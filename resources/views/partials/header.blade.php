@@ -150,22 +150,23 @@
                     </div>
                 </li> -->
                 <li class="icons dropdown d-md-flex">
-                            <form method="POST" action="{{ route('admin.set.store') }}" class="form-inline">
-                                @csrf
-                                @if($stores->isEmpty())
-                                    <select name="store_id" class="header-select" disabled>
-                                        <option value="" selected>Please create your</option>
-                                    </select>
-                                @else
-                                    <select name="store_id" class="header-select" onchange="this.form.submit()">
-                                        @foreach($stores as $store)
-                                            <option value="{{ $store->id }}" {{ session('selected_store_id') == $store->id ? 'selected' : '' }}>
-                                                {{ $store->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                @endif
-                            </form>
+                <form method="POST" action="{{ route('admin.set.store') }}" class="form-inline">
+                            @csrf
+                            @if($stores->isEmpty())
+                                <select name="store_id" id="store_id" class="header-select" disabled>
+                                    <option value="" selected>Please create your</option>
+                                </select>
+                            @else
+                                <select name="store_id" id="store_id" class="header-select form-control" data-selected="{{ session('selected_store_id') }}">
+                                    @foreach($stores as $store)
+                                        <option value="{{ $store->id }}" {{ session('selected_store_id') == $store->id ? 'selected' : '' }}>
+                                            {{ $store->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            @endif
+                    </form>
+
                     <!-- <a href="javascript:void(0)" class="log-user" data-toggle="dropdown">
                         <i class="fas fa-store f-s-14" aria-hidden="true"></i><span>All</span>
                     </a>
@@ -211,3 +212,43 @@
         </div>
     </div>
 </div>
+
+<style>
+    @media (max-width: 430px) {
+    .select2-container {
+    width: 142px!important;
+}
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+    // Initialize Select2 for the store dropdown
+    $('#store_id').select2({
+        placeholder: "Select a Store", // Customize placeholder text
+        allowClear: true,             // Allow clearing selection
+        width: 'resolve',             // Adjust dropdown width
+    });
+
+    // Prevent form submission during initialization
+    let initialized = false;
+
+    $('#store_id').on('change', function () {
+        if (initialized) {
+            this.form.submit(); // Submit the form only after initialization
+        }
+    });
+
+    // Set the selected value from server or default to none
+    let selectedValue = $('#store_id').data('selected'); // Get selected value from the data attribute
+    if (selectedValue) {
+        $('#store_id').val(selectedValue).trigger('change.select2'); // Set the server-provided value
+    }
+
+    // Mark initialization as complete
+    initialized = true;
+});
+
+</script>

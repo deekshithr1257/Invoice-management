@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="content-body">
-    <div class="row page-titles mx-0">
+    <!-- <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
@@ -10,7 +10,7 @@
                 <li class="breadcrumb-item active">{{ trans('global.show') }} {{ trans('cruds.paymentType.title_singular') }}</li>
             </ol>
         </div>
-    </div>
+    </div> -->
 
     <div class="container-fluid">
         <div class="card">

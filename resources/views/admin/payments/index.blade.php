@@ -4,18 +4,18 @@
 <div class="content-body">
     <div class="row page-titles mx-0">
     @can('payment_create')
-        <div style="margin-bottom: 10px;" class="row">
-            <div class="col-lg-12">
+        
+            <div class="col-lg-6 col-md-6 d-flex align-items-center mb-2 mb-lg-0">
                 <a class="btn btn-success" href="{{ route('admin.payments.create') }}">
                     {{ trans('global.add') }} {{ trans('cruds.payment.title_singular') }}
                 </a>
             </div>
-        </div>
+
         @endcan
-        <div class="col-lg-6 d-flex align-items-center p-md-0">
+        <div  class="col-lg-6 col-md-6 d-flex align-items-center justify-content-end">
         <!-- Filter Form -->
-        <form method="GET" action="{{ route('admin.payments.index') }}" class="form-inline">
-            <div class="form-group mb-0">
+        <form method="GET" action="{{ route('admin.payments.index') }}" class="form-inline w-100">
+            <div class="form-group mb-0 w-100">
                     <select name="invoice_id" id="invoice_id" class="header-select form-control" data-selected="{{ $invoice_id }}">
                         <option value="0" {{ $invoice_id == 0 ? 'selected' : '' }}>All</option>
                         @foreach($invoices as $invoice)
@@ -27,13 +27,13 @@
             </div>
         </form>
     </div>
-        <div class="col p-md-0">
+        <!-- <div class="col p-md-0">
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('admin.payments.index') }}">{{ trans('cruds.payment.title_singular') }}</a></li>
                 <li class="breadcrumb-item active">{{ trans('global.list') }} {{ trans('cruds.payment.title_singular') }}</li>
             </ol>
-        </div>
+        </div> -->
     </div>
 
     <div class="container-fluid">
@@ -248,6 +248,46 @@
   .select2-results__option {
     border-radius: 8px;
     }
+
+    
+
+    /* General styles */
+.add-button {
+    white-space: nowrap; /* Prevent text wrapping */
+    max-width: 200px; /* Limit button width */
+}
+
+/* Adjust padding for the Add button */
+@media (min-width: 830px) {
+    .row.page-titles {
+        width: 425px; /* Set a fixed width for desktop */
+    }
+}
+
+.header-select {
+    width: 100%; /* Ensure the select fills its container */
+}
+
+@media (max-width: 830px) {
+    .row.page-titles {
+        display: flex;
+        flex-wrap: nowrap; /* Prevent elements from stacking */
+    }
+
+    .col-lg-6,
+    .col-md-6 {
+        flex: 1; /* Share available space equally */
+        max-width: 50%; /* Ensure equal width */
+    }
+
+    .add-button {
+        max-width: none; /* Allow button to take full width */
+    }
+
+    .header-select {
+        max-width: none; /* Allow select box to scale appropriately */
+    }
+}
 </style>
 
 

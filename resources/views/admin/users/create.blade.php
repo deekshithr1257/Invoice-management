@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="content-body">
-    <div class="row page-titles mx-0">
+    <!-- <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
@@ -10,7 +10,7 @@
                 <li class="breadcrumb-item active"><a href="javascript:void(0)">{{ trans('global.create') }} {{ trans('cruds.user.title_singular') }}</a></li>
             </ol>
         </div>
-    </div>
+    </div> -->
 
     <div class="container-fluid">
         <div class="card">
@@ -108,6 +108,9 @@
                     </div>
 
                         <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
+                        <a href="{{ url()->previous() }}" class="btn btn-secondary">
+                                        {{ trans('global.cancel') }}
+                                    </a>
                     </div>
                 </form>
             </div>

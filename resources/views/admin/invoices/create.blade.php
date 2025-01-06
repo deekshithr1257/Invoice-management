@@ -108,7 +108,7 @@
                                 </div>
                                 <div class="form-group {{ $errors->has('amount') ? 'has-error' : '' }}" id="amount_div" style="display:none;">
                                     <label for="amount">{{ trans('cruds.invoice.fields.amount') }}*</label>
-                                    <input type="text" id="amount" name="amount" class="form-control" value="{{ old('amount', isset($invoice) ? $invoice->amount : '') }}" placeholder="0.00" step="0.01" required>
+                                    <input type="text" id="amount" name="amount" class="form-control" value="{{ old('amount', isset($invoice) ? $invoice->amount : '') }}" placeholder="0.00" step="0.01">
                                     @if($errors->has('amount'))
                                         <em class="invalid-feedback">
                                             {{ $errors->first('amount') }}
@@ -136,11 +136,16 @@
                                     </div>
                                     <div class="col-md-8 mg-t-5 mg-md-t-0">
                                         <div class="custom-file text-center dz-clickable">
-                                            <input type="file" name="imageFile[]" class="custom-file-input" id="galleryImagesButton" multiple="multiple" accept=".jpg, .png, image/jpeg, image/png">
+                                            <input type="file" name="image_files[]" class="custom-file-input" id="galleryImagesButton" multiple="multiple" accept=".jpg, .png, image/jpeg, image/png">
                                         </div>
                                         <div id="imagePreviews" class="user-image mb-3 text-center mt-3">
                                             <!-- Image previews will appear here -->
                                         </div>
+                                        @if($errors->has('image_files'))
+                                            <em class="invalid-feedback">
+                                                {{ $errors->first('image_files') }}
+                                            </em>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -160,12 +165,17 @@
                                         </div>
                                     </div>
                                     <div id="preview-container" style="margin-top: 20px; display: flex; flex-wrap: wrap;"></div>
+                                    @if($errors->has('camera_image'))
+                                        <em class="invalid-feedback">
+                                            {{ $errors->first('camera_image') }}
+                                        </em>
+                                    @endif
                                 </div>
-                                @if($errors->has('camera_image'))
-                                    <em class="invalid-feedback">
-                                        {{ $errors->first('camera_image') }}
-                                    </em>
-                                @endif
+                                @if($errors)
+                                            <em class="invalid-feedback">
+                                                {{ $errors }}
+                                            </em>
+                                        @endif
                                 <br>
                                 <div>
                                     <input class="btn btn-danger me-3" type="submit" value="{{ trans('global.save') }}">
@@ -334,6 +344,9 @@ function calDiscount(){
         $("#amount").val(originalAmount-(originalAmount*(discount/100)));
     }else if(discountType == 'fixed'){
         $("#amount").val(originalAmount-discount);
+    }else{
+        $("#amount").val(originalAmount);
+        $("#discount").val(0);
     }
 
 }
@@ -350,17 +363,17 @@ $(document).ready(function () {
     $('#amount').on('blur', function () {
         var value = parseFloat($(this).val());
         if (!isNaN(value)) {
-            $(this).val(value.toFixed(2)); // Format with two decimal places
+            $(this).val(value.toFixed(2));
         } else {
-            $(this).val(''); // Clear input if invalid
+            $(this).val('');
         }
     });
-    $('#amount').on('blur', function () {
+    $('#original_amount').on('blur', function () {
         var value = parseFloat($(this).val());
         if (!isNaN(value)) {
-            $(this).val(value.toFixed(2)); // Format with two decimal places
+            $(this).val(value.toFixed(2));
         } else {
-            $(this).val(''); // Clear input if invalid
+            $(this).val('');
         }
     });
 });

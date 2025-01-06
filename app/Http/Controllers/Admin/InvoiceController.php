@@ -70,16 +70,24 @@ class InvoiceController extends Controller
 
          // Handle the camera image upload
         $path = null;
+        $images = [];
         if ($request->hasFile('camera_images')) {
-            foreach($request->camera_images as $cameraImage){
-                $path = $cameraImage->store('invoices', 'public');
-                  // Save the image path to the database
+            $images = $request->camera_images;
+        }else if(($request->hasFile('image_files'))){
+            $images = $request->image_files;
+        }
+        if(!empty($images)){
+            if (!is_array($images)) {
+                $images = [$images]; // Convert a single file to an array for consistency
+            }
+            foreach($images as $image){
+                $path = $image->store('invoices', 'public');
+                    // Save the image path to the database
                 $invoice->images()->create([
                     'image_path' => $path,
                 ]);
-             }
-         }
-
+            }
+        }
         return redirect()->route('admin.invoices.index');
     }
 

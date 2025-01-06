@@ -18,7 +18,7 @@ class StoreInvoiceRequest extends FormRequest
 
     public function rules()
     {
-        return [
+        $rules = [
             'supplier_id'     => [
                 'required',
             ],
@@ -39,18 +39,28 @@ class StoreInvoiceRequest extends FormRequest
             'discount_type' => [
                 'required',
             ],
-            'discount' => [
-                'required',
-            ],
             'created_by'     => [
                 'required',
             ],
+            'image_files'    => [
+                'required_without:camera_images','array'
+            ],
+            'image_files.*' => [
+                'image','mimes:jpeg,png,jpg,gif,svg','max:2048'
+            ],
             'camera_images'     => [
-                'required','array'
+                'required_without:image_files','array'
             ],
             'camera_images.*' => [
                 'image','mimes:jpeg,png,jpg,gif,svg','max:2048'
             ],
         ];
+
+
+        if ($this->input('discount_type') !== 'none') {
+            $rules['discount'] = ['required', 'numeric', 'min:0'];
+        }
+
+        return $rules;
     }
 }

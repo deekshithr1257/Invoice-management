@@ -10,7 +10,7 @@ class CreateInvoiceImagesTable extends Migration
     {
         Schema::create('invoice_images', function (Blueprint $table) {
             $table->id(); // Primary key
-            $table->unsignedBigInteger('invoice_id'); // Foreign key to invoices table
+            $table->unsignedInteger('invoice_id'); // Foreign key to invoices table
             $table->string('image_path'); // Path to the image
             $table->string('image_name')->nullable(); // Optional image name
             $table->timestamps();

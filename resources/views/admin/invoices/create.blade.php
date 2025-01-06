@@ -171,11 +171,6 @@
                                         </em>
                                     @endif
                                 </div>
-                                @if($errors)
-                                            <em class="invalid-feedback">
-                                                {{ $errors }}
-                                            </em>
-                                        @endif
                                 <br>
                                 <div>
                                     <input class="btn btn-danger me-3" type="submit" value="{{ trans('global.save') }}">

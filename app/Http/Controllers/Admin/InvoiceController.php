@@ -53,25 +53,6 @@ class InvoiceController extends Controller
             session()->flash('alert', 'Please select a store before proceeding.');
             return redirect()->back();
         }
-         // Validate the file input
-        $validated = $request->validate([
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Adjust the file types and size as needed
-            'camera_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation for the camera image
-        ]);
-
-        // Handle the image upload if it exists
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imagePath = $image->store('invoices', 'public'); // Store in the 'invoices' directory within the public disk
-        }
-
-        // Handle the camera image upload
-        $cameraImagePath = null;
-        if ($request->hasFile('camera_image')) {
-            $cameraImage = $request->file('camera_image');
-            $cameraImagePath = $cameraImage->store('invoices/camera_images', 'public');
-        }
         // Create the invoice
         $invoice = Invoice::create([
             'supplier_id' => $request->supplier_id,
@@ -84,12 +65,20 @@ class InvoiceController extends Controller
             'original_amount' => $request->original_amount,
             'balance' => $request->amount,
             'description' => $request->description,
-            'image' => $imagePath, // Save the image path to the database
-            'camera_image' => $cameraImagePath,
             'created_by' => $request->created_by,
         ]);
-        // $invoice = Invoice::create($request->all());
-      
+
+         // Handle the camera image upload
+        $path = null;
+        if ($request->hasFile('camera_images')) {
+            foreach($request->camera_images as $cameraImage){
+                $path = $cameraImage->store('invoices', 'public');
+                  // Save the image path to the database
+                $invoice->images()->create([
+                    'image_path' => $path,
+                ]);
+             }
+         }
 
         return redirect()->route('admin.invoices.index');
     }

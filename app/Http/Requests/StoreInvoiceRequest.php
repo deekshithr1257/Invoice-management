@@ -45,11 +45,11 @@ class StoreInvoiceRequest extends FormRequest
             'created_by'     => [
                 'required',
             ],
-            'image'     => [
-                'nullable',
+            'camera_images'     => [
+                'required','array'
             ],
-            'camera_image'     => [
-                'nullable',
+            'camera_images.*' => [
+                'image','mimes:jpeg,png,jpg,gif,svg','max:2048'
             ],
         ];
     }

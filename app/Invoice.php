@@ -62,4 +62,9 @@ class Invoice extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+    public function images()
+    {
+        return $this->hasMany(InvoiceImage::class);
+    }
 }

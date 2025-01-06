@@ -124,20 +124,24 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.invoice.fields.invoice') }}
+                                            {{ trans('cruds.invoice.fields.invoice_images') }}
                                         </th>
                                         <td>
                                             <div class="text-center">
-                                                <!-- Download Link with Icon -->
-                                                <a href="{{ route('admin.invoices.download', basename($invoice->image)) }}" 
-                                                class="d-inline-flex align-items-center mb-3 text-decoration-none text-primary">
-                                                    <i class="fas fa-download me-2" style="font-size: 18px;"></i>
-                                                    Download
-                                                </a>
-                                                <!-- Invoice Image -->
-                                                <div class="d-flex justify-content-center align-items-center mt-2">
-                                                    <img src="{{ asset('storage/'.$invoice->image) }}" alt="invoice" class="img-fluid responsive-image">
-                                                </div>
+                                                @if(isset($invoice->images) && !is_null($invoice->images) && count($invoice->images) > 0)
+                                                    @foreach($invoice->images as $image)
+                                                        <!-- Download Link with Icon -->
+                                                        <a href="{{ route('admin.invoices.download', basename($image->image_path)) }}" 
+                                                        class="d-inline-flex align-items-center mb-3 text-decoration-none text-primary">
+                                                            <i class="fas fa-download me-2" style="font-size: 18px;"></i>
+                                                            Download
+                                                        </a>
+                                                        <!-- Invoice Image -->
+                                                        <div class="d-flex justify-content-center align-items-center mt-2">
+                                                            <img src="{{ asset('storage/'.$image->image_path) }}" alt="invoice" class="img-fluid responsive-image">
+                                                        </div>
+                                                    @endforeach
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>

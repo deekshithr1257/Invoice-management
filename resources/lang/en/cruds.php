@@ -182,6 +182,7 @@ return [
             'original_amount'         => 'Original Amount',
             'original_amount_helper'  => '',
             'invoice'                 => 'Invoice',
+            'invoice_images'          => 'Invoice Images',
             'balance'                 => 'Balance',
             'description'             => 'Description',
             'description_helper'      => '',

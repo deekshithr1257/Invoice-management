@@ -161,8 +161,11 @@
                                     </div>
                                     <div id="preview-container" style="margin-top: 20px; display: flex; flex-wrap: wrap;"></div>
                                 </div>
-
-                                
+                                @if($errors->has('camera_image'))
+                                    <em class="invalid-feedback">
+                                        {{ $errors->first('camera_image') }}
+                                    </em>
+                                @endif
                                 <br>
                                 <div>
                                     <input class="btn btn-danger me-3" type="submit" value="{{ trans('global.save') }}">

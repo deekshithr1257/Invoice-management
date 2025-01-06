@@ -14,6 +14,7 @@ use App\PaymentType;
 use App\Supplier;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class InvoiceController extends Controller
@@ -46,6 +47,7 @@ class InvoiceController extends Controller
 
     public function store(StoreInvoiceRequest $request)
     {
+        DB::beginTransaction();
 
         if(session('selected_store_id')){
             $storeId = session('selected_store_id');
@@ -72,7 +74,7 @@ class InvoiceController extends Controller
         $path = null;
         $images = [];
         if ($request->hasFile('camera_images')) {
-            $images = $request->camera_images;
+            $images = $request->file('camera_images');
         }else if(($request->hasFile('image_files'))){
             $images = $request->file('image_files');
         }

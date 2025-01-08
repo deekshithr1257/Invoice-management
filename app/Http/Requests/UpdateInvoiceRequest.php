@@ -44,11 +44,17 @@ class UpdateInvoiceRequest extends FormRequest
             'discount' => [
                 'required',
             ],
-            'image'     => [
-                'nullable',
+            'image_files'    => [
+                'required_without:camera_images','array'
             ],
-            'camera_image'     => [
-                'nullable',
+            'image_files.*' => [
+                'image','mimes:jpeg,png,jpg,gif,svg,webp'
+            ],
+            'camera_images'     => [
+                'required_without:image_files','array'
+            ],
+            'camera_images.*' => [
+                'image','mimes:jpeg,png,jpg,gif,svg'
             ],
         ];
     }

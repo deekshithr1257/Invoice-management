@@ -15,6 +15,7 @@ use App\Supplier;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class InvoiceController extends Controller
@@ -105,58 +106,67 @@ class InvoiceController extends Controller
 
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
-        $storeId = session('selected_store_id');
-        // Validate the file inputs
-        $validated = $request->validate([
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation for uploaded images
-            'camera_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validation for camera images
-        ]);
-
+        DB::beginTransaction();
     
-        // Initialize paths with existing values
-        $imagePath = $invoice->image;
-        $cameraImagePath = $invoice->camera_image;
+        try {
+            $storeId = session('selected_store_id');
     
-        // Handle 'image' upload
-        if ($request->hasFile('image')) {
-            // Delete old image if it exists
-            if ($imagePath && file_exists(public_path("storage/{$imagePath}"))) {
-                unlink(public_path("storage/{$imagePath}"));
+            if (!$storeId) {
+                session()->flash('alert', 'Please select a store before proceeding.');
+                return redirect()->back();
             }
     
-            // Store new image
-            $image = $request->file('image');
-            $imagePath = $image->store('invoices', 'public');
-        }
+            // Update invoice details
+            $invoice->update([
+                'supplier_id' => $request->supplier_id,
+                'store_id' => $storeId,
+                'invoice_number' => $request->invoice_number,
+                'entry_date' => $request->entry_date,
+                'amount' => $request->amount,
+                'discount' => $request->discount,
+                'discount_type' => $request->discount_type,
+                'original_amount' => $request->original_amount,
+                'description' => $request->description,
+            ]);
     
-        // Handle 'camera_image' upload
-        if ($request->hasFile('camera_image')) {
-            // Delete old camera image if it exists
-            if ($cameraImagePath && file_exists(public_path("storage/{$cameraImagePath}"))) {
-                unlink(public_path("storage/{$cameraImagePath}"));
+            // Handle uploaded files for 'camera_images' and 'image_files'
+            $images = [];
+            if ($request->hasFile('camera_images')) {
+                $images = $request->file('camera_images');
+            } elseif ($request->hasFile('image_files')) {
+                $images = $request->file('image_files');
             }
     
-            // Store new camera image
-            $cameraImage = $request->file('camera_image');
-            $cameraImagePath = $cameraImage->store('invoices/camera_images', 'public');
+            if (!empty($images)) {
+                foreach ($images as $image) {
+                    $path = $image->store('invoices', 'public');
+    
+                    // Save or update the image path in the database
+                    $invoice->images()->create([
+                        'image_path' => $path,
+                    ]);
+                }
+            }
+    
+            if ($request->has('deleted_images')) {
+                foreach ($request->deleted_images as $imageId) {
+                    $image = $invoice->images()->find($imageId);
+                    if ($image) {
+                        // Delete the file from storage
+                        Storage::disk('public')->delete($image->image_path);
+            
+                        // Delete the record from the database
+                        $image->delete();
+                    }
+                }
+            }
+    
+            DB::commit();
+            return redirect()->route('admin.invoices.index')->with('success', 'Invoice updated successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
-    
-        // Update the invoice
-        $invoice->update([
-            'supplier_id' => $request->supplier_id,
-            'store_id' => $storeId,
-            'invoice_number' => $request->invoice_number,
-            'entry_date' => $request->entry_date,
-            'amount' => $request->amount,
-            'discount' => $request->discount,
-            'discount_type' => $request->discount_type,
-            'original_amount' => $request->original_amount,
-            'description' => $request->description,
-            'image' => $imagePath,
-            'camera_image' => $cameraImagePath
-        ]);
-    
-        return redirect()->route('admin.invoices.index');
     }
     
 

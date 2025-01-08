@@ -46,7 +46,7 @@ class StoreInvoiceRequest extends FormRequest
                 'required_without:camera_images','array'
             ],
             'image_files.*' => [
-                'image','mimes:jpeg,png,jpg,gif,svg'
+                'image','mimes:jpeg,png,jpg,gif,svg,webp'
             ],
             'camera_images'     => [
                 'required_without:image_files','array'

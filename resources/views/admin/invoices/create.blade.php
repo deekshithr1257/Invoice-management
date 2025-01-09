@@ -183,12 +183,12 @@
                                     </div>
 
                                 <br>
-                                <div>
-                                    <input class="btn btn-danger me-3" type="submit" value="{{ trans('global.save') }}">
-                                    <a href="{{ url()->previous() }}" class="btn btn-secondary">
-                                        {{ trans('global.cancel') }}
-                                    </a>
-                                </div>
+                                <button id="submitButton" class="btn btn-danger me-3" type="submit" onclick="handleFormSubmit(event)">
+                                    {{ trans('global.save') }}
+                                </button>
+                                <a href="{{ url()->previous() }}" class="btn btn-secondary">
+                                    {{ trans('global.cancel') }}
+                                </a>
                             </form>
                         </div>
                     </div>
@@ -412,6 +412,8 @@ $(document).ready(function () {
         }
     });
 });
+
+
 </script>
 
 <!--Mobile Photo--->
@@ -518,6 +520,33 @@ $(document).ready(function () {
 });
 
 </script>
+
+<script>
+    function handleFormSubmit(event) {
+
+    event.preventDefault(); // Prevent default submission temporarily
+
+    const submitButton = document.getElementById('submitButton');
+    if (!submitButton) {
+        return;
+    }
+
+    // Disable the button and change its text
+    submitButton.disabled = true;
+    submitButton.textContent = "Submitting...";
+
+    // Get the parent form element and submit it
+    const form = submitButton.closest('form');
+    if (!form) {
+        return;
+    }
+
+    form.submit();
+}
+</script>
+
+
+
 
 
 

@@ -2,7 +2,7 @@
 @section('content')
 
 <link href="{{asset('plugins/fileuploads/css/fileupload.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{asset('plugins/fancyuploder/fancy_fileupload.css')}}" rel="stylesheet" />
+<!-- <link href="{{asset('plugins/fancyuploder/fancy_fileupload.css')}}" rel="stylesheet" /> -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 <div class="content-body">
@@ -221,11 +221,16 @@
 
                                 <!-- Submit Button -->
                                 <div>
-                                    <input class="btn btn-danger me-3" type="submit" value="{{ trans('global.save') }}">
-                                    <a href="{{ url()->previous() }}" class="btn btn-secondary">
-                                        {{ trans('global.cancel') }}
-                                    </a>
-                                </div>
+                                <input 
+                                    id="editButton" 
+                                    class="btn btn-danger me-3" 
+                                    type="submit" 
+                                    value="{{ trans('global.save') }}" 
+                                    onclick="handleEditSubmit(event)">
+                                <a href="{{ url()->previous() }}" class="btn btn-secondary">
+                                    {{ trans('global.cancel') }}
+                                </a>
+                            </div>
                             </form>
                         </div>
                     </div>
@@ -571,6 +576,35 @@ $(document).ready(function () {
 
     console.log('Deleted images:', deletedImages);
 });
+
+</script>
+<script>
+    function handleEditSubmit(event) {
+    console.log("Edit form submit function triggered."); // Debug log
+
+    event.preventDefault(); // Prevent default submission temporarily
+
+    const editButton = document.getElementById('editButton');
+    if (!editButton) {
+        console.error("Edit button not found.");
+        return;
+    }
+
+    console.log("Edit button found. Updating its state.");
+    // Disable the button and change its text
+    editButton.disabled = true;
+    editButton.value = "Submitting...";
+
+    // Use the form associated with the event target
+    const form = event.target.form; 
+    if (!form) {
+        console.error("Form not found.");
+        return;
+    }
+
+    console.log("Edit form is being submitted.");
+    form.submit();
+}
 
 </script>
 

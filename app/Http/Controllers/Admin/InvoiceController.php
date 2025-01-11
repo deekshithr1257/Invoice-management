@@ -88,6 +88,7 @@ class InvoiceController extends Controller
                 ]);
             }
         }
+        DB::commit();
         return redirect()->route('admin.invoices.index');
     }
 

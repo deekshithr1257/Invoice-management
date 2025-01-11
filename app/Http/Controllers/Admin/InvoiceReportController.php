@@ -29,8 +29,8 @@ class InvoiceReportController extends Controller
         $paymentsTotal    = $payments->sum('amount');
         $groupedInvoices = $invoices->whereNotNull('supplier_id')->orderBy('amount', 'desc')->get()->groupBy('supplier_id');
         $groupedPayments  = $payments->whereNotNull('payment_type_id')->orderBy('amount', 'desc')->get()->groupBy('payment_type_id');
-        $profit          = $paymentsTotal - $invoicesTotal;
-
+        $balance          = $invoicesTotal - $paymentsTotal;
+        $invoices = $invoices->get();
         $invoicesSummary = [];
 
         foreach ($groupedInvoices as $exp) {
@@ -66,7 +66,8 @@ class InvoiceReportController extends Controller
             'paymentsSummary',
             'invoicesTotal',
             'paymentsTotal',
-            'profit'
+            'balance',
+            'invoices'
         ));
     }
 }

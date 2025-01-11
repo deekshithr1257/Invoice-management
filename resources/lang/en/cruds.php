@@ -233,10 +233,10 @@ return [
             'title_singular'    => 'Report',
             'paymentReport'      => 'Payments report',
             'paymentByCategory'  => 'Payment by category',
-            'invoiceByCategory' => 'Invoice by category',
+            'suppliers'         => 'Invoice by suppliers',
             'payment'            => 'Payment',
             'invoice'           => 'Invoice',
-            'profit'            => 'Profit',
+            'balance'            => 'Balance',
         ],
     ],
 ];

@@ -68,7 +68,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <a style="margin-top:20px;" class="btn btn-default" href="{{ url()->previous() }}">
+                    <a style="margin-top:20px;" class="btn btn-default" href="{{ route("admin.users.index") }}">
                         {{ trans('global.back_to_list') }}
                     </a>
                 </div>

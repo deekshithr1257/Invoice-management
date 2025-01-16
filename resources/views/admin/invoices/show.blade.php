@@ -169,7 +169,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <a href="{{ url()->previous() }}" class="btn btn-secondary" style="margin-top: 20px;">
+                            <a href="{{ route("admin.invoices.index") }}" class="btn btn-secondary" style="margin-top: 20px;">
                                 {{ trans('global.back_to_list') }}
                             </a>
                         </div>

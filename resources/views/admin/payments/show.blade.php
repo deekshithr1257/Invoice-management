@@ -107,7 +107,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <a style="margin-top:20px;" class="btn btn-secondary" href="{{ url()->previous() }}">
+                    <a style="margin-top:20px;" class="btn btn-secondary" href="{{ route("admin.payments.index") }}">
                         {{ trans('global.back_to_list') }}
                     </a>
                 </div>

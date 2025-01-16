@@ -24,23 +24,79 @@
                         <tbody>
                             <tr>
                                 <th>
-                                    {{ trans('cruds.supplier.fields.id') }}
-                                </th>
-                                <td>
-                                    {{ $supplier->id }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
                                     {{ trans('cruds.supplier.fields.name') }}
                                 </th>
                                 <td>
                                     {{ $supplier->name }}
                                 </td>
                             </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.supplier.fields.contact_number') }}
+                                </th>
+                                <td>
+                                    {{ $supplier->contact_number }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.supplier.fields.email') }}
+                                </th>
+                                <td>
+                                    {{ $supplier->email }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.supplier.fields.address_line1') }}
+                                </th>
+                                <td>
+                                    {{ $supplier->address_line1 }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.supplier.fields.address_line2') }}
+                                </th>
+                                <td>
+                                    {{ $supplier->address_line2 }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.supplier.fields.city') }}
+                                </th>
+                                <td>
+                                    {{ $supplier->city }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.supplier.fields.state') }}
+                                </th>
+                                <td>
+                                    {{ $supplier->state }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.supplier.fields.country') }}
+                                </th>
+                                <td>
+                                    {{ $supplier->country }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.supplier.fields.postal_code') }}
+                                </th>
+                                <td>
+                                    {{ $supplier->postal_code }}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
-                    <a class="btn btn-default" href="{{ url()->previous() }}">
+                    <a class="btn btn-default" href="{{ route("admin.suppliers.index") }}">
                         {{ trans('global.back_to_list') }}
                     </a>
                 </div>

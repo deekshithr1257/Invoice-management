@@ -55,9 +55,6 @@ class StoreController extends Controller
     public function show(Store $store)
     {
         abort_if(Gate::denies('store_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $store->load('created_by');
-
         return view('admin.stores.show', compact('store'));
     }
 

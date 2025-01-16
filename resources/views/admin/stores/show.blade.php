@@ -24,23 +24,79 @@
                         <tbody>
                             <tr>
                                 <th>
-                                    {{ trans('cruds.store.fields.id') }}
-                                </th>
-                                <td>
-                                    {{ $store->id }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
                                     {{ trans('cruds.store.fields.name') }}
                                 </th>
                                 <td>
                                     {{ $store->name }}
                                 </td>
                             </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.store.fields.contact_number') }}
+                                </th>
+                                <td>
+                                    {{ $store->contact_number }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.store.fields.email') }}
+                                </th>
+                                <td>
+                                    {{ $store->email }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.store.fields.address_line1') }}
+                                </th>
+                                <td>
+                                    {{ $store->address_line1 }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.store.fields.address_line2') }}
+                                </th>
+                                <td>
+                                    {{ $store->address_line2 }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.store.fields.city') }}
+                                </th>
+                                <td>
+                                    {{ $store->city }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.store.fields.state') }}
+                                </th>
+                                <td>
+                                    {{ $store->state }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.store.fields.country') }}
+                                </th>
+                                <td>
+                                    {{ $store->country }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ trans('cruds.store.fields.postal_code') }}
+                                </th>
+                                <td>
+                                    {{ $store->postal_code }}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
-                    <a class="btn btn-default" href="{{ url()->previous() }}">
+                    <a class="btn btn-default" href="{{ route("admin.stores.index") }}">
                         {{ trans('global.back_to_list') }}
                     </a>
                 </div>

@@ -148,7 +148,7 @@
                                             @foreach ($invoice->images as $image)
                                                 <div class="imgPreview" data-id="{{ $image->id }}">
                                                     <a class="delete-existing" data-id="{{ $image->id }}">
-                                                        <img class="images" src="{{ asset('storage/' . $image->image_path) }}" alt="Preview">
+                                                        <img class="images" src="{{ asset('storage/'.$image->image_path) }}" alt="Preview">
                                                         <i class="ri-close-circle-fill" aria-hidden="true" id="closebtn"></i>
                                                     </a>
                                                     <input type="hidden" name="existing_images[]" value="{{ $image->id }}">

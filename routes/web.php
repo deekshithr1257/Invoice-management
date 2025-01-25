@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\InvoiceReportController;
+
 Route::redirect('/', '/login');
 Route::redirect('/home', '/admin/dashboard');
 Auth::routes();
@@ -48,7 +50,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Invoicereports
     Route::delete('invoice-reports/destroy', 'InvoiceReportController@massDestroy')->name('invoice-reports.massDestroy');
-    Route::resource('invoice-reports', 'InvoiceReportController');
+    Route::get('invoice-reports', 'InvoiceReportController@index')->name('invoice-reports.index');
+    Route::get('invoice-reports/download', 'InvoiceReportController@download')->name('invoice-reports.download');
 
     Route::post('set-store', 'StoreController@setStore')->name('set.store');
 });

@@ -74,7 +74,7 @@
                                 style="cursor: pointer;">
                                     <td>{{ $payment->invoice ? $payment->invoice->invoice_number : '' }}</td>
                                     <td>{{ $payment->payment_type->name ?? '' }}</td>
-                                    <td>{{ $payment->entry_date ?? '' }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($payment->entry_date)->format('d/m/Y') ?? '' }}</td>
                                     <td>{{ $payment->amount ?? '' }}</td>
                                 </tr>
                             @endforeach

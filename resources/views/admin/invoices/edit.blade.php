@@ -85,6 +85,18 @@
                                         {{ trans('cruds.invoice.fields.original_amount_helper') }}
                                     </p>
                                 </div>
+                                <div class="form-group {{ $errors->has('tax') ? 'has-error' : '' }}">
+                                    <label for="tax">{{ trans('cruds.invoice.fields.tax') }}</label>
+                                    <input type="text" id="tax" name="tax" class="form-control" value="{{ old('tax', isset($invoice) ? $invoice->tax : '') }}" placeholder="0.00" step="0.01" required  onkeyup="calDiscount();">
+                                    @if($errors->has('tax'))
+                                        <em class="invalid-feedback">
+                                            {{ $errors->first('tax') }}
+                                        </em>
+                                    @endif
+                                    <p class="helper-block">
+                                        {{ trans('cruds.invoice.fields.tax_helper') }}
+                                    </p>
+                                </div>
                                 <div class="form-group">
                                     <label for="discount_type">{{ trans('cruds.invoice.fields.discount_type') }}</label>
                                     <select name="discount_type" id="discount_type" class="form-control select2" onchange="showDiscountInput()">
@@ -105,7 +117,7 @@
                                         {{ trans('cruds.invoice.fields.discount_helper') }}
                                     </p>
                                 </div>
-                                <div class="form-group {{ $errors->has('amount') ? 'has-error' : '' }}" id="amount_div" style="display:none;">
+                                <div class="form-group {{ $errors->has('amount') ? 'has-error' : '' }}" id="amount_div">
                                     <label for="amount">{{ trans('cruds.invoice.fields.amount') }}*</label>
                                     <input type="text" id="amount" name="amount" class="form-control" value="{{ old('amount', isset($invoice) ? $invoice->amount : '') }}" placeholder="0.00" step="0.01" required>
                                     @if($errors->has('amount'))
@@ -418,23 +430,28 @@ function showDiscountInput(){
     var discountType = $('#discount_type').val();
     if(discountType != 'none'){
         $("#discount_div").show();
-        $("#amount_div").show();
         calDiscount();
     }else{
         $("#discount_div").hide();
-        $("#amount_div").hide();
         $("#discount").val(0);
-        $("#amount").val($("#original_amount").val());
+        var originalAmount = parseFloat($("#original_amount").val());
+        var tax = parseFloat($("#tax").val());
+        $("#amount").val(originalAmount + tax);
     }
 }
 function calDiscount(){
     var discountType = $('#discount_type').val();
-    var discount = $('#discount').val();
-    var originalAmount = $("#original_amount").val();
+    var discount = parseFloat($('#discount').val());
+    var originalAmount = parseFloat($("#original_amount").val());
+    var tax = parseFloat($("#tax").val());
+    var totalAmount = originalAmount + tax;
     if(discountType == 'percentage'){
-        $("#amount").val(originalAmount-(originalAmount*(discount/100)));
+        $("#amount").val(totalAmount-(totalAmount*(discount/100)));
     }else if(discountType == 'fixed'){
-        $("#amount").val(originalAmount-discount);
+        $("#amount").val(totalAmount-discount);
+    }else{
+        $("#amount").val(totalAmount);
+        $("#discount").val(0);
     }
 
 }
@@ -442,10 +459,8 @@ $(document).ready(function () {
     var discountType = $('#discount_type').val();
     if(discountType != 'none'){
         $("#discount_div").show();
-        $("#amount_div").show();
     }else{
         $("#discount_div").hide();
-        $("#amount_div").hide();
     }
     $('#amount').on('blur', function () {
         var value = parseFloat($(this).val());
@@ -461,6 +476,14 @@ $(document).ready(function () {
             $(this).val(value.toFixed(2)); // Format with two decimal places
         } else {
             $(this).val(''); // Clear input if invalid
+        }
+    });
+    $('#tax').on('blur', function () {
+        var value = parseFloat($(this).val());
+        if (!isNaN(value)) {
+            $(this).val(value.toFixed(2));
+        } else {
+            $(this).val('');
         }
     });
 });

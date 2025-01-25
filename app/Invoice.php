@@ -28,6 +28,7 @@ class Invoice extends Model
         'discount',
         'discount_type',
         'original_amount',
+        'tax',
         'balance',
         'entry_date',
         'created_at',

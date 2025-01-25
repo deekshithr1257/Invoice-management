@@ -60,7 +60,7 @@
                                     {{ trans('cruds.payment.fields.entry_date') }}
                                 </th>
                                 <td>
-                                    {{ $payment->entry_date }}
+                                {{ \Carbon\Carbon::parse($payment->entry_date)->format('d/m/Y') ?? '' }}
                                 </td>
                             </tr>
                             <tr>

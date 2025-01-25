@@ -177,6 +177,8 @@ return [
             'discount_type'           => 'Discount Type',
             'discount'                => 'Discount',
             'discount_helper'         => '',
+            'tax'                     => 'Tax',
+            'tax_helper'              => '',
             'amount'                  => 'Amount',
             'amount_helper'           => '',
             'original_amount'         => 'Original Amount',

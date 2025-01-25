@@ -78,7 +78,7 @@
                                     >
                                         <td>{{ $invoice->invoice_number ?? '' }}</td>
                                         <td>{{ $invoice->supplier ? $invoice->supplier->name : '' }}</td>
-                                        <td>{{ $invoice->entry_date ?? '' }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($invoice->entry_date)->format('d/m/Y') ?? '' }}</td>
                                         <td>{{ $invoice->amount ?? '' }}</td>
                                     </tr>
                                 @endforeach

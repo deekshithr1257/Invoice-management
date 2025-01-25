@@ -45,7 +45,7 @@
                                             {{ trans('cruds.invoice.fields.entry_date') }}
                                         </th>
                                         <td>
-                                            {{ $invoice->entry_date }}
+                                            {{ \Carbon\Carbon::parse($invoice->entry_date)->format('d/m/Y') ?? '' }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -79,6 +79,14 @@
                                         </th>
                                         <td>
                                             <i class="fa fa-pound-sign"></i>{{ number_format($invoice->original_amount, 2) }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            {{ trans('cruds.invoice.fields.tax') }}
+                                        </th>
+                                        <td>
+                                            <i class="fa fa-pound-sign"></i>{{ number_format($invoice->tax, 2) }}
                                         </td>
                                     </tr>
                                     <tr>

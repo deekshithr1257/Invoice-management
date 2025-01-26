@@ -79,9 +79,6 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <div class="pagination-wrapper">
-                        
-                        </div>
                         </div>
                     </div>
                 </div>
@@ -115,9 +112,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="pagination-wrapper">
-                        
-                        </div>
                         </div>
                     </div>
                 </div>

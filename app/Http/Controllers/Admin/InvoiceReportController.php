@@ -30,8 +30,9 @@ class InvoiceReportController extends Controller
         $groupedInvoices = $invoices->whereNotNull('supplier_id')->orderBy('amount', 'desc')->get()->groupBy('supplier_id');
         $groupedPayments  = $payments->whereNotNull('payment_type_id')->orderBy('amount', 'desc')->get()->groupBy('payment_type_id');
         $balance          = $invoicesTotal - $paymentsTotal;
+        $invoiceDatas = $invoices;
         $invoices = $invoices->get();
-        $invoiceDatas = $invoices->paginate(10);
+        $invoiceDatas = $invoiceDatas->paginate(10);
         $invoicesSummary = [];
 
         // Current month total balance

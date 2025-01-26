@@ -31,6 +31,7 @@ class InvoiceReportController extends Controller
         $groupedPayments  = $payments->whereNotNull('payment_type_id')->orderBy('amount', 'desc')->get()->groupBy('payment_type_id');
         $balance          = $invoicesTotal - $paymentsTotal;
         $invoices = $invoices->get();
+        $invoiceDatas = $invoices->paginate(10);
         $invoicesSummary = [];
 
         // Current month total balance
@@ -93,7 +94,8 @@ class InvoiceReportController extends Controller
             'period1',
             'period2',
             'older',
-            'total'
+            'total',
+            'invoiceDatas'
         ));
     }
 

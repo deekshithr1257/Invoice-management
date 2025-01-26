@@ -62,7 +62,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($invoices as $invoice)
+                                    @foreach($invoiceDatas as $invoice)
                                         <tr>
                                             <td><span>{{ \Carbon\Carbon::parse($invoice->entry_date)->format('d/m/Y') ?? '' }}</span></td>
                                             <td><span>{{ $invoice->invoice_number ?? "" }}</span></td>

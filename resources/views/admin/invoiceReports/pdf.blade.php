@@ -102,6 +102,7 @@
                                         <th>Period 1</th>
                                         <th>Period 2</th>
                                         <th>Older</th>
+                                        <th>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -110,6 +111,7 @@
                                         <td><span><i class="fa fa-pound-sign"></i> {{ $period1 ?? "" }}</span></td>
                                         <td><span><i class="fa fa-pound-sign"></i> {{ $period2 ?? "" }}</span></td>
                                         <td><span><i class="fa fa-pound-sign"></i> {{ $older ?? "" }}</span></td>
+                                        <td><span><i class="fa fa-pound-sign"></i> {{ $total ?? "" }}</span></td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -52,6 +52,8 @@ class InvoiceReportController extends Controller
         $older = Invoice::where('entry_date', '<', Carbon::now()->subMonths(2)->startOfMonth())
                         ->sum('balance');
 
+        $total = $currentMonth + $period1 + $period2 + $older;
+        
         foreach ($groupedInvoices as $exp) {
             foreach ($exp as $line) {
                 if (!isset($invoicesSummary[$line->supplier->name])) {
@@ -90,7 +92,8 @@ class InvoiceReportController extends Controller
             'currentMonth',
             'period1',
             'period2',
-            'older'
+            'older',
+            'total'
         ));
     }
 
@@ -136,6 +139,8 @@ class InvoiceReportController extends Controller
         $older = Invoice::where('entry_date', '<', Carbon::now()->subMonths(2)->startOfMonth())
                         ->sum('balance');
 
+        $total = $currentMonth + $period1 + $period2 + $older;
+
         foreach ($groupedInvoices as $exp) {
             foreach ($exp as $line) {
                 if (!isset($invoicesSummary[$line->supplier->name])) {
@@ -167,7 +172,8 @@ class InvoiceReportController extends Controller
             'currentMonth',
             'period1',
             'period2',
-            'older']));
+            'older',
+            'total']));
         return $pdf->download('Invoice-Report.pdf');
     }
 }

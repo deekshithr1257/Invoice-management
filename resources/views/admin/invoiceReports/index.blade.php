@@ -74,8 +74,8 @@
                                 </tbody>
                             </table>
                             <div class="pagination-wrapper">
-                        
-                        </div>
+                                {{ $invoiceDatas->links('pagination::bootstrap-4') }} <!-- Bootstrap pagination style -->
+                            </div>
                         </div>
                     </div>
                 </div>                        

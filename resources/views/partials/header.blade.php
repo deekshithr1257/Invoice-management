@@ -185,13 +185,19 @@
                 <li class="icons dropdown">
                     <div class="user-img c-pointer position-relative" data-toggle="dropdown">
                         <span class="activity active"></span>
-                        <img src="{{ asset('images/user/1.png') }}" height="40" width="40" alt="">
+                        @if(auth()->user()->profile_image)
+                            <img src="{{ asset('storage/'.auth()->user()->profile_image) }}" alt="Profile Image" 
+                                class="rounded-full w-10 h-10">
+                        @else
+                            <img src="{{ asset('images/default-avatar.jpg') }}" alt="Default Avatar" 
+                                class="rounded-full w-10 h-10">
+                        @endif
                     </div>
                     <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                         <div class="dropdown-content-body">
                             <ul>
                                 <li>
-                                    <a href="{{ url('app-profile') }}"><i class="icon-user"></i> <span>Profile</span></a>
+                                    <a href="{{ url('profile') }}"><i class="icon-user"></i> <span>Profile</span></a>
                                 </li>
                                 <li>
                                     <a href="#" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">

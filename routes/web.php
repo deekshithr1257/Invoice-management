@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\InvoiceReportController;
+use App\Http\Controllers\ProfileController;
 
 Route::redirect('/', '/login');
 Route::redirect('/home', '/admin/dashboard');
@@ -54,4 +55,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('invoice-reports/download', 'InvoiceReportController@download')->name('invoice-reports.download');
 
     Route::post('set-store', 'StoreController@setStore')->name('set.store');
+});
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
 });

@@ -67,6 +67,7 @@
                                     <th>{{ trans('cruds.invoice.fields.supplier') }}</th>
                                     <th>{{ trans('cruds.invoice.fields.entry_date') }}</th>
                                     <th>{{ trans('cruds.invoice.fields.amount') }}</th>
+                                    <th>{{ trans('cruds.invoice.fields.balance') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,14 +81,22 @@
                                         <td>{{ $invoice->supplier ? $invoice->supplier->name : '' }}</td>
                                         <td>{{ \Carbon\Carbon::parse($invoice->entry_date)->format('d/m/Y') ?? '' }}</td>
                                         <td>{{ $invoice->amount ?? '' }}</td>
+                                        <td>{{ $invoice->balance ?? '' }}</td>
                                     </tr>
                                 @endforeach
+                                <tr>
+                                    <th colspan="4" style="text-align: right;">{{ trans('cruds.invoice.fields.total') }} (including all invoices)</th>
+                                    <th>{{ $totalBalance }}</th>
+                                </tr>
                             </tbody>
                         </table>
                         <!-- Pagination Links -->
                         <div class="pagination-wrapper">
                                 {{ $invoices->links('pagination::bootstrap-4') }} <!-- Bootstrap pagination style -->
                             </div>
+                        <table class="table table-striped table-bordered zero-configuration">
+                            
+                        </table>
                     </div>
                 </div>
             </div>

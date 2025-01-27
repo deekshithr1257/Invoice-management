@@ -154,13 +154,24 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <th>
+                                            {{ trans('cruds.invoice.fields.created_by') }}
+                                        </th>
+                                        <td>
+                                            {{ $createdBy->name }}
+                                        </td>
+                                        
+                                    </tr>
+                                    <tr>
                                         <th>Action</th>
                                         <td>
-                                            @can('invoice_edit')
-                                                <a class="btn btn-xs btn-info mt-1 mt-md-0" href="{{ route('admin.invoices.edit', $invoice->id) }}">
-                                                    {{ trans('global.edit') }}
-                                                </a>
-                                            @endcan
+                                            @if($editable)
+                                                @can('invoice_edit')
+                                                    <a class="btn btn-xs btn-info mt-1 mt-md-0" href="{{ route('admin.invoices.edit', $invoice->id) }}">
+                                                        {{ trans('global.edit') }}
+                                                    </a>
+                                                @endcan
+                                            @endif
                                             @can('invoice_payment')
                                                 <a class="btn btn-xs btn-success mt-2 mt-md-0" href="{{ route('admin.invoices.payment.get', $invoice->id) }}">
                                                     Payment

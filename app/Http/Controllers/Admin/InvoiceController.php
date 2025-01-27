@@ -12,6 +12,7 @@ use App\Http\Requests\UpdateInvoiceRequest;
 use App\Payment;
 use App\PaymentType;
 use App\Supplier;
+use App\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,13 +29,20 @@ class InvoiceController extends Controller
             $supplier_id = $request->supplier_id;
         }
         $storeId = session('selected_store_id');
-        $invoices = Invoice::when(session('selected_store_id'), function ($query, $storeId) {
+        $invoices = Invoice::when($storeId, function ($query, $storeId) {
                                 return $query->where('store_id', $storeId);
                             })->when($supplier_id != 0, function ($query) use ($supplier_id) {
                                 return $query->where('supplier_id', $supplier_id);
                             })->paginate(10);
+        
+        // Calculate the total balance of filtered invoices
+        $totalBalance = Invoice::when($storeId, function ($query, $storeId) {
+                            return $query->where('store_id', $storeId);
+                        })->when($supplier_id != 0, function ($query) use ($supplier_id) {
+                            return $query->where('supplier_id', $supplier_id);
+                        })->sum('balance');
         $suppliers = Supplier::all();
-        return view('admin.invoices.index', compact('invoices','suppliers', 'supplier_id'));
+        return view('admin.invoices.index', compact('invoices','suppliers', 'supplier_id','totalBalance'));
     }
 
     public function create()
@@ -179,8 +187,13 @@ class InvoiceController extends Controller
         abort_if(Gate::denies('invoice_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $invoice->load('created_by');
-
-        return view('admin.invoices.show', compact('invoice'));
+        $createdBy = User::find($invoice->created_by);
+        $editable = true;
+        $payments = Payment::where('invoice_id', $invoice->id)->get();
+        if(!$payments->isEmpty()){
+            $editable = false;
+        }
+        return view('admin.invoices.show', compact(['invoice', 'createdBy', 'editable']));
     }
 
     public function destroy(Invoice $invoice)

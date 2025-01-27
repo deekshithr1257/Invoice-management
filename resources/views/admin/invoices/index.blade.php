@@ -85,7 +85,7 @@
                                     </tr>
                                 @endforeach
                                 <tr>
-                                    <th colspan="4" style="text-align: right;">{{ trans('cruds.invoice.fields.total') }} (including all invoices)</th>
+                                    <th colspan="4" style="text-align: right;">{{ trans('cruds.invoice.fields.total') }} (including all invoices across all pages)</th>
                                     <th>{{ $totalBalance }}</th>
                                 </tr>
                             </tbody>

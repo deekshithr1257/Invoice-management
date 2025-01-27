@@ -68,7 +68,7 @@
                                     {{ trans('cruds.payment.fields.amount') }}
                                 </th>
                                 <td>
-                                    ${{ number_format($payment->amount, 2) }}
+                                    <i class="fa fa-pound-sign"></i>{{ number_format($payment->amount, 2) }}
                                 </td>
                             </tr>
                             <tr>

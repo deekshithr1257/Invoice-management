@@ -47,7 +47,7 @@
                                     </div>
                                 </div>
                             </form>
-                            <p class="mt-5 login-form__footer">Dont have account? <a href="{{ route('register') }}" class="text-primary">Sign Up</a> now</p>
+                            <!-- <p class="mt-5 login-form__footer">Dont have account? <a href="{{ route('register') }}" class="text-primary">Sign Up</a> now</p> -->
                         </div>
                     </div>
                 </div>

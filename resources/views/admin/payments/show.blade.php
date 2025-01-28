@@ -41,6 +41,10 @@
                                             <td>{{ $payment->invoice->invoice_number ?? '' }}</td>
                                         </tr>
                                         <tr>
+                                            <td>{{ trans('cruds.payment.fields.supplier') }} </td>
+                                            <td>{{ $payment->invoice->supplier->name ?? '' }}</td>
+                                        </tr>
+                                        <tr>
                                             <td>{{ trans('cruds.payment.fields.invoice_total_amount') }}</td>
                                             <td>{{ $payment->invoice->amount ?? '' }}</td>
                                         </tr>

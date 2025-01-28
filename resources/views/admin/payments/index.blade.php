@@ -63,6 +63,7 @@
                         <thead>
                             <tr>
                                 <th>{{ trans('cruds.payment.fields.invoice_number') }}</th>
+                                <th>{{ trans('cruds.payment.fields.supplier') }}</th>
                                 <th>{{ trans('cruds.payment.fields.payment_type') }}</th>
                                 <th>{{ trans('cruds.payment.fields.entry_date') }}</th>
                                 <th>{{ trans('cruds.payment.fields.amount') }}</th>
@@ -73,6 +74,7 @@
                                 <tr data-entry-id="{{ $payment->id }}" onclick="window.location='{{ route('admin.payments.show', $payment->id) }}';" 
                                 style="cursor: pointer;">
                                     <td>{{ $payment->invoice ? $payment->invoice->invoice_number : '' }}</td>
+                                    <td>{{ $payment->invoice ? $payment->invoice->supplier->name : '' }}</td>
                                     <td>{{ $payment->payment_type->name ?? '' }}</td>
                                     <td>{{ \Carbon\Carbon::parse($payment->entry_date)->format('d/m/Y') ?? '' }}</td>
                                     <td>{{ $payment->amount ?? '' }}</td>

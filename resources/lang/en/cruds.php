@@ -216,6 +216,7 @@ return [
             'entry_date_helper'      => '',
             'amount'                 => 'Amount',
             'amount_helper'          => '',
+            'supplier'               => 'Supplier',
             'description'            => 'Description',
             'description_helper'     => '',
             'created_at'             => 'Created at',

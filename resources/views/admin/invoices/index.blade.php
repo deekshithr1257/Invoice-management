@@ -92,7 +92,7 @@
                         </table>
                         <!-- Pagination Links -->
                         <div class="pagination-wrapper">
-                                {{ $invoices->links('pagination::bootstrap-4') }} <!-- Bootstrap pagination style -->
+                                {{ $invoices->appends(['supplier_id' => $supplier_id])->links('pagination::bootstrap-4') }} <!-- Bootstrap pagination style -->
                             </div>
                         <table class="table table-striped table-bordered zero-configuration">
                             
@@ -205,7 +205,6 @@
 $(document).ready(function () {
     // Initialize Select2
     $('#supplier_id').select2({
-        placeholder: "All", // Ensure the placeholder says "All"
         allowClear: true, // Allow clearing
         width: 'resolve', // Adjust dropdown width
     });
@@ -218,14 +217,6 @@ $(document).ready(function () {
             this.form.submit(); // Submit the form only after initialization is complete
         }
     });
-
-    // Set the selected value to "All" if none is selected or based on server-side data
-    var selectedValue = $('#supplier_id').data('selected'); // Get selected value from a data attribute
-    if (!selectedValue || selectedValue === "0") {
-        $('#supplier_id').val("0").trigger('change.select2'); // Set "All" as the default
-    } else {
-        $('#supplier_id').val(selectedValue).trigger('change.select2'); // Set the server-provided value
-    }
 
     // Mark initialization as complete
     initialized = true;

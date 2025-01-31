@@ -9,6 +9,7 @@ use App\Http\Requests\UpdatePaymentRequest;
 use App\Invoice;
 use App\Payment;
 use App\PaymentType;
+use App\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,19 +19,23 @@ class PaymentController extends Controller
     public function index(Request $request)
     {
         abort_if(Gate::denies('payment_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $invoice_id = 0;
-        if($request->invoice_id){
-            $invoice_id = $request->invoice_id;
+        $supplierId = 0;
+        if($request->supplier_id){
+            $supplierId = $request->supplier_id;
         }
         $storeId = session('selected_store_id');
-        $invoices = Invoice::where('store_id', $storeId)->get();
+        $suppliers = Supplier::all();
         $payments = Payment::when(session('selected_store_id'), function ($query, $storeId) {
                                 $query->where('store_id', $storeId);
-                            })->when($invoice_id != 0, function ($query) use ($invoice_id) {
-                                return $query->where('invoice_id', $invoice_id);
-                            })->paginate(10);
+                            })->when($supplierId != 0, function ($query) use ($supplierId) {
+                                return $query->whereHas('invoice', function ($q) use ($supplierId) {
+                                    $q->where('supplier_id', $supplierId);
+                                });
+                            })
+                            ->orderBy('created_at','DESC')
+                            ->paginate(10);
 
-        return view('admin.payments.index', compact('payments', 'invoices', 'invoice_id'));
+        return view('admin.payments.index', compact('payments', 'suppliers', 'supplierId'));
     }
 
     public function create()

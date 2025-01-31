@@ -5,25 +5,36 @@ namespace App\Http\Controllers\Admin;
 use App\Invoice;
 use App\Http\Controllers\Controller;
 use App\Payment;
+use App\Supplier;
 use Barryvdh\DomPDF\PDF;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+
 class InvoiceReportController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $from = Carbon::parse(sprintf(
-            '%s-%s-01',
-            request()->query('y', Carbon::now()->year),
-            request()->query('m', Carbon::now()->month)
-        ));
-        $to      = clone $from;
-        $to->day = $to->daysInMonth;
+        $supplier_id = 0;
+        if($request->supplier_id){
+            $supplier_id = $request->supplier_id;
+        }
+
+        $from = $request->from_date ? Carbon::createFromFormat('d-m-Y', $request->from_date)->format('Y-m-d') : null;
+        $to = $request->to_date ? Carbon::createFromFormat('d-m-Y', $request->to_date)->format('Y-m-d') : null;
+
 
         $invoices = Invoice::with('supplier')
-            ->whereBetween('entry_date', [$from, $to]);
+                            ->when($supplier_id != 0, function ($query) use ($supplier_id) {
+                                return $query->where('supplier_id', $supplier_id);
+                            });
+        if ($from && $to) {
+            $invoices = $invoices->whereBetween('entry_date', [$from, $to]);
+        }
+        // Get invoice IDs to filter payments
+        $invoiceIds = $invoices->pluck('id');
 
         $payments = Payment::with('payment_type')
-            ->whereBetween('entry_date', [$from, $to]);
+                    ->whereIn('invoice_id', $invoiceIds);
 
         $invoicesTotal   = $invoices->sum('amount');
         $paymentsTotal    = $payments->sum('amount');
@@ -38,20 +49,34 @@ class InvoiceReportController extends Controller
         // Current month total balance
         $currentMonth = Invoice::whereYear('entry_date', Carbon::now()->year)
                                 ->whereMonth('entry_date', Carbon::now()->month)
+                                ->when($supplier_id != 0, function ($query) use ($supplier_id) {
+                                    return $query->where('supplier_id', $supplier_id);
+                                })
                                 ->sum('balance');
 
+        $lastMonth = Carbon::now()->subMonthNoOverflow()->clone();
+        $twoMonthsAgo = Carbon::now()->subMonthNoOverflow(2)->clone();
         // Last month total balance
-        $period1 = Invoice::whereYear('entry_date', Carbon::now()->subMonth()->year)
-                            ->whereMonth('entry_date', Carbon::now()->subMonth()->month)
+        $period1 = Invoice::whereYear('entry_date', $lastMonth->year)
+                            ->whereMonth('entry_date', $lastMonth->month)
+                            ->when($supplier_id != 0, function ($query) use ($supplier_id) {
+                                return $query->where('supplier_id', $supplier_id);
+                            })
                             ->sum('balance');
 
         // Two months ago total balance
-        $period2 = Invoice::whereYear('entry_date', Carbon::now()->subMonths(2)->year)
-                                ->whereMonth('entry_date', Carbon::now()->subMonths(2)->month)
+        $period2 = Invoice::whereYear('entry_date', $twoMonthsAgo->year)
+                                ->whereMonth('entry_date', $twoMonthsAgo->month)
+                                ->when($supplier_id != 0, function ($query) use ($supplier_id) {
+                                    return $query->where('supplier_id', $supplier_id);
+                                })
                                 ->sum('balance');
 
         // Older than two months total balance
         $older = Invoice::where('entry_date', '<', Carbon::now()->subMonths(2)->startOfMonth())
+                        ->when($supplier_id != 0, function ($query) use ($supplier_id) {
+                            return $query->where('supplier_id', $supplier_id);
+                        })
                         ->sum('balance');
 
         $total = $currentMonth + $period1 + $period2 + $older;
@@ -83,7 +108,7 @@ class InvoiceReportController extends Controller
                 $paymentsSummary[$line->payment_type->name]['amount'] += $line->amount;
             }
         }
-
+        $suppliers = Supplier::all();
         return view('admin.invoiceReports.index', compact(
             'invoicesSummary',
             'paymentsSummary',
@@ -91,6 +116,8 @@ class InvoiceReportController extends Controller
             'paymentsTotal',
             'balance',
             'invoices',
+            'suppliers',
+            'supplier_id',
             'currentMonth',
             'period1',
             'period2',
@@ -100,20 +127,28 @@ class InvoiceReportController extends Controller
         ));
     }
 
-    public function download(){
-        $from = Carbon::parse(sprintf(
-            '%s-%s-01',
-            request()->query('y', Carbon::now()->year),
-            request()->query('m', Carbon::now()->month)
-        ));
-        $to      = clone $from;
-        $to->day = $to->daysInMonth;
+    public function download(Request $request){
+        $supplier_id = 0;
+        if($request->supplier_id){
+            $supplier_id = $request->supplier_id;
+        }
+
+        $from = $request->from_date ? Carbon::createFromFormat('d-m-Y', $request->from_date)->format('Y-m-d') : null;
+        $to = $request->to_date ? Carbon::createFromFormat('d-m-Y', $request->to_date)->format('Y-m-d') : null;
+
 
         $invoices = Invoice::with('supplier')
-            ->whereBetween('entry_date', [$from, $to]);
+                            ->when($supplier_id != 0, function ($query) use ($supplier_id) {
+                                return $query->where('supplier_id', $supplier_id);
+                            });
+        if ($from && $to) {
+            $invoices = $invoices->whereBetween('entry_date', [$from, $to]);
+        }
+        // Get invoice IDs to filter payments
+        $invoiceIds = $invoices->pluck('id');
 
         $payments = Payment::with('payment_type')
-            ->whereBetween('entry_date', [$from, $to]);
+                    ->whereIn('invoice_id', $invoiceIds);
 
         $invoicesTotal   = $invoices->sum('amount');
         $paymentsTotal    = $payments->sum('amount');
@@ -126,20 +161,34 @@ class InvoiceReportController extends Controller
         // Current month total balance
         $currentMonth = Invoice::whereYear('entry_date', Carbon::now()->year)
                                 ->whereMonth('entry_date', Carbon::now()->month)
+                                ->when($supplier_id != 0, function ($query) use ($supplier_id) {
+                                    return $query->where('supplier_id', $supplier_id);
+                                })
                                 ->sum('balance');
 
+        $lastMonth = Carbon::now()->subMonthNoOverflow()->clone();
+        $twoMonthsAgo = Carbon::now()->subMonthNoOverflow(2)->clone();
         // Last month total balance
-        $period1 = Invoice::whereYear('entry_date', Carbon::now()->subMonth()->year)
-                            ->whereMonth('entry_date', Carbon::now()->subMonth()->month)
+        $period1 = Invoice::whereYear('entry_date', $lastMonth->year)
+                            ->whereMonth('entry_date', $lastMonth->month)
+                            ->when($supplier_id != 0, function ($query) use ($supplier_id) {
+                                return $query->where('supplier_id', $supplier_id);
+                            })
                             ->sum('balance');
 
         // Two months ago total balance
-        $period2 = Invoice::whereYear('entry_date', Carbon::now()->subMonths(2)->year)
-                                ->whereMonth('entry_date', Carbon::now()->subMonths(2)->month)
+        $period2 = Invoice::whereYear('entry_date', $twoMonthsAgo->year)
+                                ->whereMonth('entry_date', $twoMonthsAgo->month)
+                                ->when($supplier_id != 0, function ($query) use ($supplier_id) {
+                                    return $query->where('supplier_id', $supplier_id);
+                                })
                                 ->sum('balance');
 
         // Older than two months total balance
         $older = Invoice::where('entry_date', '<', Carbon::now()->subMonths(2)->startOfMonth())
+                        ->when($supplier_id != 0, function ($query) use ($supplier_id) {
+                            return $query->where('supplier_id', $supplier_id);
+                        })
                         ->sum('balance');
 
         $total = $currentMonth + $period1 + $period2 + $older;
@@ -171,7 +220,12 @@ class InvoiceReportController extends Controller
                 $paymentsSummary[$line->payment_type->name]['amount'] += $line->amount;
             }
         }
+        $supplier = null;
+        if($supplier_id != 0){
+            $supplier = Supplier::find($supplier_id);
+        }
         $pdf = app(PDF::class)->loadView('admin.invoiceReports.pdf', compact(['invoices',
+            'supplier',
             'currentMonth',
             'period1',
             'period2',

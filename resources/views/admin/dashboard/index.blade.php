@@ -106,7 +106,9 @@
                                     </thead>
                                     <tbody>
                                         @foreach($invoices as $invoice)
-                                            <tr>
+                                            <tr data-entry-id="{{ $invoice->id }}" 
+                                        onclick="window.location='{{ route('admin.invoices.show', $invoice->id) }}';" 
+                                        style="cursor: pointer;" >
                                                 <td><span>{{ $invoice->invoice_number ?? "" }}</span></td>
                                                 <td><span>{{ $invoice->supplier ? $invoice->supplier->name : "" }}</span></td>
                                                 <td><span><i class="fa fa-pound-sign"></i>{{ $invoice->amount ?? "" }}</span></td>

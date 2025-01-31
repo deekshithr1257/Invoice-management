@@ -86,7 +86,7 @@
 
                     <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
                         <label for="description">{{ trans('cruds.payment.fields.description') }}</label>
-                        <textarea class="form-control h-150px" rows="6" id="comment" id="description" name="description" >{{ old('description', isset($payment) ? $payment->description : '') }}</textarea>
+                        <textarea class="form-control h-150px" rows="6" id="description" name="description" >{{ old('description', isset($payment) ? $payment->description : '') }}</textarea>
                         @if($errors->has('description'))
                             <em class="invalid-feedback">
                                 {{ $errors->first('description') }}
@@ -111,9 +111,17 @@
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
+    
+    $(document).ready(function () {
+        // Initialize Select2
+        $('#invoice_id').select2({
+            allowClear: true, // Allow clearing
+            width: 'resolve', // Adjust dropdown width
+        });
+    });
     document.addEventListener('DOMContentLoaded', function() {
         flatpickr("#entry_date", {
-            dateFormat: "Y-m-d", // Adjust as needed
+            dateFormat: "d-m-Y", // Adjust as needed
             allowInput: true
         });
     });

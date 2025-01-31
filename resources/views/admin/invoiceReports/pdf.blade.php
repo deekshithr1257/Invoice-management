@@ -40,13 +40,19 @@
     <div class="header">
         <img src="{{ public_path('images/logo.jpg') }}" alt="Logo">
         <div class="company-info">
-            <p>Head Office and Accounts</p>
-            <p>Blacksmith Freight Services Ltd</p>
-            <p>Unit 5 Building 303</p>
-            <p>World Freight Terminal</p>
-            <p>Manchester Airport, M90 5UJ</p>
-            <p>Tel: +44 1614 990 804</p>
-            <p>Email: accounts@blacksmithfreight.co.uk</p>
+            @if($supplier != null)
+                <p>{{ $supplier->name }}</p>
+                <p>{{ $supplier->address_line1 }}</p>
+                @if($supplier->address_line2)
+                    <p>{{ $supplier->address_line2 }}</p>
+                @endif
+                <p>{{ $supplier->city }}</p>
+                <p>{{ $supplier->state }}</p>
+                <p>{{ $supplier->country }}</p>
+                <p>{{ $supplier->postal_code }}</p>
+                <p>{{ $supplier->contact_number }}</p>
+                <p>Email: {{ $supplier->email }}</p>
+            @endif
         </div>
     </div>
     <h3>Statement</h3>

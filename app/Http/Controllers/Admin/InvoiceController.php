@@ -16,6 +16,7 @@ use App\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,7 +34,9 @@ class InvoiceController extends Controller
                                 return $query->where('store_id', $storeId);
                             })->when($supplier_id != 0, function ($query) use ($supplier_id) {
                                 return $query->where('supplier_id', $supplier_id);
-                            })->paginate(10);
+                            })
+                            ->orderByRaw('CASE WHEN balance = 0 THEN 1 ELSE 0 END, created_at DESC')
+                            ->paginate(10);
         
         // Calculate the total balance of filtered invoices
         $totalBalance = Invoice::when($storeId, function ($query, $storeId) {
@@ -42,7 +45,8 @@ class InvoiceController extends Controller
                             return $query->where('supplier_id', $supplier_id);
                         })->sum('balance');
         $suppliers = Supplier::all();
-        return view('admin.invoices.index', compact('invoices','suppliers', 'supplier_id','totalBalance'));
+        $paymentTypes = PaymentType::all()->pluck('name', 'id');
+        return view('admin.invoices.index', compact('invoices','suppliers', 'supplier_id','totalBalance', 'paymentTypes'));
     }
 
     public function create()
@@ -253,5 +257,48 @@ class InvoiceController extends Controller
         }
 
         return response()->json(['balance' => $invoice->balance]);
+    }
+
+    public function makeMultiPayment(Request $request)
+    {
+        $request->validate([
+            'invoiceIds' => 'required|string',
+            'paymentType' => 'required|string',
+            'entryDate' => 'required|date'
+        ], [
+            'invoiceIds.required' => 'Please select at least one invoice.',
+            'paymentType.required' => 'Payment type is required.',
+            'entryDate.required' => 'Entry date is required.',
+        ]);
+
+        try {
+            $invoiceIds = explode(',', $request->invoiceIds);
+            $createdBy = auth()->id();
+            foreach ($invoiceIds as $invoiceId) {
+                $invoice = Invoice::find($invoiceId);
+                if ($invoice) {
+                    Payment::create([
+                        'invoice_id' => $invoiceId,
+                        'store_id' => $invoice->store_id,
+                        'payment_type_id' => $request->paymentType,
+                        'amount' => $invoice->balance,
+                        'entry_date' => $request->entryDate,
+                        'description' => $request->description,
+                        'created_by' => $createdBy,
+                    ]);
+                    $invoice->balance = 0.00;
+                    $invoice->save();
+                }
+            }
+
+            return response()->json(['message' => 'Payment successful!'], 200);
+        } catch (\Exception $e) {
+            Log::error('Payment Error: ' . $e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json(['message' => 'Payment failed! ' . $e->getMessage()], 500);
+        }
     }
 }

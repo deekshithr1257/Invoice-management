@@ -16,11 +16,11 @@
         <!-- Filter Form -->
         <form method="GET" action="{{ route('admin.payments.index') }}" class="form-inline w-100">
             <div class="form-group mb-0 w-100">
-                    <select name="invoice_id" id="invoice_id" class="header-select form-control" data-selected="{{ $invoice_id }}">
-                        <option value="0" {{ $invoice_id == 0 ? 'selected' : '' }}>All</option>
-                        @foreach($invoices as $invoice)
-                            <option value="{{ $invoice->id }}" {{ $invoice_id == $invoice->id ? 'selected' : '' }}>
-                            {{ $invoice->invoice_number }}
+                    <select name="supplier_id" id="supplier_id" class="header-select form-control" data-selected="{{ $supplierId }}">
+                        <option value="0" {{ $supplierId == 0 ? 'selected' : '' }}>All</option>
+                        @foreach($suppliers as $supplier)
+                            <option value="{{ $supplier->id }}" {{ $supplierId == $supplier->id ? 'selected' : '' }}>
+                            {{ $supplier->name }}
                             </option>
                         @endforeach
                     </select>
@@ -40,11 +40,11 @@
     <!-- <div class="row">
         <div class="col d-flex justify-content-end pe-5">
             <form method="GET" action="{{ route('admin.payments.index') }}" class="form-inline">
-                <select name="invoice_id" id="invoice_id" class="header-select" onchange="this.form.submit()">
-                    <option value="0" {{ $invoice_id == 0 ? 'selected':""}}>All</option>
-                    @foreach($invoices as $invoice)
-                        <option value="{{ $invoice->id }}" {{ $invoice_id == $invoice->id ? 'selected':""}}>
-                            {{ $invoice->invoice_number }}
+                <select name="supplier_id" id="supplier_id" class="header-select" onchange="this.form.submit()">
+                    <option value="0" {{ $supplierId == 0 ? 'selected':""}}>All</option>
+                    @foreach($suppliers as $supplier)
+                        <option value="{{ $supplier->id }}" {{ $supplierId == $supplier->id ? 'selected':""}}>
+                            {{ $supplier->invoice_number }}
                         </option>
                     @endforeach
                 </select>
@@ -84,7 +84,7 @@
                     </table>
                         <!-- Pagination Links -->
                         <div class="pagination-wrapper">
-                            {{ $payments->links('pagination::bootstrap-4') }} <!-- Bootstrap pagination style -->
+                            {{ $payments->appends(['supplier_id' => $supplierId])->links('pagination::bootstrap-4') }} <!-- Bootstrap pagination style -->
                         </div>
                 </div>
             </div>
@@ -300,8 +300,7 @@
 <script>
 $(document).ready(function () {
     // Initialize Select2
-    $('#invoice_id').select2({
-        placeholder: "All", // Ensure the placeholder says "All"
+    $('#supplier_id').select2({
         allowClear: true, // Allow clearing
         width: 'resolve', // Adjust dropdown width
     });
@@ -309,19 +308,11 @@ $(document).ready(function () {
     // Prevent form submission during initialization
     let initialized = false;
 
-    $('#invoice_id').on('change', function () {
+    $('#supplier_id').on('change', function () {
         if (initialized) {
             this.form.submit(); // Submit the form only after initialization is complete
         }
     });
-
-    // Set the selected value to "All" if none is selected or based on server-side data
-    var selectedValue = $('#invoice_id').data('selected'); // Get selected value from a data attribute
-    if (!selectedValue || selectedValue === "0") {
-        $('#invoice_id').val("0").trigger('change.select2'); // Set "All" as the default
-    } else {
-        $('#invoice_id').val(selectedValue).trigger('change.select2'); // Set the server-provided value
-    }
 
     // Mark initialization as complete
     initialized = true;

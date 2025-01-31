@@ -44,6 +44,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::get('invoice/payment/{paymentId}', 'InvoiceController@getPayment')->name('invoices.payment.get');
     Route::post('invoice/payment', 'InvoiceController@payment')->name('invoices.payment');
     Route::get('invoice/{id}/balance', 'InvoiceController@getBalance')->name('invoices.balance');
+    Route::post('invoice/make-multi-payment', 'InvoiceController@makeMultiPayment')->name('invoices.multi.payment');
 
     // Payments
     Route::delete('payments/destroy', 'PaymentController@massDestroy')->name('payments.massDestroy');

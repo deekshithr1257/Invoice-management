@@ -233,14 +233,17 @@ return [
         'title'          => 'Report',
         'title_singular' => 'Report',
         'reports'        => [
-            'title'             => 'Reports',
-            'title_singular'    => 'Report',
+            'title'              => 'Reports',
+            'title_singular'     => 'Report',
             'paymentReport'      => 'Payments report',
             'paymentByCategory'  => 'Payment by category',
-            'suppliers'         => 'Invoice by suppliers',
+            'suppliers'          => 'Invoice by suppliers',
+            'supplier'           => 'Supplier',
             'payment'            => 'Payment',
-            'invoice'           => 'Invoice',
+            'invoice'            => 'Invoice',
             'balance'            => 'Balance',
+            'from_date'          => 'From Date',
+            'to_date'            => 'To Date'
         ],
     ],
 ];

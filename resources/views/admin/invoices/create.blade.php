@@ -132,7 +132,7 @@
                                 </div>
                                 <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
                                     <label for="description">{{ trans('cruds.invoice.fields.description') }}</label>
-                                    <textarea class="form-control h-150px" rows="6" id="comment" id="description" name="description" >{{ old('description', isset($invoice) ? $invoice->description : '') }}</textarea>
+                                    <textarea class="form-control h-150px" rows="6" id="description" name="description" >{{ old('description', isset($invoice) ? $invoice->description : '') }}</textarea>
                                     @if($errors->has('description'))
                                         <em class="invalid-feedback">
                                             {{ $errors->first('description') }}
@@ -268,7 +268,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
     flatpickr("#entry_date", {
-        dateFormat: "Y-m-d", // Adjust as needed
+        dateFormat: "d-m-Y", // Adjust as needed
         allowInput: true
     });
 });
@@ -536,6 +536,12 @@ $(document).ready(function () {
         console.log('Updated after deletion:', filesArray);
 
     });
+
+    // Initialize Select2
+    $('#supplier_id').select2({
+        allowClear: true, // Allow clearing
+        width: 'resolve', // Adjust dropdown width
+    });
 });
 
 </script>
@@ -543,25 +549,25 @@ $(document).ready(function () {
 <script>
     function handleFormSubmit(event) {
 
-    event.preventDefault(); // Prevent default submission temporarily
+        event.preventDefault(); // Prevent default submission temporarily
 
-    const submitButton = document.getElementById('submitButton');
-    if (!submitButton) {
-        return;
+        const submitButton = document.getElementById('submitButton');
+        if (!submitButton) {
+            return;
+        }
+
+        // Disable the button and change its text
+        submitButton.disabled = true;
+        submitButton.textContent = "Submitting...";
+
+        // Get the parent form element and submit it
+        const form = submitButton.closest('form');
+        if (!form) {
+            return;
+        }
+
+        form.submit();
     }
-
-    // Disable the button and change its text
-    submitButton.disabled = true;
-    submitButton.textContent = "Submitting...";
-
-    // Get the parent form element and submit it
-    const form = submitButton.closest('form');
-    if (!form) {
-        return;
-    }
-
-    form.submit();
-}
 </script>
 
 

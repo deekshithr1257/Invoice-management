@@ -95,7 +95,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
     flatpickr("#entry_date", {
-        dateFormat: "Y-m-d", // Adjust as needed
+        dateFormat: "d-m-Y", // Adjust as needed
         allowInput: true
     });
 });

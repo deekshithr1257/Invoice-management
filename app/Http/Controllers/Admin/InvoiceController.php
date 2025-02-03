@@ -218,14 +218,13 @@ class InvoiceController extends Controller
 
     public function downloadInvoice($imageName)
     {
-        $filePath = 'invoices/' . $imageName;
+        $path = storage_path("app/public/invoices/{$imageName}");
 
-        if (Storage::disk('public')->exists($filePath)) {
-            return Storage::disk('public')->download($filePath);
+        if (!file_exists($path)) {
+            abort(404);
         }
-
-        // If the file does not exist, return an error response
-        return response()->json(['error' => 'File not found'], 404);
+    
+        return response()->download($path);
     }
 
     public function getPayment($invoiceId)

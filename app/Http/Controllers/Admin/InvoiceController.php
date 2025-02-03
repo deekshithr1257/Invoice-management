@@ -219,7 +219,7 @@ class InvoiceController extends Controller
     public function downloadInvoice($imageName)
     {
         $path = storage_path("app/public/invoices/{$imageName}");
-
+echo $path;exit;
         if (!file_exists($path)) {
             abort(404);
         }

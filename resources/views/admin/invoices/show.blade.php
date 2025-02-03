@@ -139,7 +139,7 @@
                                                 @if(isset($invoice->images) && !is_null($invoice->images) && count($invoice->images) > 0)
                                                     @foreach($invoice->images as $image)
                                                         <!-- Download Link with Icon -->
-                                                        <a href="{{ url('/admin/download-invoice/' . basename($image->image_path)) }}" 
+                                                        <a href="{{ url('admin/download-invoice?file=' . basename($image->image_path)) }}" 
                                                         class="d-inline-flex align-items-center mb-3 text-decoration-none text-primary">
                                                             <i class="fas fa-download me-2" style="font-size: 18px;"></i>
                                                             Download

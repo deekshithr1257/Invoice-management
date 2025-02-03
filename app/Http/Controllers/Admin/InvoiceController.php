@@ -216,10 +216,10 @@ class InvoiceController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function downloadInvoice($imageName)
+    public function downloadInvoice(Request $request)
     {
-        $path = storage_path("app/public/invoices/{$imageName}");
-echo $path;exit;
+        $path = storage_path("app/public/invoices/{$request->file}");
+
         if (!file_exists($path)) {
             abort(404);
         }

@@ -203,7 +203,7 @@ class InvoiceController extends Controller
     public function destroy(Invoice $invoice)
     {
         abort_if(Gate::denies('invoice_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        $invoice->payments()->delete();
         $invoice->delete();
 
         return redirect()->route('admin.invoices.index')->with('success', 'Invoice deleted successfully.');

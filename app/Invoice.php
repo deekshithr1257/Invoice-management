@@ -39,6 +39,11 @@ class Invoice extends Model
         'created_by',
     ];
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'invoice_id');
+    }
+    
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id');

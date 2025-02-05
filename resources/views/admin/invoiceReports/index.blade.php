@@ -124,11 +124,11 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><span><i class="fa fa-pound-sign"></i> {{ $currentMonth ?? "" }}</span></td>
-                                        <td><span><i class="fa fa-pound-sign"></i> {{ $period1 ?? "" }}</span></td>
-                                        <td><span><i class="fa fa-pound-sign"></i> {{ $period2 ?? "" }}</span></td>
-                                        <td><span><i class="fa fa-pound-sign"></i> {{ $older ?? "" }}</span></td>
-                                        <td><span><i class="fa fa-pound-sign"></i> {{ $total ?? "" }}</span></td>
+                                        <td><span><i class="fa fa-pound-sign"></i> {{ $currentMonth ? number_format($currentMonth, 2) : "0.00" }}</span></td>
+                                        <td><span><i class="fa fa-pound-sign"></i> {{ $period1 ? number_format($period1, 2) : "0.00" }}</span></td>
+                                        <td><span><i class="fa fa-pound-sign"></i> {{ $period2 ? number_format($period2, 2) : "0.00" }}</span></td>
+                                        <td><span><i class="fa fa-pound-sign"></i> {{ $older ? number_format($older, 2) : "0.00" }}</span></td>
+                                        <td><span><i class="fa fa-pound-sign"></i> {{ $total ? number_format($total, 2) : "0.00" }}</span></td>
                                     </tr>
                                 </tbody>
                             </table>

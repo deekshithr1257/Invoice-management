@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="form-group {{ $errors->has('original_amount') ? 'has-error' : '' }}">
                                     <label for="original_amount">{{ trans('cruds.invoice.fields.original_amount') }}*</label>
-                                    <input type="text" id="original_amount" name="original_amount" class="form-control" value="{{ old('original_amount', isset($invoice) ? $invoice->original_amount : '') }}" placeholder="0.00" step="0.01" required  onkeyup="calDiscount();">
+                                    <input type="text" id="original_amount" name="original_amount" class="form-control" value="{{ old('original_amount', isset($invoice) ? $invoice->original_amount : '') }}" placeholder="0.00" step="0.01" required  onkeyup="calTotalAmount();">
                                     @if($errors->has('original_amount'))
                                         <em class="invalid-feedback">
                                             {{ $errors->first('original_amount') }}
@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="form-group {{ $errors->has('tax') ? 'has-error' : '' }}">
                                     <label for="tax">{{ trans('cruds.invoice.fields.tax') }}</label>
-                                    <input type="text" id="tax" name="tax" class="form-control" value="{{ old('tax', isset($invoice) ? $invoice->tax : '') }}" placeholder="0.00" step="0.01" required  onkeyup="calDiscount();">
+                                    <input type="text" id="tax" name="tax" class="form-control" value="{{ old('tax', isset($invoice) ? $invoice->tax : '') }}" placeholder="0.00" step="0.01" required  onkeyup="calTotalAmount();">
                                     @if($errors->has('tax'))
                                         <em class="invalid-feedback">
                                             {{ $errors->first('tax') }}
@@ -108,7 +108,7 @@
                                 </div>
                                 <div class="form-group {{ $errors->has('discount') ? 'has-error' : '' }}" id='discount_div' style="display:none;">
                                     <label for="discount">{{ trans('cruds.invoice.fields.discount') }}*</label>
-                                    <input type="text" id="discount" name="discount" class="form-control" value="{{ old('discount', isset($invoice) ? $invoice->discount : '') }}" onkeyup="calDiscount();">
+                                    <input type="text" id="discount" name="discount" class="form-control" value="{{ old('discount', isset($invoice) ? $invoice->discount : '') }}" onkeyup="calTotalAmount();">
                                     @if($errors->has('discount'))
                                         <em class="invalid-feedback">
                                             {{ $errors->first('discount') }}
@@ -374,7 +374,7 @@ function showDiscountInput(){
     var discountType = $('#discount_type').val();
     if(discountType != 'none'){
         $("#discount_div").show();
-        calDiscount();
+        calTotalAmount();
     }else{
         $("#discount_div").hide();
         $("#discount").val(0);
@@ -383,18 +383,22 @@ function showDiscountInput(){
         $("#amount").val(originalAmount + tax);
     }
 }
-function calDiscount(){
+function calTotalAmount(){
     var discountType = $('#discount_type').val();
     var discount = parseFloat($('#discount').val());
     var originalAmount = parseFloat($("#original_amount").val());
     var tax = parseFloat($("#tax").val());
+    if (isNaN(tax) || tax === "") {
+        tax = 0;
+        $('#tax').val(tax);
+    }
     var totalAmount = originalAmount + tax;
     if(discountType == 'percentage'){
-        $("#amount").val(totalAmount-(totalAmount*(discount/100)));
+        $("#amount").val(parseFloat(totalAmount-(totalAmount*(discount/100))).toFixed(2));
     }else if(discountType == 'fixed'){
-        $("#amount").val(totalAmount-discount);
+        $("#amount").val(parseFloat(totalAmount-discount).toFixed(2));
     }else{
-        $("#amount").val(totalAmount);
+        $("#amount").val(parseFloat(totalAmount).toFixed(2));
         $("#discount").val(0);
     }
 

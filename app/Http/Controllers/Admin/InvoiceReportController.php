@@ -14,6 +14,7 @@ class InvoiceReportController extends Controller
 {
     public function index(Request $request)
     {
+        $storeId = session('selected_store_id');
         $supplier_id = 0;
         if($request->supplier_id){
             $supplier_id = $request->supplier_id;
@@ -26,7 +27,10 @@ class InvoiceReportController extends Controller
         $invoices = Invoice::with('supplier')
                             ->when($supplier_id != 0, function ($query) use ($supplier_id) {
                                 return $query->where('supplier_id', $supplier_id);
+                            })->when($storeId, function ($query, $storeId) {
+                                return $query->where('store_id', $storeId);
                             });
+                            
         if ($from && $to) {
             $invoices = $invoices->whereBetween('entry_date', [$from, $to]);
         }
@@ -51,6 +55,8 @@ class InvoiceReportController extends Controller
                                 ->whereMonth('entry_date', Carbon::now()->month)
                                 ->when($supplier_id != 0, function ($query) use ($supplier_id) {
                                     return $query->where('supplier_id', $supplier_id);
+                                })->when($storeId, function ($query, $storeId) {
+                                    return $query->where('store_id', $storeId);
                                 })
                                 ->sum('balance');
 
@@ -61,6 +67,8 @@ class InvoiceReportController extends Controller
                             ->whereMonth('entry_date', $lastMonth->month)
                             ->when($supplier_id != 0, function ($query) use ($supplier_id) {
                                 return $query->where('supplier_id', $supplier_id);
+                            })->when($storeId, function ($query, $storeId) {
+                                return $query->where('store_id', $storeId);
                             })
                             ->sum('balance');
 
@@ -69,6 +77,8 @@ class InvoiceReportController extends Controller
                                 ->whereMonth('entry_date', $twoMonthsAgo->month)
                                 ->when($supplier_id != 0, function ($query) use ($supplier_id) {
                                     return $query->where('supplier_id', $supplier_id);
+                                })->when($storeId, function ($query, $storeId) {
+                                    return $query->where('store_id', $storeId);
                                 })
                                 ->sum('balance');
 
@@ -76,6 +86,8 @@ class InvoiceReportController extends Controller
         $older = Invoice::where('entry_date', '<', Carbon::now()->subMonths(2)->startOfMonth())
                         ->when($supplier_id != 0, function ($query) use ($supplier_id) {
                             return $query->where('supplier_id', $supplier_id);
+                        })->when($storeId, function ($query, $storeId) {
+                            return $query->where('store_id', $storeId);
                         })
                         ->sum('balance');
 
@@ -128,6 +140,7 @@ class InvoiceReportController extends Controller
     }
 
     public function download(Request $request){
+        $storeId = session('selected_store_id');
         $supplier_id = 0;
         if($request->supplier_id){
             $supplier_id = $request->supplier_id;
@@ -140,6 +153,8 @@ class InvoiceReportController extends Controller
         $invoices = Invoice::with('supplier')
                             ->when($supplier_id != 0, function ($query) use ($supplier_id) {
                                 return $query->where('supplier_id', $supplier_id);
+                            })->when($storeId, function ($query, $storeId) {
+                                return $query->where('store_id', $storeId);
                             });
         if ($from && $to) {
             $invoices = $invoices->whereBetween('entry_date', [$from, $to]);
@@ -163,6 +178,8 @@ class InvoiceReportController extends Controller
                                 ->whereMonth('entry_date', Carbon::now()->month)
                                 ->when($supplier_id != 0, function ($query) use ($supplier_id) {
                                     return $query->where('supplier_id', $supplier_id);
+                                })->when($storeId, function ($query, $storeId) {
+                                    return $query->where('store_id', $storeId);
                                 })
                                 ->sum('balance');
 
@@ -173,6 +190,8 @@ class InvoiceReportController extends Controller
                             ->whereMonth('entry_date', $lastMonth->month)
                             ->when($supplier_id != 0, function ($query) use ($supplier_id) {
                                 return $query->where('supplier_id', $supplier_id);
+                            })->when($storeId, function ($query, $storeId) {
+                                return $query->where('store_id', $storeId);
                             })
                             ->sum('balance');
 
@@ -181,6 +200,8 @@ class InvoiceReportController extends Controller
                                 ->whereMonth('entry_date', $twoMonthsAgo->month)
                                 ->when($supplier_id != 0, function ($query) use ($supplier_id) {
                                     return $query->where('supplier_id', $supplier_id);
+                                })->when($storeId, function ($query, $storeId) {
+                                    return $query->where('store_id', $storeId);
                                 })
                                 ->sum('balance');
 
@@ -188,6 +209,8 @@ class InvoiceReportController extends Controller
         $older = Invoice::where('entry_date', '<', Carbon::now()->subMonths(2)->startOfMonth())
                         ->when($supplier_id != 0, function ($query) use ($supplier_id) {
                             return $query->where('supplier_id', $supplier_id);
+                        })->when($storeId, function ($query, $storeId) {
+                            return $query->where('store_id', $storeId);
                         })
                         ->sum('balance');
 

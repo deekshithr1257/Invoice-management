@@ -1,13 +1,25 @@
 @extends('layouts.admin')
 @section('content')
 
+<style>
+   
+    @media (max-width: 427px) {
+  .row {
+    padding: 0.9375rem 0.175rem;
+  }
+  .btn {
+    padding: 2px 18px !important;
+  }
+}
+</style>
+
 <div class="content-body">
     <div class="row page-titles mx-0">
     @can('payment_create')
         
-            <div class="col-lg-6 col-md-6 d-flex align-items-center mb-2 mb-lg-0">
+            <div class="col-lg-6 col-md-6 d-flex align-items-center mb-lg-0">
                 <a class="btn btn-success" href="{{ route('admin.payments.create') }}">
-                    {{ trans('global.add') }} {{ trans('cruds.payment.title_singular') }}
+                    Add
                 </a>
             </div>
 

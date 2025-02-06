@@ -38,6 +38,14 @@
         max-width: 100%;
         min-width: 150px;
     }
+    @media (max-width: 427px) {
+  .row {
+    padding: 0.9375rem 0.175rem;
+  }
+  .btn {
+    padding: 2px 10px !important;
+  }
+}
 </style>
 <div class="content-body">
 <!-- <div class="row page-titles mx-0">
@@ -72,7 +80,7 @@
 <div class="d-flex row align-items-center mx-0">
     <div class="col-lg-4 col-md-4 d-flex">
         <a class="btn btn-success add-button" href="{{ route('admin.invoices.create') }}">
-            {{ trans('global.add') }} {{ trans('cruds.invoice.title_singular') }}
+           Add
         </a>
         <form method="GET" action="{{ route('admin.invoices.index') }}" class="form-inline w-100">
             <div class="form-group mb-0 w-100">
@@ -87,7 +95,7 @@
             </div>
         </form>
         <button id="makePaymentBtn" class="btn btn-primary" style="display: none;">
-            Make Payment
+            Pay Now
         </button>
     </div>
 </div>

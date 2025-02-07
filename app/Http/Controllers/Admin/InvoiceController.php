@@ -137,6 +137,7 @@ class InvoiceController extends Controller
                 'invoice_number' => $request->invoice_number,
                 'entry_date' => $request->entry_date,
                 'amount' => $request->amount,
+                'tax' => $request->tax,
                 'discount' => $request->discount,
                 'discount_type' => $request->discount_type,
                 'original_amount' => $request->original_amount,

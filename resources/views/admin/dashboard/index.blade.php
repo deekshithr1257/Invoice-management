@@ -1,5 +1,14 @@
 @extends('layouts.admin')
 @section('content')
+<style>
+    th {
+        text-align: center;
+    }
+        /* Alternating column colors */
+    td:nth-child(even), th:nth-child(even) {
+      background-color: #f9f9f9; /* Light grey */
+    }
+</style>
 <div class="content-body">
     <div class="container-fluid mt-3">
         <!-- Personalized Greeting -->
@@ -24,7 +33,7 @@
                     <div class="card-body">
                         <h3 class="card-title text-white">Invoice</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white"><i class="fa fa-pound-sign"></i>{{ $total }}</h2>
+                            <h2 class="text-white"><i class="fa fa-pound-sign"></i> {{ $total }}</h2>
                             <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fas fa-file-invoice"></i></span>
@@ -36,7 +45,7 @@
                     <div class="card-body">
                         <h3 class="card-title text-white">Payment</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white"><i class="fa fa-pound-sign"></i>{{ $paid }}</h2>
+                            <h2 class="text-white"><i class="fa fa-pound-sign"></i> {{ $paid }}</h2>
                             <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
@@ -48,7 +57,7 @@
                     <div class="card-body">
                         <h3 class="card-title text-white">Balance</h3>
                         <div class="d-inline-block">
-                            <h2 class="text-white"><i class="fa fa-pound-sign"></i>{{ $balance }}</h2>
+                            <h2 class="text-white"><i class="fa fa-pound-sign"></i> {{ $balance }}</h2>
                             <!-- <p class="text-white mb-0">Jan - March 2019</p> -->
                         </div>
                         <span class="float-right display-5 opacity-5"><i class="fa fa-balance-scale"></i></span>
@@ -111,8 +120,8 @@
                                         style="cursor: pointer;" >
                                                 <td><span>{{ $invoice->invoice_number ?? "" }}</span></td>
                                                 <td><span>{{ $invoice->supplier ? $invoice->supplier->name : "" }}</span></td>
-                                                <td><span><i class="fa fa-pound-sign"></i>{{ $invoice->amount ?? "" }}</span></td>
-                                                <td><span><i class="fa fa-pound-sign"></i>{{ $invoice->balance ?? "" }}</span></td>
+                                                <td style="text-align: right;"><span><i class="fa fa-pound-sign"></i> {{ $invoice->amount ?? "" }}</span></td>
+                                                <td style="text-align: right;"><span><i class="fa fa-pound-sign"></i> {{ $invoice->balance ?? "" }}</span></td>
                                                 @php
                                                     if($invoice->balance == 0){
                                                         $width = 100;

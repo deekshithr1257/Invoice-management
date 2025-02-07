@@ -87,7 +87,7 @@
                                     </p>
                                 </div>
                                 <div class="form-group {{ $errors->has('tax') ? 'has-error' : '' }}">
-                                    <label for="tax">{{ trans('cruds.invoice.fields.tax') }}</label>
+                                    <label for="tax">{{ trans('cruds.invoice.fields.vat') }}</label>
                                     <input type="text" id="tax" name="tax" class="form-control" value="{{ old('tax', isset($invoice) ? $invoice->tax : '') }}" placeholder="0.00" step="0.01" required  onkeyup="calTotalAmount();">
                                     @if($errors->has('tax'))
                                         <em class="invalid-feedback">

@@ -4,13 +4,20 @@
 <style>
    
     @media (max-width: 427px) {
-  .row {
-    padding: 0.9375rem 0.175rem;
-  }
-  .btn {
-    padding: 2px 18px !important;
-  }
-}
+        .row {
+            padding: 0.9375rem 0.175rem;
+        }
+        .btn {
+            padding: 2px 18px !important;
+        }
+    }
+    th {
+        text-align: center;
+    }
+        /* Alternating column colors */
+    td:nth-child(even), th:nth-child(even) {
+      background-color: #f9f9f9; /* Light grey */
+    }
 </style>
 
 <div class="content-body">
@@ -71,7 +78,7 @@
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover datatable datatable-Payment">
+                    <table class="table table-bordered table-hover datatable datatable-Payment">
                         <thead>
                             <tr>
                                 <th>{{ trans('cruds.payment.fields.invoice_number') }}</th>
@@ -89,7 +96,7 @@
                                     <td>{{ $payment->invoice ? $payment->invoice->supplier->name : '' }}</td>
                                     <td>{{ $payment->payment_type->name ?? '' }}</td>
                                     <td>{{ \Carbon\Carbon::parse($payment->entry_date)->format('d/m/Y') ?? '' }}</td>
-                                    <td>{{ $payment->amount ?? '' }}</td>
+                                    <td style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $payment->amount ?? '' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -46,6 +46,13 @@
     padding: 2px 10px !important;
   }
 }
+    th {
+        text-align: center;
+    }
+        /* Alternating column colors */
+    td:nth-child(even), th:nth-child(even) {
+      background-color: #f9f9f9; /* Light grey */
+    }
 </style>
 <div class="content-body">
 <!-- <div class="row page-titles mx-0">
@@ -131,7 +138,7 @@
                 <div class="card-body">
                     <h4 class="card-title"> {{ trans('cruds.invoice.title_singular') }} {{ trans('global.list') }}</h4>
                     <div class="table-responsive">
-                        <table class="table table-striped table-bordered zero-configuration">
+                        <table class="table table-bordered zero-configuration">
                             <thead>
                                 <tr>
                                     @if($supplier_id != 0)
@@ -141,6 +148,7 @@
                                     <th>{{ trans('cruds.invoice.fields.supplier') }}</th>
                                     <th>{{ trans('cruds.invoice.fields.entry_date') }}</th>
                                     <th>{{ trans('cruds.invoice.fields.amount') }}</th>
+                                    <th>{{ trans('cruds.invoice.fields.vat') }}</th>
                                     <th>{{ trans('cruds.invoice.fields.balance') }}</th>
                                 </tr>
                             </thead>
@@ -152,7 +160,7 @@
                                         style="cursor: pointer;"
                                     >
                                         @if($supplier_id != 0)
-                                            <td class="no-click">
+                                            <td class="no-click" style="text-align: center;">
                                                 @if($invoice->balance != 0)
                                                     <input type="checkbox" class="invoice-checkbox" 
                                                         data-id="{{ $invoice->id }}" 
@@ -164,17 +172,18 @@
                                         <td>{{ $invoice->invoice_number ?? '' }}</td>
                                         <td>{{ $invoice->supplier ? $invoice->supplier->name : '' }}</td>
                                         <td>{{ \Carbon\Carbon::parse($invoice->entry_date)->format('d/m/Y') ?? '' }}</td>
-                                        <td class="amount">{{ $invoice->amount ?? '' }}</td>
-                                        <td class="balance">{{ $invoice->balance ?? '' }}</td>
+                                        <td class="amount" style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $invoice->amount ?? '' }}</td>
+                                        <td style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $invoice->tax ?? '' }}</td>
+                                        <td class="balance" style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $invoice->balance ?? '' }}</td>
                                     </tr>
                                 @endforeach
                                 <tr>
                                     @if($supplier_id != 0)
-                                        <th colspan="5" style="text-align: right;">{{ trans('cruds.invoice.fields.total') }} (including all invoices across all pages)</th>
+                                        <th colspan="6" style="text-align: right;">{{ trans('cruds.invoice.fields.total') }} (including all invoices across all pages)</th>
                                     @else
-                                        <th colspan="4" style="text-align: right;">{{ trans('cruds.invoice.fields.total') }} (including all invoices across all pages)</th>
+                                        <th colspan="5" style="text-align: right;">{{ trans('cruds.invoice.fields.total') }} (including all invoices across all pages)</th>
                                     @endif
-                                    <th>{{ $totalBalance }}</th>
+                                    <th style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $totalBalance }}</th>
                                 </tr>
                             </tbody>
                         </table>

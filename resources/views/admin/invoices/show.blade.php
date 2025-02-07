@@ -78,15 +78,15 @@
                                             {{ trans('cruds.invoice.fields.original_amount') }}
                                         </th>
                                         <td>
-                                            <i class="fa fa-pound-sign"></i>{{ number_format($invoice->original_amount, 2) }}
+                                            <i class="fa fa-pound-sign"></i> {{ number_format($invoice->original_amount, 2) }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ trans('cruds.invoice.fields.tax') }}
+                                            {{ trans('cruds.invoice.fields.vat') }}
                                         </th>
                                         <td>
-                                            <i class="fa fa-pound-sign"></i>{{ number_format($invoice->tax, 2) }}
+                                            <i class="fa fa-pound-sign"></i> {{ number_format($invoice->tax, 2) }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -110,7 +110,7 @@
                                             {{ trans('cruds.invoice.fields.amount') }}
                                         </th>
                                         <td>
-                                            <i class="fa fa-pound-sign"></i>{{ number_format($invoice->amount, 2) }}
+                                            <i class="fa fa-pound-sign"></i> {{ number_format($invoice->amount, 2) }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -118,7 +118,7 @@
                                             {{ trans('cruds.invoice.fields.balance') }}
                                         </th>
                                         <td>
-                                            <i class="fa fa-pound-sign"></i>{{ number_format($invoice->balance, 2) }}
+                                            <i class="fa fa-pound-sign"></i> {{ number_format($invoice->balance, 2) }}
                                         </td>
                                     </tr>
                                     <tr>

@@ -179,6 +179,7 @@ return [
             'discount_helper'         => '',
             'tax'                     => 'Tax',
             'tax_helper'              => '',
+            'vat'                     => 'VAT',
             'amount'                  => 'Amount',
             'amount_helper'           => '',
             'original_amount'         => 'Original Amount',

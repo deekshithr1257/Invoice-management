@@ -41,6 +41,7 @@ class InvoiceReportController extends Controller
                     ->whereIn('invoice_id', $invoiceIds);
 
         $invoicesTotal   = $invoices->sum('amount');
+        $taxTotal   = $invoices->sum('tax');
         $paymentsTotal    = $payments->sum('amount');
         $groupedInvoices = $invoices->whereNotNull('supplier_id')->orderBy('amount', 'desc')->get()->groupBy('supplier_id');
         $groupedPayments  = $payments->whereNotNull('payment_type_id')->orderBy('amount', 'desc')->get()->groupBy('payment_type_id');
@@ -125,6 +126,7 @@ class InvoiceReportController extends Controller
             'invoicesSummary',
             'paymentsSummary',
             'invoicesTotal',
+            'taxTotal',
             'paymentsTotal',
             'balance',
             'invoices',
@@ -166,6 +168,7 @@ class InvoiceReportController extends Controller
                     ->whereIn('invoice_id', $invoiceIds);
 
         $invoicesTotal   = $invoices->sum('amount');
+        $taxTotal   = $invoices->sum('tax');
         $paymentsTotal    = $payments->sum('amount');
         $groupedInvoices = $invoices->whereNotNull('supplier_id')->orderBy('amount', 'desc')->get()->groupBy('supplier_id');
         $groupedPayments  = $payments->whereNotNull('payment_type_id')->orderBy('amount', 'desc')->get()->groupBy('payment_type_id');
@@ -249,6 +252,8 @@ class InvoiceReportController extends Controller
         }
         $pdf = app(PDF::class)->loadView('admin.invoiceReports.pdf', compact(['invoices',
             'supplier',
+            'taxTotal',
+            'balance',
             'currentMonth',
             'period1',
             'period2',

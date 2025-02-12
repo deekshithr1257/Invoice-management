@@ -44,9 +44,15 @@ class InvoiceController extends Controller
                         })->when($supplier_id != 0, function ($query) use ($supplier_id) {
                             return $query->where('supplier_id', $supplier_id);
                         })->sum('balance');
+                         // Calculate the total balance of filtered invoices
+        $totalVat = Invoice::when($storeId, function ($query, $storeId) {
+                            return $query->where('store_id', $storeId);
+                        })->when($supplier_id != 0, function ($query) use ($supplier_id) {
+                            return $query->where('supplier_id', $supplier_id);
+                        })->sum('tax');
         $suppliers = Supplier::all();
         $paymentTypes = PaymentType::all()->pluck('name', 'id');
-        return view('admin.invoices.index', compact('invoices','suppliers', 'supplier_id','totalBalance', 'paymentTypes'));
+        return view('admin.invoices.index', compact('invoices','suppliers', 'supplier_id', 'totalVat', 'totalBalance', 'paymentTypes'));
     }
 
     public function create()

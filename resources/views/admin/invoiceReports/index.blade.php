@@ -81,8 +81,9 @@
                                         <th>Date</th>
                                         <th>Invoice Number</th>
                                         <th>Suplliers</th>
-                                        <th>Amount</th>
-                                        <th>Balance</th>
+                                        <th style="text-align: right;">Amount</th>
+                                        <th style="text-align: right;">VAT</th>
+                                        <th style="text-align: right;">Balance</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -91,10 +92,16 @@
                                             <td><span>{{ \Carbon\Carbon::parse($invoice->entry_date)->format('d/m/Y') ?? '' }}</span></td>
                                             <td><span>{{ $invoice->invoice_number ?? "" }}</span></td>
                                             <td><span>{{ $invoice->supplier ? $invoice->supplier->name : "" }}</span></td>
-                                            <td><span><i class="fa fa-pound-sign"></i> {{ $invoice->amount ?? "" }}</span></td>
-                                            <td><span><i class="fa fa-pound-sign"></i> {{ $invoice->balance ?? "" }}</span></td>
+                                            <td style="text-align: right;"><span><i class="fa fa-pound-sign"></i> {{ $invoice->amount ?? "" }}</span></td>
+                                            <td style="text-align: right;"><span><i class="fa fa-pound-sign"></i> {{ $invoice->tax ?? "" }}</span></td>
+                                            <td style="text-align: right;"><span><i class="fa fa-pound-sign"></i> {{ $invoice->balance ?? "" }}</span></td>
                                         </tr>
                                     @endforeach
+                                    <tr>
+                                        <th colspan="4" style="text-align: right;">{{ trans('cruds.invoice.fields.total') }} (including all invoices across all pages)</th>
+                                        <th style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $taxTotal }}</th>
+                                        <th style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $balance }}</th>
+                                    </tr>
                                 </tbody>
                             </table>
                             <div class="pagination-wrapper">

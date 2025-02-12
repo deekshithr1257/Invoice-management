@@ -179,10 +179,11 @@
                                 @endforeach
                                 <tr>
                                     @if($supplier_id != 0)
-                                        <th colspan="6" style="text-align: right;">{{ trans('cruds.invoice.fields.total') }} (including all invoices across all pages)</th>
-                                    @else
                                         <th colspan="5" style="text-align: right;">{{ trans('cruds.invoice.fields.total') }} (including all invoices across all pages)</th>
-                                    @endif
+                                    @else
+                                        <th colspan="4" style="text-align: right;">{{ trans('cruds.invoice.fields.total') }} (including all invoices across all pages)</th>
+                                    @endif 
+                                    <th style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $totalVat }}</th>
                                     <th style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $totalBalance }}</th>
                                 </tr>
                             </tbody>

@@ -14,6 +14,7 @@ class PermissionRoleTableSeeder extends Seeder
             return substr($permission->title, 0, 5) != 'user_' 
                 && substr($permission->title, 0, 5) != 'role_' 
                 && $permission->title != 'store_create'
+                && $permission->title != 'sale_cash_collection_access'
                 && $permission->title != 'store_edit'
                 && $permission->title != 'store_delete'
                 && $permission->title != 'store_access'

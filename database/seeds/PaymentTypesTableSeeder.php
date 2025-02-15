@@ -32,6 +32,6 @@ class PaymentTypesTableSeeder extends Seeder
             ],
         ];
 
-        PaymentType::insert($paymentTypes);
+        PaymentType::insertOrIgnore($paymentTypes);
     }
 }

@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="form-group {{ $errors->has('amount') ? 'has-error' : '' }}" id="amount_div">
                                     <label for="amount">{{ trans('cruds.invoice.fields.amount') }}*</label>
-                                    <input type="text" id="amount" name="amount" class="form-control" value="{{ old('amount', isset($invoice) ? $invoice->amount : '') }}" placeholder="0.00" step="0.01" required>
+                                    <input type="text" id="amount" name="amount" class="form-control" value="{{ old('amount', isset($invoice) ? $invoice->amount : '') }}" placeholder="0.00" step="0.01" required readonly>
                                     @if($errors->has('amount'))
                                         <em class="invalid-feedback">
                                             {{ $errors->first('amount') }}

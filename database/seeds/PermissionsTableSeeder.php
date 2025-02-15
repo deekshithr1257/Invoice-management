@@ -302,8 +302,44 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-12-24 19:21:30',
                 'updated_at' => '2024-12-24 19:21:30',
             ],
+            [
+                'id'         => '55',
+                'title'      => 'sale_create',
+                'created_at' => '2024-12-24 19:21:30',
+                'updated_at' => '2024-12-24 19:21:30',
+            ],
+            [
+                'id'         => '56',
+                'title'      => 'sale_edit',
+                'created_at' => '2024-12-24 19:21:30',
+                'updated_at' => '2024-12-24 19:21:30',
+            ],
+            [
+                'id'         => '57',
+                'title'      => 'sale_show',
+                'created_at' => '2024-12-24 19:21:30',
+                'updated_at' => '2024-12-24 19:21:30',
+            ],
+            [
+                'id'         => '58',
+                'title'      => 'sale_delete',
+                'created_at' => '2024-12-24 19:21:30',
+                'updated_at' => '2024-12-24 19:21:30',
+            ],
+            [
+                'id'         => '59',
+                'title'      => 'sale_access',
+                'created_at' => '2024-12-24 19:21:30',
+                'updated_at' => '2024-12-24 19:21:30',
+            ],
+            [
+                'id'         => '60',
+                'title'      => 'sale_cash_collection_access',
+                'created_at' => '2024-12-24 19:21:30',
+                'updated_at' => '2024-12-24 19:21:30',
+            ],
         ];
 
-        Permission::insert($permissions);
+        Permission::insertOrIgnore($permissions);
     }
 }

@@ -50,6 +50,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('payments/destroy', 'PaymentController@massDestroy')->name('payments.massDestroy');
     Route::resource('payments', 'PaymentController');
 
+    // Sales
+    Route::delete('sales/destroy', 'SalesController@massDestroy')->name('sales.massDestroy');
+    Route::post('sales/collect-cash', 'SalesController@collectCash')->name('sales.collect-cash');
+    Route::resource('sales', 'SalesController');
+
     // Invoicereports
     Route::delete('invoice-reports/destroy', 'InvoiceReportController@massDestroy')->name('invoice-reports.massDestroy');
     Route::get('invoice-reports', 'InvoiceReportController@index')->name('invoice-reports.index');

@@ -32,6 +32,14 @@
                     </a>
                 </li>
             @endcan
+            @can('sale_access')
+                <li>
+                    <a href="{{ route("admin.sales.index") }}" class="nav-link {{ request()->is('admin/sales') || request()->is('admin/sales/*') ? 'active' : '' }}">
+                    <i class="fa-fw fas fa-chart-bar nav-icon"></i>
+                        <span class="nav-text">{{ trans('cruds.sales.title') }}</span>
+                    </a>
+                </li>
+            @endcan
             @can('supplier_access')
                 <li>
                     <a href="{{ route("admin.suppliers.index") }}" class="nav-link {{ request()->is('admin/suppliers') || request()->is('admin/suppliers/*') ? 'active' : '' }}">

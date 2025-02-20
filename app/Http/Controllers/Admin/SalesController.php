@@ -23,13 +23,26 @@ class SalesController extends Controller
         $sales = Sale::when(session('selected_store_id'), function ($query, $storeId) {
                                 $query->where('store_id', $storeId);
                             });
+        $totalCash = $sales->sum('cash');
+        $totalPayOut = $sales->sum('pay_out');
         $totalCashBalance = $sales->sum('cash_balance');
+        $totalCashCollectedByAdmin = $sales->sum('pay_out_admin');
+        $balanceCash = number_format(($totalCashBalance - $totalCashCollectedByAdmin), 2, '.', '');
         $totalCard = $sales->sum('card');
         $sales->sum('card');
         $sales = $sales->orderBy('entry_date','DESC')
-                            ->paginate(10);
+                        ->orderByRaw("CASE WHEN pay_out_admin IS NOT NULL AND pay_out_admin != 0 THEN 1 ELSE 0 END DESC")
+                        ->paginate(10);
 
-        return view('admin.sales.index', compact(['sales', 'totalCashBalance', 'totalCard']));
+        return view('admin.sales.index', 
+            compact(['sales', 'totalCashBalance', 
+                    'totalCard', 
+                    'totalCash',
+                    'totalCashCollectedByAdmin',
+                    'balanceCash',
+                    'totalPayOut'
+                ])
+        );
     }
 
     public function create()
@@ -57,6 +70,14 @@ class SalesController extends Controller
     public function update(UpdateSaleRequest $request, Sale $sale)
     {
         // Update invoice details
+        if($request->pay_out_admin != 0){
+            $request->cash = 0;
+            $request->pay_out = 0;
+            $request->cash_balance = 0;
+            $request->card = 0;
+        }else{
+            $request->pay_out_admin = 0;
+        }
         $sale->update([
             'store_id' => $request->store_id,
             'entry_date' => $request->entry_date,
@@ -64,6 +85,7 @@ class SalesController extends Controller
             'pay_out' => $request->pay_out,
             'cash_balance' => $request->cash_balance,
             'card' => $request->card,
+            'pay_out_admin' => $request->pay_out_admin,
             'description' => $request->description,
         ]);
         return redirect()->route('admin.sales.index');
@@ -96,30 +118,13 @@ class SalesController extends Controller
 
     public function collectCash(StoreCollectCashSaleRequest $request){
         try{
-            $storeId = session('selected_store_id');
-            $salesNotPayOutAdmin = Sale::where('cash_balance', '!=', 0)
-                                        ->where('store_id',$storeId)
-                                        ->orderBy('entry_date','ASC')
-                                        ->get();
-            $collectedCash = $request->collectedCash;
-
-            foreach ($salesNotPayOutAdmin as $index => $sale) {
-                if ($collectedCash <= 0) {
-                    break;
-                }
-
-                if ($collectedCash >= $sale->cash_balance) {
-                    $collectedCash -= $sale->cash_balance;
-                    $sale->pay_out_admin = $sale->pay_out_admin+$sale->cash_balance;
-                    $sale->cash_balance = 0;
-                } else {
-                    $sale->cash_balance -= $collectedCash;
-                    $sale->pay_out_admin = $sale->pay_out_admin+$collectedCash;
-                    $collectedCash = 0;
-                }
-                $sale->admin_collection_date = Carbon::now()->format('Y/m/d');
-                $sale->save();
-            }
+            $sale = new Sale();
+            $sale->store_id = session('selected_store_id');
+            $sale->entry_date = $request->entryDate;
+            $sale->pay_out_admin = $request->collectedCash;
+            $sale->pay_out_admin = $request->collectedCash;
+            $sale->created_by = auth()->id();
+            $sale->save();
             return response()->json(['message' => 'Cash collected successfully!'], 200);
         } catch (\Exception $e) {
             Log::error('Collection Error: ' . $e->getMessage(), [

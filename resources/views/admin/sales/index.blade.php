@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <style>
    
     @media (max-width: 427px) {
@@ -56,31 +57,42 @@
                         <thead>
                             <tr>
                                 <th>{{ trans('cruds.sales.fields.entry_date') }}</th>
-                                <th>{{ trans('cruds.sales.fields.cash') }}</th>
+                                <th>{{ trans('cruds.sales.fields.cash_sales') }}</th>
+                                <th>{{ trans('cruds.sales.fields.card_sales') }}</th>
+                                <th>{{ trans('cruds.sales.fields.total') }}</th>
                                 <th>{{ trans('cruds.sales.fields.pay_out') }}</th>
-                                <th>{{ trans('cruds.sales.fields.pay_out_admin') }}</th>
-                                <th>{{ trans('cruds.sales.fields.admin_collection_date') }}</th>
                                 <th>{{ trans('cruds.sales.fields.cash_balance') }}</th>
-                                <th>{{ trans('cruds.sales.fields.card') }}</th>
+                                <th>{{ trans('cruds.sales.fields.pay_out_admin') }}</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $grandTotal = 0;
+                            @endphp
                             @foreach($sales as $sale)
+                                @php
+                                    $total = $sale->card + $sale->cash;
+                                    $grandTotal += $total;
+                                @endphp
                                 <tr data-entry-id="{{ $sale->id }}" onclick="window.location='{{ route('admin.sales.show', $sale->id) }}';" 
                                 style="cursor: pointer;">
                                     <td>{{ \Carbon\Carbon::parse($sale->entry_date)->format('d/m/Y') ?? '' }}</td>
-                                    <td style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $sale->cash ?? '' }}</td>
-                                    <td style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $sale->pay_out ?? '' }}</td>
-                                    <td style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $sale->pay_out_admin ?? "0.00" }}</td>
-                                    <td style="text-align: right;">{{ $sale->admin_collection_date ? \Carbon\Carbon::parse($sale->admin_collection_date)->format('d/m/Y') : 'Not Yet Collected' }}</td>
-                                    <td style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $sale->cash_balance ?? '' }}</td>
-                                    <td style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $sale->card ?? '' }}</td>
+                                    <td style="text-align: right;"> {{ ($sale->cash && $sale->cash !=0) ? $sale->cash : '' }}</td>
+                                    <td style="text-align: right;"> {{ ($sale->card && $sale->card !=0) ? $sale->card : '' }}</td>
+                                    <td style="text-align: right;"> {{ ($total!=0) ? number_format($total, 2, '.', '') : '' }}</td>
+                                    <td style="text-align: right;"> {{ ($sale->pay_out && $sale->pay_out !=0) ? $sale->pay_out : '' }}</td>
+                                    <td style="text-align: right;"> {{ ($sale->cash_balance && $sale->cash_balance !=0) ? $sale->cash_balance : '' }}</td>
+                                    <td style="text-align: right;"> {{ ($sale->pay_out_admin && $sale->pay_out_admin !=0) ? $sale->pay_out_admin : '' }}</td>
                                 </tr>
                             @endforeach
                                 <tr>
-                                    <th colspan="5" style="text-align: right;">{{ trans('cruds.sales.fields.total') }} (including all sales across all pages)</th>
-                                    <th style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $totalCashBalance }}</th>
-                                    <th style="text-align: right;"><i class="fa fa-pound-sign"></i> {{ $totalCard }}</th>
+                                    <th style="text-align: left;">{{ trans('cruds.sales.fields.total') }} (including all sales across all pages)</th>
+                                    <th style="text-align: right;">{{ $totalCash }}</th>
+                                    <th style="text-align: right;">{{ $totalCard }}</th>
+                                    <th style="text-align: right;">{{ number_format($grandTotal, 2, '.', '') }}</th>
+                                    <th style="text-align: right;">{{ $totalPayOut }}</th>
+                                    <th style="text-align: right;"> {{ $balanceCash }}</th>
+                                    <th style="text-align: right;"> {{ $totalCashCollectedByAdmin }}</th>
                                 </tr>
                         </tbody>
                     </table>
@@ -104,9 +116,22 @@
             </div>
             <meta name="csrf-token" content="{{ csrf_token() }}">
             <div class="modal-body">
+                <div class="form-group {{ $errors->has('entry_date') ? 'has-error' : '' }}">
+                    <label for="entry_date">{{ trans('cruds.sales.fields.entry_date') }}*</label>
+                    <input type="text" id="entry_date" name="entry_date" class="form-control date-picker" value="{{ old('entry_date') }}" placeholder="Select a date" required>
+                    @if($errors->has('entry_date'))
+                        <em class="invalid-feedback">
+                            {{ $errors->first('entry_date') }}
+                        </em>
+                    @endif
+                    <p class="helper-block">
+                        {{ trans('cruds.sales.fields.entry_date_helper') }}
+                    </p>
+                </div>
+            
                 <p><label for="collected_cash">{{ trans('cruds.sales.fields.cash') }}*</label>
-                    <input type="hidden" id="total_cash_balance" name="total_cash_balance" class="form-control" value="{{ $totalCashBalance }}" step="0.01" required>
-                    <input type="number" id="collected_cash" name="collected_cash" class="form-control" value="{{ $totalCashBalance }}" step="0.01" required>
+                    <input type="hidden" id="total_cash_balance" name="total_cash_balance" class="form-control" value="{{ $balanceCash }}" step="0.01" required>
+                    <input type="number" id="collected_cash" name="collected_cash" class="form-control" value="{{ $balanceCash }}" step="0.01" required>
                     <em id="collectedCashError" class="invalid-feedback"></em>
                 </p>
             </div>
@@ -120,13 +145,21 @@
 @endsection
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr("#entry_date", {
+            dateFormat: "d-m-Y", // Adjust as needed
+            allowInput: true
+        });
+    });
     $(document).ready(function() {
         $("#collectCash").click(function() {
             $("#cashCollectModal").modal("show");
         });
 
         $("#confirm").click(function() {
+            let entryDate = $("#entry_date").val();
             let collectedCash = parseFloat($("#collected_cash").val()).toFixed(2);
             let totalCashBalance = parseFloat($("#total_cash_balance").val()).toFixed(2);
             let isValid = true;
@@ -149,6 +182,7 @@
 
             let data = {
                 'collectedCash': collectedCash,
+                'entryDate': entryDate,
                 _token: $('meta[name="csrf-token"]').attr('content') // CSRF token
             };
             $.ajax({

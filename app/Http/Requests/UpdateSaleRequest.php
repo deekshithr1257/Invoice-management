@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Invoice;
-use App\Payment;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 class UpdateSaleRequest extends FormRequest
@@ -30,22 +29,28 @@ class UpdateSaleRequest extends FormRequest
                     ->where(fn($query) => $query->where('store_id', $this->store_id))
                     ->ignore($this->id)
             ],
-            'cash' => [
-                'required',
-                'numeric'
+            'pay_out_admin' => [
+                'nullable', 'numeric'
             ],
-            'pay_out' => [
-                'required',
-                'numeric'
-            ],
-            'card' => [
-                'required',
-                'numeric'
-            ],
-            'cash_balance' => [
-                'required',
-                'numeric'
-            ]
+        ] + $this->getConditionalRules();
+    }
+
+    private function getConditionalRules()
+    {
+        if ($this->pay_out_admin === null || $this->pay_out_admin == 0) {
+            return [
+                'cash' => ['required', 'numeric'],
+                'pay_out' => ['required', 'numeric'],
+                'card' => ['required', 'numeric'],
+                'cash_balance' => ['required', 'numeric'],
+            ];
+        }
+
+        return [
+            'cash' => ['nullable', 'numeric'],
+            'pay_out' => ['nullable', 'numeric'],
+            'card' => ['nullable', 'numeric'],
+            'cash_balance' => ['nullable', 'numeric'],
         ];
     }
 }

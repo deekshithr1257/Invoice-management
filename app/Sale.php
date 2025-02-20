@@ -26,7 +26,6 @@ class Sale extends Model
         'cash',
         'pay_out',
         'pay_out_admin',
-        'admin_collection_date',
         'cash_balance',
         'card',
         'description',

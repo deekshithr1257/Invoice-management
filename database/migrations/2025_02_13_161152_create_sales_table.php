@@ -20,7 +20,6 @@ class CreateSalesTable extends Migration
             $table->decimal('cash', 15, 2)->default(0);
             $table->decimal('pay_out', 15, 2)->default(0);
             $table->decimal('pay_out_admin', 15, 2)->default(0);
-            $table->date('admin_collection_date')->nullable();
             $table->decimal('cash_balance', 15, 2)->default(0);
             $table->decimal('card', 15, 2)->default(0);
             $table->text('description')->nullable();

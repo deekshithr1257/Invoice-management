@@ -26,7 +26,7 @@ class StoreSaleRequest extends FormRequest
             'entry_date' => [
                 'required',
                 Rule::unique('sales', 'entry_date')
-                    ->where(fn($query) => $query->where('store_id', $this->store_id))
+                    ->where(fn($query) => $query->where('store_id', $this->store_id)->where('pay_out_admin',0))
                     ->ignore($this->id)
             ],
             'cash' => [
